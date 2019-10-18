@@ -87,7 +87,7 @@ AlertDialog.prototype.present = function (alert, callback) {
         self.body.innerHTML = '';
         self.container.style.display = 'none';
     });
-    this.container.style.display = 'block';
+    this.container.style.display = 'flex';
 };
 
 export default AlertDialog;
