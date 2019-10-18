@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/igv.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+<h1>Alert dialog demo</h1>  <a id="clickTag"><h2>click to see alert</h2></a>
+
+<div id = "test"></div>
+<script type="module">
+
+    import AlertDialog from "../js/alertDialog.js";
+
+    const parent = document.getElementById("test");
+    const dialog = new AlertDialog(parent);
+
+    document.getElementById("clickTag").addEventListener("click", (ev =>  dialog.present("Hello there")));
+
+</script>
+
+</body>
+</html>
