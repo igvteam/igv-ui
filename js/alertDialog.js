@@ -1,5 +1,3 @@
-//import makeDraggable from "./draggable.js";
-
 const httpMessages =
     {
         "401": "Access unauthorized",
@@ -44,7 +42,6 @@ const AlertDialog = function (parent) {
         self.container.style.display = 'none';
     });
 
-    //makeDraggable(this.container, header);
     this.container.style.display = 'none';
 };
 

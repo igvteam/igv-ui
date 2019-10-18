@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="../css/igv.css" rel="stylesheet" type="text/css"/>
+<!--    <link href="../css/igv.css" rel="stylesheet" type="text/css"/>-->
 
 </head>
 <body>
@@ -14,7 +14,9 @@
 <script type="module">
 
     import AlertDialog from "../js/alertDialog.js";
+    import initStyles from "../js/injectCSS.js"
 
+    initStyles();
     const parent = document.getElementById("test");
     const dialog = new AlertDialog(parent);
 
