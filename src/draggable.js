@@ -5,6 +5,8 @@
 
  */
 
+import {offset} from "./dom-utils.js"
+
 let dragData;   // Its assumed we are only dragging one element at a time.
 
 
@@ -17,8 +19,8 @@ function dragStart(event) {
 
     event.stopPropagation();
     event.preventDefault();
-    const styleX = Math.round(parseFloat(this.style.left.replace("px", "")));
-    const styleY = Math.round(parseFloat(this.style.top.replace("px", "")));
+
+    const pageCoords = offset(this);
     const dragFunction = drag.bind(this);
     const dragEndFunction = dragEnd.bind(this);
 
@@ -26,8 +28,8 @@ function dragStart(event) {
         {
             dragFunction: dragFunction,
             dragEndFunction: dragEndFunction,
-            dx: styleX - event.screenX,
-            dy: styleY - event.screenY
+            dx: pageCoords.left - event.screenX,
+            dy: pageCoords.top - event.screenY
         };
 
     document.addEventListener('mousemove', dragFunction);
@@ -68,11 +70,11 @@ function dragEnd(event) {
 
     const dragFunction = dragData.dragFunction;
     const dragEndFunction = dragData.dragEndFunction;
-    document.addEventListener('mousemove', dragFunction);
-    document.addEventListener('mouseup', dragEndFunction);
-    document.addEventListener('mouseleave', dragEndFunction);
-    document.addEventListener('mouseexit', dragEndFunction);
-  //  dragData = undefined;
+    document.removeEventListener('mousemove', dragFunction);
+    document.removeEventListener('mouseup', dragEndFunction);
+    document.removeEventListener('mouseleave', dragEndFunction);
+    document.removeEventListener('mouseexit', dragEndFunction);
+    dragData = undefined;
 }
 
 export default makeDraggable;

@@ -8,17 +8,31 @@
 </head>
 <body>
 
-<h1>Alert dialog demo</h1>  <a id="clickTag"><h2>click to see alert</h2></a>
+<h1>Alert dialog demo</h1>
+<a id="clickTag"><h2>click to see alert</h2></a>
+<a id="inputTag"><h2>click to see input</h2></a>
 
 <div id = "test"></div>
 <script type="module">
 
     import {AlertDialog} from "../dist/igv-ui.js"
+    import InputDialog from "../src/inputDialog.js"
 
     const parent = document.getElementById("test");
     const dialog = new AlertDialog(parent);
+    const inputDialog = new InputDialog(parent);
 
     document.getElementById("clickTag").addEventListener("click", (ev =>  dialog.present("Hello there")));
+    document.getElementById("inputTag").addEventListener("click", (ev => {
+        inputDialog.present({
+            parent: parent,
+            label: "Enter a value",
+            value: "foo",
+            callback: function (value) {
+                dialog.present("Value entered: " + value);
+            }
+        })
+    }));
 
 </script>
 
