@@ -12,7 +12,7 @@ const AlertDialog = function (parent) {
 
     // container
     this.container = document.createElement("div");
-    this.container.classList.add("igv-alert-dialog-container");
+    this.container.classList.add("igv-ui-alert-dialog-container");
     parent.appendChild(this.container);
 
     // header
@@ -21,12 +21,12 @@ const AlertDialog = function (parent) {
 
     // body container
     let div = document.createElement("div");
-    div.id =  'igv-alert-dialog-body';
+    div.id =  'igv-ui-alert-dialog-body';
     this.container.appendChild(div);
 
     // body copy
     this.body = document.createElement("div");
-    this.body.id=  'igv-alert-dialog-body-copy';
+    this.body.id=  'igv-ui-alert-dialog-body-copy';
     div.appendChild(this.body);
 
     // ok container

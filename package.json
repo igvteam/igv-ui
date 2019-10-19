@@ -1,0 +1,35 @@
+{
+  "name": "igv-ui",
+  "version": "0.1.0",
+  "description": "UI code for igv.js and related projects",
+  "browser": "dist/igv-ui.js",
+  "module": "dist/igv-ui.js",
+  "files": [
+    "dist/**"
+  ],
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "build": "node scripts/generateEmbedCss.js && npx rollup --config",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igvteam/igv-ui.git"
+  },
+  "keywords": [
+    "igv",
+    "ui"
+  ],
+  "author": "Jim Robinson <igv-team@broadinstitute.org> (https://igv.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/igvteam/igv-ui/issues"
+  },
+  "homepage": "https://github.com/igvteam/igv-ui#readme",
+  "devDependencies": {
+    "rollup": "^1.25.0"
+  }
+}
