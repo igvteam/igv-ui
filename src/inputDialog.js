@@ -1,5 +1,5 @@
 import makeDraggable from "./draggable.js";
-//import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
+import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
 import {div, hide, show, offset} from "./dom-utils.js"
 
 const InputDialog = function (parent) {
@@ -14,10 +14,10 @@ const InputDialog = function (parent) {
     const header =div({class: 'igv-ui-generic-dialog-header'});
     this.container.appendChild(header);
 
-    // attachDialogCloseHandlerWithParent(header, function () {
-    //     self.input.value = undefined;
-    //     hide(self.container);
-    // });
+    attachDialogCloseHandlerWithParent(header, function () {
+        self.input.value = undefined;
+        hide(self.container);
+    });
 
     // dialog label
     this.label = div({class: 'igv-ui-generic-dialog-one-liner'});
@@ -86,7 +86,7 @@ const InputDialog = function (parent) {
 
 InputDialog.prototype.present = function (options, parent) {
 
-    this.label.text = options.label;
+    this.label.textContent = options.label;
     this.input.value = options.value;
     this.callback = options.callback;
 

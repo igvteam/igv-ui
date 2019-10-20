@@ -1,47 +1,39 @@
-
-import $ from "./vendor/jquery-3.3.1.slim.js";
+import {create, div} from "./dom-utils.js"
 
 function createWrappedIcon(name, color) {
-
-    let $svg = createIcon(name, color);
-
-    let $wrapper = $('<i>');
-    $wrapper.append($svg);
-    return $wrapper;
+    let svg = createIcon(name, color);
+    let wrapper = create('i')
+    wrapper.appendChild(svg);
+    return wrapper;
 }
 
 function createCheckbox(name, initialState) {
+    let container = div({class: 'igv-ui-trackgear-popover-check-container'});
+    let cbDiv = div();
+    container.appendChild(cbDiv);
+    let svg = iconMarkup('check', (true === initialState ? '#444' : 'transparent'));
 
-    let $container = $('<div>', {class: 'igv-trackgear-popover-check-container'});
-
-    let $div = $('<div>');
-    $container.append($div);
-
-    let $svg = iconMarkup('check', (true === initialState ? '#444' : 'transparent'));
-    $div.append($svg);
-
-    let $label = $('<div>'/*, { class: 'igv-some-label-class' }*/);
-    $label.text(name);
-    $container.append($label);
-
-    return $container;
+    cbDiv.appendChild(svg);
+    let label = div(); //{ class: 'igv-some-label-class' });
+    label.textContent = name;
+    container.appendChild(label);
+    return container;
 }
 
 function createIcon(name, color) {
-    return $(iconMarkup(name, color));
+    return iconMarkup(name, color);
 }
 
 function iconMarkup(name, color) {
-
     color = color || "currentColor";
-
     let icon = icons[name];
-    let svg = '<svg ' + 'viewBox="0 0 ' + icon[0] + ' ' + icon[1] + '">';
-    svg += '<path fill="' + color + '" ' + 'd="' + icon[4] + '">' + '</path>';
-    svg += '</svg>';
-
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttributeNS(null,'viewBox', '0 0 ' + icon[0] + ' ' + icon[1]);
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttributeNS(null,'fill',  color );
+    path.setAttributeNS(null,'d', icon[4]);
+    svg.appendChild(path);
     return svg;
-
 }
 
 const icons = {

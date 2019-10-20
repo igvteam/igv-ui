@@ -9,14 +9,13 @@
 <body>
 
 <h1>Alert dialog demo</h1>
-<a id="clickTag"><h2>click to see alert</h2></a>
-<a id="inputTag"><h2>click to see input</h2></a>
+<button id="clickTag"><h2>click to see alert</h2></button>
+<button id="inputTag"><h2>click to see input</h2></button>
 
 <div id = "test"></div>
 <script type="module">
 
-    import {AlertDialog} from "../dist/igv-ui.js"
-    import InputDialog from "../src/inputDialog.js"
+    import {AlertDialog, InputDialog} from "../dist/igv-ui.js"
 
     const parent = document.getElementById("test");
     const dialog = new AlertDialog(parent);
