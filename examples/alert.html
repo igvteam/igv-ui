@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-<!--    <link href="../css/igv.css" rel="stylesheet" type="text/css"/>-->
-
+    <title>UI Demo</title>
 </head>
 <body>
 
-<h1>Alert dialog demo</h1>
-<button id="clickTag"><h2>click to see alert</h2></button>
-<button id="inputTag"><h2>click to see input</h2></button>
+<h1>UI classes demo</h1>
+<button id="alert-id"><h2>click to see alert</h2></button>
+<button id="input-id"><h2>click to see input</h2></button>
+<button id="menu-id"><h2>click to see menu</h2></button>
 
 <div id = "test"></div>
 <script type="module">
 
-    import {AlertDialog, InputDialog} from "../dist/igv-ui.js"
+    import {AlertDialog, InputDialog, Popover} from "../src/index.js"
 
     const parent = document.getElementById("test");
     const dialog = new AlertDialog(parent);
     const inputDialog = new InputDialog(parent);
+    const popover = new Popover(parent);
 
-    document.getElementById("clickTag").addEventListener("click", (ev =>  dialog.present("Hello there")));
-    document.getElementById("inputTag").addEventListener("click", (ev => {
+    document.getElementById("alert-id").addEventListener("click", (ev =>  dialog.present("Hello there")));
+    document.getElementById("input-id").addEventListener("click", (ev => {
         inputDialog.present({
             parent: parent,
             label: "Enter a value",
@@ -32,6 +32,20 @@
             }
         })
     }));
+
+    document.getElementById("menu-id").addEventListener("click", (ev => {
+        const items = [
+            {
+                label: "foo",
+                click: ((e) => dialog.present("Clicked: " + "foo"))
+            },
+            {
+                label: "bar",
+                click: ((e) => dialog.present("Clicked: " + "bar"))
+            }
+        ]
+        popover.presentMenu(ev, items);
+    }))
 
 </script>
 

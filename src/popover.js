@@ -24,12 +24,8 @@
  */
 
 import makeDraggable from "./draggable.js";
-import MenuUtils from "./menuUtils.js";
 import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
-import {pageCoordinates} from "./dom-utils.js";
-import * as dom from "./dom-utils.js"
-
-const trackMenuItemListHelper = MenuUtils.trackMenuItemListHelper
+import * as dom from "./dom-utils.js";
 
 class Popover {
 
@@ -37,6 +33,7 @@ class Popover {
 
         const self = this;
 
+        this.parent = parent;
 
         // popover container
         this.popover = dom.div({class: "igv-ui-popover"});
@@ -60,86 +57,108 @@ class Popover {
         dom.hide(this.popover);
     }
 
-    dispose () {
+    dispose() {
         dom.empty(this.popover);
         Object.keys(this).forEach(function (key) {
             this[key] = undefined;
         })
-    };
+    }
 
-}
+    presentMenu(e, menuItems) {
 
-Popover.prototype.presentTrackContextMenu = function (e, menuItems) {
+        const popover = this.popover;
 
-
-    const popover = this.popover;
-
-    // Only 1 popover open at a time
-    dom.hideAll('.igv-popover');
-
-    if (menuItems.length > 0) {
-
-        menuItems = trackMenuItemListHelper(menuItems, popover);
+        // Only 1 popover open at a time
+        dom.hideAll('.igv-ui-popover');
 
         dom.empty(this.popoverContent);
 
-        for (let item of menuItems) {
-            this.popoverContent.appendChild(item.object);
+        if (menuItems.length > 0) {
+            const menuElements = createMenuElements(menuItems, popover);
+            for (let item of menuElements) {
+                this.popoverContent.appendChild(item.object);
+            }
+
+            const page = dom.pageCoordinates(e);
+            this.clampLocation(page.x, page.y);
+            dom.show(popover);
+        }
+    }
+
+    presentContent(pageX, pageY, content) {
+
+        // Only 1 popover open at a time
+        dom.hideAll('.igv-ui-popover');
+
+        if (undefined === content) {
+            return;
         }
 
-        const page = pageCoordinates(e);
-        //clampPopoverLocation(page.x, page.y, popover));
-        dom.show(popover);
+        dom.empty(this.popoverContent);
+
+        this.popoverContent.innerHTML = content;
+        this.clampLocation(pageX, pageY);
+        dom.show(this.popover);
+
     }
 
-};
+    clampLocation(pageX, pageY) {
 
-Popover.prototype.presentTrackContent = function (pageX, pageY, content) {
-
-    // Only 1 popover open at a time
-    $('.igv-popover').hide();
-
-    if (undefined === content) {
-        return;
+        let popoverRect = this.popover.getBoundingClientRect();
+        let parentRect = this.parent.getBoundingClientRect();
+        const y = Math.min(Math.max(pageY, parentRect.y), parentRect.y + parentRect.height - popoverRect.height);
+        const x = Math.min(Math.max(pageX, parentRect.x), parentRect.x + parentRect.width - popoverRect.width);
+        this.popover.style.left = x + "px";
+        this.popover.style.top = y + "px";
     }
+}
 
-    this.$popoverContent.empty();
-    this.$popoverContent.removeClass();
-    this.$popoverContent.addClass("igv-popover-track-popup-content");
+function createMenuElements(itemList, popover) {
 
-    this.$popoverContent.html(content);
+    let list;
+    if (itemList.length > 0) {
 
-    this.$popover.css(clampPopoverLocation(pageX, pageY, this));
-    this.$popover.show();
+        list = itemList.map(function (item, i) {
+            let elem;
 
-};
+            if (typeof item === 'string') {
+                elem = dom.div();
+                elem.innerHTML = item;
+            } else if (typeof item === 'Node') {
+                elem = item;
+            } else {
+                if (typeof item.init === 'function') {
+                    item.init();
+                }
+                elem = dom.div();
+                if (typeof item.label === 'string') {
+                    elem.textContent = item.label;
+                }
+                if (item.click) {
+                    elem.addEventListener('click', handleClick);
+                    elem.addEventListener('touchend', handleClick);
+                    elem.addEventListener('mouseup', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    })
 
+                    // eslint-disable-next-line no-inner-declarations
+                    function handleClick(e) {
+                        item.click();
+                        dom.hide(popover);
+                        e.preventDefault();
+                        e.stopPropagation()
+                    }
+                }
+            }
 
-// function clampPopoverLocation(pageX, pageY, popover) {
-//
-//     var left,
-//         containerCoordinates = {x: pageX, y: pageY},
-//         containerRect = {x: 0, y: 0, width: $(window).width(), height: $(window).height()},
-//         popupRect,
-//         popupX = pageX,
-//         popupY = pageY;
-//
-//     popupX -= popover.$parent.offset().left;
-//     popupY -= popover.$parent.offset().top;
-//     popupRect = {
-//         x: popupX,
-//         y: popupY,
-//         width: popover.$popover.outerWidth(),
-//         height: popover.$popover.outerHeight()
-//     };
-//
-//     left = popupX;
-//     if (containerCoordinates.x + popupRect.width > containerRect.width) {
-//         left = popupX - popupRect.width;
-//     }
-//
-//     return {"left": left + "px", "top": popupY + "px"};
-// }
+            return {object: elem, init: (item.init || undefined)};
+        })
+    } else {
+        list = [];
+    }
+    return list;
+}
 
 export default Popover;
 

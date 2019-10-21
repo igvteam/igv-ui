@@ -1,12 +1,14 @@
 import makeDraggable from "./draggable.js";
 import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
-import {div, hide, offset, show} from "./dom-utils.js"
+import {div, hide, offset, show, pageCoordinates} from "./dom-utils.js"
 
 class InputDialog {
 
     constructor(parent) {
 
         const self = this;
+
+        this.parent = parent;
 
         // dialog container
         this.container = div({class: 'igv-ui-generic-dialog-container'});
@@ -84,19 +86,26 @@ class InputDialog {
 
     }
 
-    present(options, parent) {
+    present(options, e) {
 
         this.label.textContent = options.label;
         this.input.value = options.value;
         this.callback = options.callback;
 
-        const pageCoords = offset(options.parent);
-        const rect = options.parent.getBoundingClientRect();
-
-        this.container.style.top = `${pageCoords.top + Math.floor(rect.height / 2)}px`;
-        this.container.style.left = `${pageCoords.left + Math.floor(rect.width / 2)}px`;
+        const page = pageCoordinates(e);
+        this.clampLocation(page.x, page.y);
 
         show(this.container);
+    }
+
+    clampLocation(pageX, pageY) {
+
+        let popoverRect = this.container.getBoundingClientRect();
+        let parentRect = this.parent.getBoundingClientRect();
+        const y = Math.min(Math.max(pageY, parentRect.y), parentRect.y + parentRect.height - popoverRect.height);
+        const x = Math.min(Math.max(pageX, parentRect.x), parentRect.x + parentRect.width - popoverRect.width);
+        this.container.style.left = x + "px";
+        this.container.style.top = y + "px";
     }
 }
 

@@ -17,7 +17,9 @@ function create(tag, options) {
 
 function hide(elem) {
     const cssStyle = getComputedStyle(elem);
-    elem._initialDisplay = cssStyle.display;
+    if(cssStyle.display !== "none") {
+        elem._initialDisplay = cssStyle.display;
+    }
     elem.style.display = "none";
 }
 

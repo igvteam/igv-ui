@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>UI Demo</title>
-    <!--    <link href="../css/igv.css" rel="stylesheet" type="text/css"/>-->
-
 </head>
 <body>
 
@@ -16,40 +14,37 @@
 <div id = "test"></div>
 <script type="module">
 
-    import {AlertDialog, InputDialog} from "../src/index.js"
-    import Popover from "../src/popover.js"
+    import {AlertDialog, InputDialog, Popover} from "../src/index.js"
 
     const parent = document.getElementById("test");
     const dialog = new AlertDialog(parent);
     const inputDialog = new InputDialog(parent);
+    const popover = new Popover(parent);
 
-    document.getElementById("alert-id").addEventListener("click", (ev =>  dialog.present("Hello there")));
+    document.getElementById("alert-id").addEventListener("click", (ev =>  dialog.present("Alert")));
+
     document.getElementById("input-id").addEventListener("click", (ev => {
         inputDialog.present({
-            parent: parent,
             label: "Enter a value",
             value: "foo",
             callback: function (value) {
                 dialog.present("Value entered: " + value);
             }
-        })
+        }, ev)
     }));
 
     document.getElementById("menu-id").addEventListener("click", (ev => {
         const items = [
             {
                 label: "foo",
-                click: (e => alert("foo"))
+                click: ((e) => dialog.present("Clicked: " + "foo"))
             },
             {
                 label: "bar",
-                click: (e => alert("bar"))
+                click: ((e) => dialog.present("Clicked: " + "bar"))
             }
         ]
-
-        const popover = new Popover(parent);
-
-        popover.presentTrackContextMenu(ev, items);
+        popover.presentMenu(ev, items);
     }))
 
 </script>
