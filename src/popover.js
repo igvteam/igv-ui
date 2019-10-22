@@ -26,6 +26,7 @@
 import makeDraggable from "./draggable.js";
 import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
 import * as dom from "./dom-utils.js";
+import {createCheckbox} from "./bootstrap-icons.js"
 
 class Popover {
 
@@ -130,10 +131,16 @@ function createMenuElements(itemList, popover) {
                 if (typeof item.init === 'function') {
                     item.init();
                 }
-                elem = dom.div();
-                if (typeof item.label === 'string') {
-                    elem.textContent = item.label;
+
+                if ("checkbox" === item.type) {
+                    elem = createCheckbox("Show all bases", item.value);
+                } else {
+                    elem = dom.div();
+                    if (typeof item.label === 'string') {
+                        elem.textContent = item.label;
+                    }
                 }
+
                 if (item.click) {
                     elem.addEventListener('click', handleClick);
                     elem.addEventListener('touchend', handleClick);
@@ -152,13 +159,15 @@ function createMenuElements(itemList, popover) {
                 }
             }
 
-            return {object: elem, init: (item.init || undefined)};
+
+            return {object: elem, init: item.init};
         })
     } else {
         list = [];
     }
     return list;
 }
+
 
 export default Popover;
 

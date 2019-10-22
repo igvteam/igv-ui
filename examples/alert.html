@@ -33,6 +33,8 @@
         })
     }));
 
+
+    let toggle = false;
     document.getElementById("menu-id").addEventListener("click", (ev => {
         const items = [
             {
@@ -42,6 +44,12 @@
             {
                 label: "bar",
                 click: ((e) => dialog.present("Clicked: " + "bar"))
+            },
+            {
+                type: "checkbox",
+                label: "toggle",
+                value: toggle,
+                click: ((e) => toggle = !toggle)
             }
         ]
         popover.presentMenu(ev, items);
