@@ -9,8 +9,9 @@ class ColorPicker {
         const config =
             {
                 parent: parent,
-                width: width || 384,
+                width: width || 364,
                 height: undefined,
+                border: "1px solid gray"
             };
         this.container = new GenericContainer(config);
 

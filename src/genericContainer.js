@@ -29,7 +29,7 @@ import {attachDialogCloseHandlerWithParent} from "./ui-utils.js"
 
 class GenericContainer {
 
-    constructor({parent,  top, left, width, height, closeHandler}) {
+    constructor({parent,  top, left, width, height, border, closeHandler}) {
 
         let container = div({class: 'igv-ui-generic-container'});
         parent.appendChild(container);
@@ -47,6 +47,9 @@ class GenericContainer {
         }
         if (height !== undefined) {
             this.container.style.height = height + "px";
+        }
+        if(border) {
+            this.container.style.border = border;
         }
         //
         // let bbox = parent.getBoundingClientRect();

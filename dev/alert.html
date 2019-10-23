@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>UI Demo</title>
+    <title>Title</title>
+    <link href="../css/igv-ui.css" rel="stylesheet" type="text/css"/>
+
 </head>
 <body>
 
@@ -24,6 +26,7 @@
 
     const colorPicker = new ColorPicker({
         parent: parent,
+        width: 364,
         //defaultColor: 'aqua',
         colorHandler: (color) => dialog.present("Color selected: " + color)
     })
