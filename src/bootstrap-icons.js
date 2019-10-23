@@ -9,11 +9,12 @@ function createWrappedIcon(name, color) {
 
 function createCheckbox(name, initialState) {
     const container = div({class: 'igv-ui-trackgear-popover-check-container'});
-    const cbDiv = div();
-    container.appendChild(cbDiv);
     const svg = iconMarkup('check', (true === initialState ? '#444' : 'transparent'));
+    svg.style.borderColor = 'gray';
+    svg.style.borderWidth = '1px';
+    svg.style.borderStyle = 'solid';
 
-    cbDiv.appendChild(svg);
+    container.appendChild(svg);
     let label = div(); //{ class: 'igv-some-label-class' });
     label.textContent = name;
     container.appendChild(label);
