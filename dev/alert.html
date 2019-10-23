@@ -7,22 +7,28 @@
 <body>
 
 <h1>UI classes demo</h1>
-<button id="alert-id"><h2>click to see alert</h2></button>
-<button id="input-id"><h2>click to see input</h2></button>
-<button id="menu-id"><h2>click to see menu</h2></button>
+<button id="alert-id"><h2>Alert</h2></button>
+<button id="input-id"><h2>Input</h2></button>
+<button id="menu-id"><h2>Menu</h2></button>
+<button id="color-id"><h2>Color picker</h2></button>
 
-<div id = "test"></div>
+<div id="test"></div>
 <script type="module">
 
-    import {AlertDialog, InputDialog, Popover} from "../src/index.js"
+    import {AlertDialog, InputDialog, Popover, ColorPicker} from "../src/index.js"
 
     const parent = document.getElementById("test");
     const dialog = new AlertDialog(parent);
     const inputDialog = new InputDialog(parent);
     const popover = new Popover(parent);
 
-    document.getElementById("alert-id").addEventListener("click", (ev =>  dialog.present("Alert")));
+    const colorPicker = new ColorPicker({
+        parent: parent,
+        //defaultColor: 'aqua',
+        colorHandler: (color) => dialog.present("Color selected: " + color)
+    })
 
+    document.getElementById("alert-id").addEventListener("click", (ev => dialog.present("Alert")));
     document.getElementById("input-id").addEventListener("click", (ev => {
         inputDialog.present({
             label: "Enter a value",
@@ -44,15 +50,25 @@
                 label: "bar",
                 click: ((e) => dialog.present("Clicked: " + "bar"))
             },
+            '<hr/>',
             {
                 type: "checkbox",
                 label: "toggle",
                 value: toggle,
                 click: ((e) => toggle = !toggle)
+            },
+            '<hr/>',
+            {
+                label: "Pick a color",
+                click: ((e) => {
+                    colorPicker.show()
+                })
             }
         ]
         popover.presentMenu(ev, items);
     }))
+
+    document.getElementById("color-id").addEventListener("click", (ev) => colorPicker.show());
 
 </script>
 
