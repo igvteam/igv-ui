@@ -25,7 +25,7 @@
 
 import makeDraggable from "./draggable.js";
 import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
-import * as dom from "./dom-utils.js";
+import {div, empty, hide, hideAll, pageCoordinates, show} from "./dom-utils.js";
 import {createCheckbox} from "./bootstrap-icons.js"
 
 class Popover {
@@ -37,29 +37,29 @@ class Popover {
         this.parent = parent;
 
         // popover container
-        this.popover = dom.div({class: "igv-ui-popover"});
+        this.popover = div({class: "igv-ui-popover"});
         parent.appendChild(this.popover);
 
         // popover header
-        const popoverHeader = dom.div({class: "igv-ui-popover-header"});
+        const popoverHeader = div({class: "igv-ui-popover-header"});
         this.popover.appendChild(popoverHeader);
         attachDialogCloseHandlerWithParent(popoverHeader, function () {
-            dom.hide(self.popover);
+            hide(self.popover);
         });
 
         // popover content
-        this.popoverContent = dom.div({class: "igv-ui-popover-track-popup-content"});
+        this.popoverContent = div({class: "igv-ui-popover-track-popup-content"});
         this.popover.appendChild(this.popoverContent);
 
         makeDraggable(this.popover, popoverHeader);
     }
 
     hide() {
-        dom.hide(this.popover);
+        hide(this.popover);
     }
 
     dispose() {
-        dom.empty(this.popover);
+        empty(this.popover);
         Object.keys(this).forEach(function (key) {
             this[key] = undefined;
         })
@@ -70,9 +70,9 @@ class Popover {
         const popover = this.popover;
 
         // Only 1 popover open at a time
-        dom.hideAll('.igv-ui-popover');
+        hideAll('.igv-ui-popover');
 
-        dom.empty(this.popoverContent);
+        empty(this.popoverContent);
 
         if (menuItems.length > 0) {
             const menuElements = createMenuElements(menuItems, popover);
@@ -80,26 +80,26 @@ class Popover {
                 this.popoverContent.appendChild(item.object);
             }
 
-            const page = dom.pageCoordinates(e);
+            const page = pageCoordinates(e);
             this.clampLocation(page.x, page.y);
-            dom.show(popover);
+            show(popover);
         }
     }
 
     presentContent(pageX, pageY, content) {
 
         // Only 1 popover open at a time
-        dom.hideAll('.igv-ui-popover');
+        hideAll('.igv-ui-popover');
 
         if (undefined === content) {
             return;
         }
 
-        dom.empty(this.popoverContent);
+        empty(this.popoverContent);
 
         this.popoverContent.innerHTML = content;
         this.clampLocation(pageX, pageY);
-        dom.show(this.popover);
+        show(this.popover);
 
     }
 
@@ -123,7 +123,7 @@ function createMenuElements(itemList, popover) {
             let elem;
 
             if (typeof item === 'string') {
-                elem = dom.div();
+                elem = div();
                 elem.innerHTML = item;
             } else if (typeof item === 'Node') {
                 elem = item;
@@ -135,7 +135,7 @@ function createMenuElements(itemList, popover) {
                 if ("checkbox" === item.type) {
                     elem = createCheckbox("Show all bases", item.value);
                 } else {
-                    elem = dom.div();
+                    elem = div();
                     if (typeof item.label === 'string') {
                         elem.textContent = item.label;
                     }
@@ -152,7 +152,7 @@ function createMenuElements(itemList, popover) {
                     // eslint-disable-next-line no-inner-declarations
                     function handleClick(e) {
                         item.click();
-                        dom.hide(popover);
+                        hide(popover);
                         e.preventDefault();
                         e.stopPropagation()
                     }

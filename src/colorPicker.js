@@ -2,35 +2,19 @@ import {appleCrayonPalette} from "./colorPalletes.js"
 import GenericContainer from "./genericContainer.js"
 import {div, show, hide} from "./dom-utils.js"
 
-class ColorPicker {
+class ColorPicker extends GenericContainer {
 
     constructor({parent, top, left, width, height, defaultColor, colorHandler}) {
-
-        const config =
-            {
-                parent: parent,
+        super(
+            {parent: parent,
+                top: top,
+                left: left,
                 width: width || 364,
-                height: undefined,
-                border: "1px solid gray"
-            };
-        this.container = new GenericContainer(config);
-
-        createColorSwatchSelector(this.container.container, colorHandler, defaultColor);
+                border: "1px solid gray"})
 
 
+        createColorSwatchSelector(this.container, colorHandler, defaultColor);
   }
-
-    show() {
-        this.container.show();
-    }
-
-    hide() {
-        this.container().hide();
-    }
-
-    dispose() {
-        this.container.dispose();
-    }
 }
 
 function createColorSwatchSelector(container, colorHandler, defaultColor) {

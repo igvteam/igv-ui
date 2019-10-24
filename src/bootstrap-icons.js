@@ -18,6 +18,7 @@ function createCheckbox(name, initialState) {
     let label = div(); //{ class: 'igv-some-label-class' });
     label.textContent = name;
     container.appendChild(label);
+
     return container;
 }
 

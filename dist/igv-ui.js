@@ -77,55 +77,56 @@ const httpMessages =
     };
 
 
-const AlertDialog = function (parent) {
+class AlertDialog {
+    constructor(parent) {
 
-    const self = this;
+        // container
+        this.container = div({class: "igv-ui-alert-dialog-container"});
+        parent.appendChild(this.container);
 
-    // container
-    this.container = div({class: "igv-ui-alert-dialog-container"});
-    parent.appendChild(this.container);
+        // header
+        let header = div();
+        this.container.appendChild(header);
 
-    // header
-    let header = div();
-    this.container.appendChild(header);
+        // body container
+        let bodyContainer = div({id: 'igv-ui-alert-dialog-body'});
+        this.container.appendChild(bodyContainer);
 
-    // body container
-    let bodyContainer = div({id: 'igv-ui-alert-dialog-body'});
-    this.container.appendChild(bodyContainer);
+        // body copy
+        this.body = div({id: 'igv-ui-alert-dialog-body-copy'});
+        bodyContainer.appendChild(this.body);
 
-    // body copy
-    this.body = div({id: 'igv-ui-alert-dialog-body-copy'});
-    bodyContainer.appendChild(this.body);
+        // ok container
+        let ok_container = div();
+        this.container.appendChild(ok_container);
 
-    // ok container
-    let ok_container = div();
-    this.container.appendChild(ok_container);
+        // ok
+        this.ok = div();
+        ok_container.appendChild(this.ok);
+        this.ok.textContent = 'OK';
+        const self = this;
+        this.ok.addEventListener('click', function (ev) {
+            if (typeof self.callback === 'function') {
+                self.callback("OK");
+                self.callback = undefined;
+            }
+            self.body.innerHTML = '';
+            hide(self.container);
+        });
 
-    // ok
-    this.ok = div();
-    ok_container.appendChild(this.ok);
-    this.ok.textContent = 'OK';
-    this.ok.addEventListener('click', function (ev) {
-        if (typeof self.callback === 'function') {
-            self.callback("OK");
-            self.callback = undefined;
-        }
-        self.body.innerHTML = '';
-        hide(self.container);
-    });
-
-    hide(this.container);
-};
-
-AlertDialog.prototype.present = function (alert, callback) {
-    let string = alert.message || alert;
-    if (httpMessages.hasOwnProperty(string)) {
-        string = httpMessages[string];
+        hide(this.container);
     }
-    this.body.innerHTML = string;
-    this.callback = callback;
-    show(this.container);
-};
+
+    present(alert, callback) {
+        let string = alert.message || alert;
+        if (httpMessages.hasOwnProperty(string)) {
+            string = httpMessages[string];
+        }
+        this.body.innerHTML = string;
+        this.callback = callback;
+        show(this.container);
+    }
+}
 
 /**
  * Make the target element movable by clicking and dragging on the handle.  This is not a general purprose function,
@@ -206,18 +207,16 @@ function dragEnd(event) {
 
 function createCheckbox(name, initialState) {
     const container = div({class: 'igv-ui-trackgear-popover-check-container'});
-    //const cbDiv = div();
-    //container.appendChild(cbDiv);
     const svg = iconMarkup('check', (true === initialState ? '#444' : 'transparent'));
     svg.style.borderColor = 'gray';
     svg.style.borderWidth = '1px';
     svg.style.borderStyle = 'solid';
 
-    //cbDiv.appendChild(svg);
     container.appendChild(svg);
     let label = div(); //{ class: 'igv-some-label-class' });
     label.textContent = name;
     container.appendChild(label);
+
     return container;
 }
 
@@ -1106,7 +1105,7 @@ const appleCrayonPalette =
 
 class GenericContainer {
 
-    constructor({parent,  top, left, width, height, closeHandler}) {
+    constructor({parent,  top, left, width, height, border, closeHandler}) {
 
         let container = div({class: 'igv-ui-generic-container'});
         parent.appendChild(container);
@@ -1124,6 +1123,9 @@ class GenericContainer {
         }
         if (height !== undefined) {
             this.container.style.height = height + "px";
+        }
+        if(border) {
+            this.container.style.border = border;
         }
         //
         // let bbox = parent.getBoundingClientRect();
@@ -1155,34 +1157,19 @@ class GenericContainer {
     }
 }
 
-class ColorPicker {
+class ColorPicker extends GenericContainer {
 
     constructor({parent, top, left, width, height, defaultColor, colorHandler}) {
-
-        const config =
-            {
-                parent: parent,
-                width: width || 384,
-                height: undefined,
-            };
-        this.container = new GenericContainer(config);
-
-        createColorSwatchSelector(this.container.container, colorHandler, defaultColor);
+        super(
+            {parent: parent,
+                top: top,
+                left: left,
+                width: width || 364,
+                border: "1px solid gray"});
 
 
+        createColorSwatchSelector(this.container, colorHandler, defaultColor);
   }
-
-    show() {
-        this.container.show();
-    }
-
-    hide() {
-        this.container().hide();
-    }
-
-    dispose() {
-        this.container.dispose();
-    }
 }
 
 function createColorSwatchSelector(container, colorHandler, defaultColor) {
@@ -1250,6 +1237,20 @@ function embedCSS() {
 
 }
 
-embedCSS();
+if(!stylesheetExists("igv-ui.css")) {
+    embedCSS();
+}
+
+
+
+function stylesheetExists(stylesheetName) {
+    for (let ss of document.styleSheets) {
+        ss = ss.href ? ss.href.replace(/^.*[\\\/]/, '') : '';
+        if (ss === stylesheetName) {
+            return true;
+        }
+    }
+    return false;
+}
 
 export { AlertDialog, ColorPicker, InputDialog, Popover };
