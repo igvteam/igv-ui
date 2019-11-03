@@ -11,6 +11,9 @@ function create(tag, options) {
         if (options.id) {
             elem.id = options.id;
         }
+        if(options.style) {
+            applyStyle(elem, options.style);
+        }
     }
     return elem;
 }
@@ -69,4 +72,11 @@ function pageCoordinates(e) {
     }
 }
 
-export {create, div, hide, show, offset, hideAll, empty, pageCoordinates}
+function applyStyle(elem, style) {
+    for (let key of Object.keys(style)) {
+        elem.style[key] = style[key];
+    }
+}
+
+
+export {create, div, hide, show, offset, hideAll, empty, pageCoordinates, applyStyle}

@@ -2,6 +2,9 @@ import AlertDialog from "./alertDialog.js"
 import InputDialog from "./inputDialog.js"
 import Popover from "./popover.js"
 import ColorPicker from "./colorPicker.js"
+import * as DomUtils from "./dom-utils.js"
+import * as Icon from "./bootstrap-icons.js"
+import makeDraggable from "./draggable.js"
 import embedCSS from "./embedCSS.js"
 
 
@@ -22,4 +25,4 @@ function stylesheetExists(stylesheetName) {
 }
 
 
-export {AlertDialog, InputDialog, Popover, ColorPicker}
+export {AlertDialog, InputDialog, Popover, ColorPicker, DomUtils, Icon, makeDraggable}

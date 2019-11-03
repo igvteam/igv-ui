@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/igv-ui.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+<div id="test"></div>
+<script type="module">
+
+    import {AlertDialog, InputDialog, Popover, ColorPicker} from "../src/index.js"
+    import Checkbox from "../src/components/checkbox.js";
+
+    const parent = document.getElementById("test");
+
+    const cb = new Checkbox({
+        selected: true,
+        handler: (s) => console.log(`value = ${s}`)
+    })
+
+    parent.appendChild(cb.elem);
+
+
+</script>
+
+</body>
+</html>
