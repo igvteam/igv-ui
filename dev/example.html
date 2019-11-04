@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="../css/igv-ui.css" rel="stylesheet" type="text/css"/>
+<!--    <link href="../css/igv-ui.css" rel="stylesheet" type="text/css"/>-->
 
 </head>
 <body>
 
 <h1>UI classes demo</h1>
+<p>
 <button id="alert-id"><h2>Alert</h2></button>
 <button id="input-id"><h2>Input</h2></button>
 <button id="menu-id"><h2>Menu</h2></button>
 <button id="color-id"><h2>Color picker</h2></button>
+</p>
 
-<div id="test"></div>
+<div id="test" style="width:500px;height:100px;"></div>
 <script type="module">
 
     import {AlertDialog, InputDialog, Popover, ColorPicker} from "../src/index.js"
@@ -62,10 +64,9 @@
             },
             '<hr/>',
             {
+                type: "color",
                 label: "Pick a color",
-                click: ((e) => {
-                    colorPicker.show()
-                })
+                click: (color) => dialog.present("Color selected: " + color)
             }
         ]
         popover.presentMenu(ev, items);

@@ -6,7 +6,9 @@ function create(tag, options) {
     const elem = document.createElement(tag);
     if (options) {
         if (options.class) {
-            elem.classList.add(options.class);
+            for(let c of options.class.split(/\s+/)) {
+                elem.classList.add(c);
+            }
         }
         if (options.id) {
             elem.id = options.id;

@@ -5,7 +5,8 @@
   "browser": "dist/igv-ui.js",
   "module": "dist/igv-ui.js",
   "files": [
-    "dist/**"
+    "dist/**",
+    "src/**"
   ],
   "directories": {
     "example": "examples"

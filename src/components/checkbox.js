@@ -1,22 +1,39 @@
-import {div, hide} from "../dom-utils.js";
+import {div} from "../dom-utils.js";
 import {createIcon} from "../bootstrap-icons.js";
+
+const style = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+}
 
 class Checkbox {
 
-    constructor({selected, label, handler}) {
+    constructor({selected, label, onchange: handler}) {
 
         this.state = selected;
-        this.elem = div({class: 'igv-ui-trackgear-popover-check-container'});
-        this.svg = createIcon('check', (true === selected ? '#444' : 'transparent'));
-        this.elem.style.borderColor = 'gray';
-        this.elem.style.borderWidth = '1px';
-        this.elem.style.borderStyle = 'solid';
+        this.onchange = handler;
+        this.elem = div({style: style});
 
-        this.elem.appendChild(this.svg);
+        const svgDiv = div({
+            style: {
+                width: '14px',
+                height: '14px',
+                borderColor: 'gray',
+                borderWidth: '1px',
+                borderStyle: 'solid'
+            }
+        })
+        this.svg = createIcon('check', (true === selected ? '#444' : 'transparent'));
+        this.svg.style.width = '12px';
+        this.svg.style.height = '12px';
+        svgDiv.appendChild(this.svg);
+        this.elem.appendChild(svgDiv);
 
         if (label) {
-            let d = div(); //{ class: 'igv-some-label-class' });
-            d.textContent = label;
+            const d = div({style: {marginLeft: '5px'}}); //{ class: 'igv-some-label-class' });
+            d.textContent = label
             this.elem.appendChild(d);
         }
 
@@ -24,21 +41,33 @@ class Checkbox {
         this.elem.addEventListener('touchend', handleClick);
 
         const that = this;
+
         function handleClick(e) {
             e.preventDefault();
             e.stopPropagation();
-            that.selected = !that.state;
-            const s = that.state;
-            if (typeof handler === 'function') {
-                handler(s);
+            const newState = !that.state;
+            that.selected = newState;
+            if (typeof this.onchange === 'function') {
+                this.onchange(newState);
             }
         }
     }
 
     set selected(selected) {
         this.state = selected;
-        this.svg.path.setAttributeNS(null, 'fill', (true === selected ? '#444' : 'transparent'));
+        const p = this.svg.querySelector('path');
+        p.setAttributeNS(null, 'fill', (true === selected ? '#444' : 'transparent'));
     }
+
+    get selected() {
+        return this.state;
+    }
+
+    onchange(handler) {
+        this.onchange = handler;
+    }
+
+
 }
 
 export default Checkbox;

@@ -23,13 +23,18 @@ function dragStart(event) {
     const pageCoords = offset(this);
     const dragFunction = drag.bind(this);
     const dragEndFunction = dragEnd.bind(this);
+    const computedStyle = getComputedStyle(this);
+    const top = parseInt(computedStyle.top.replace("px", ""));
+    const left = parseInt(computedStyle.left.replace("px", ""));
 
     dragData =
         {
             dragFunction: dragFunction,
             dragEndFunction: dragEndFunction,
-            dx: pageCoords.left - event.screenX,
-            dy: pageCoords.top - event.screenY
+            screenX: event.screenX,
+            screenY: event.screenY,
+            top: top,
+            left: left
         };
 
     document.addEventListener('mousemove', dragFunction);
@@ -44,12 +49,13 @@ function drag(event) {
         console.log("No drag data!");
         return;
     }
+    console.log(event.screenY);
     event.stopPropagation();
     event.preventDefault();
-    const styleX = dragData.dx + event.screenX;
-    const styleY = dragData.dy + event.screenY;
-    this.style.left = styleX + "px";
-    this.style.top = styleY + "px";
+    const dx = event.screenX - dragData.screenX;
+    const dy = event.screenY - dragData.screenY;
+    this.style.left = `${dragData.left + dx}px`;
+    this.style.top = `${dragData.top + dy}px`;
 
     // console.log('drag ' + 'x ' + styleX + ' y ' + styleY);
 }
@@ -62,11 +68,6 @@ function dragEnd(event) {
     }
     event.stopPropagation();
     event.preventDefault();
-    const styleX = dragData.dx + event.screenX;
-    const styleY = dragData.dy + event.screenY;
-    // console.log('drag end ' + 'x ' + styleX + ' y ' + styleY);
-    this.style.left = styleX + "px";
-    this.style.top = styleY + "px";
 
     const dragFunction = dragData.dragFunction;
     const dragEndFunction = dragData.dragEndFunction;

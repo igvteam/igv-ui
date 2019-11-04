@@ -13,15 +13,43 @@
 
     import {AlertDialog, InputDialog, Popover, ColorPicker} from "../src/index.js"
     import Checkbox from "../src/components/checkbox.js";
+    import Panel from "../src/components/panel.js";
+    import Textbox from "../src/components/textBox.js"
+    import Dialog from "../src/components/dialog.js"
 
     const parent = document.getElementById("test");
 
-    const cb = new Checkbox({
-        selected: true,
-        handler: (s) => console.log(`value = ${s}`)
-    })
 
-    parent.appendChild(cb.elem);
+    const panel = new Panel();
+    const txt = new Textbox("textbox")
+    panel.add(txt);
+    panel.add(new Textbox("<hr/>"))
+
+    const cbA = new Checkbox({
+       // selected: true,
+        label: 'A',
+        onchange: (s) => console.log(`value = ${s}`)
+    })
+    panel.add(cbA);
+
+    const cbB = new Checkbox({
+     //   selected: true,
+        label: 'B',
+        onchange: (s) => console.log(`value = ${s}`)
+    })
+    panel.add(cbB);
+
+    const dialog = new Dialog({
+        label: 'Multi-select',
+        content: panel,
+        okHandler: (d) => {
+            console.log(`A: ${cbA.selected}`);
+            console.log(`B: ${cbB.selected}`)
+        }
+
+    });
+
+    parent.appendChild(dialog.elem);
 
 
 </script>
