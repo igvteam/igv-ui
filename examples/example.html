@@ -2,39 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>UI Demo</title>
+    <title>Title</title>
+
 </head>
 <body>
 
 <h1>UI classes demo</h1>
-<button id="alert-id"><h2>Alert</h2></button>
-<button id="input-id"><h2>Input</h2></button>
-<button id="menu-id"><h2>Menu</h2></button>
-<button id="color-id"><h2>Color picker</h2></button>
+<p>
+    <button id="alert-id"><h2>Alert</h2></button>
+    <button id="input-id"><h2>Input</h2></button>
+    <button id="menu-id"><h2>Menu</h2></button>
+    <button id="color-id"><h2>Color picker</h2></button>
+    <button id="form-id"><h2>Form</h2></button>
+</p>
 
-<div id="test"></div>
+<div id="test" style="width:500px;height:100px;"></div>
 <script type="module">
 
-    import {AlertDialog, InputDialog, Popover, ColorPicker} from "../dist/igv-ui.js"
+    import {AlertDialog, InputDialog, Popover, ColorPicker, DomUtils, Checkbox, Panel, Textbox, Dialog}
+        from "../dist/igv-ui.js"
 
     const parent = document.getElementById("test");
-    const dialog = new AlertDialog(parent);
+
+    // Legacy style components
+    const alertDialog = new AlertDialog(parent);
     const inputDialog = new InputDialog(parent);
     const popover = new Popover(parent);
 
+    // New style custom component
+    const dialog = createDialog();
+    DomUtils.hide(dialog.elem);
+    parent.appendChild(dialog.elem);
+
+
     const colorPicker = new ColorPicker({
         parent: parent,
+        width: 364,
         //defaultColor: 'aqua',
-        colorHandler: (color) => dialog.present("Color selected: " + color)
+        colorHandler: (color) => alertDialog.present("Color selected: " + color)
     })
 
-    document.getElementById("alert-id").addEventListener("click", (ev => dialog.present("Alert")));
+    document.getElementById("alert-id").addEventListener("click", (ev => alertDialog.present("Alert")));
     document.getElementById("input-id").addEventListener("click", (ev => {
         inputDialog.present({
             label: "Enter a value",
             value: "foo",
             callback: function (value) {
-                dialog.present("Value entered: " + value);
+                alertDialog.present("Value entered: " + value);
             }
         }, ev)
     }));
@@ -44,11 +58,11 @@
         const items = [
             {
                 label: "foo",
-                click: ((e) => dialog.present("Clicked: " + "foo"))
+                click: ((e) => alertDialog.present("Clicked: " + "foo"))
             },
             {
                 label: "bar",
-                click: ((e) => dialog.present("Clicked: " + "bar"))
+                click: ((e) => alertDialog.present("Clicked: " + "bar"))
             },
             '<hr/>',
             {
@@ -59,16 +73,59 @@
             },
             '<hr/>',
             {
+                type: "color",
                 label: "Pick a color",
-                click: ((e) => {
-                    colorPicker.show()
-                })
+                click: (color) => alertDialog.present("Color selected: " + color)
             }
         ]
         popover.presentMenu(ev, items);
     }))
 
     document.getElementById("color-id").addEventListener("click", (ev) => colorPicker.show());
+
+    document.getElementById("form-id").addEventListener("click", (ev) => DomUtils.show(dialog.elem));
+
+    function createDialog() {
+
+        const panel = new Panel();
+
+
+        const textbox = new Textbox({label: "Enter a value", value: "abc"});
+        panel.add(textbox);
+
+        panel.add("<hr/>")
+
+        const cbA = new Checkbox({
+            // selected: true,
+            label: 'A',
+            onchange: (s) => console.log(`value = ${s}`)
+        })
+        panel.add(cbA);
+
+        const cbB = new Checkbox({
+            //   selected: true,
+            label: 'B',
+            onchange: (s) => console.log(`value = ${s}`)
+        })
+        panel.add(cbB);
+
+        const node = DomUtils.create('hr');
+        panel.add(node);
+
+        const dialog = new Dialog({
+            label: 'Multi-select',
+            content: panel,
+            okHandler: (d) => {
+                console.log(`Text: ${textbox.value}`)
+                console.log(`A: ${cbA.selected}`);
+                console.log(`B: ${cbB.selected}`)
+            }
+
+        });
+
+        return dialog;
+
+    }
 
 </script>
 

@@ -1,8 +1,6 @@
 .igv-ui-dialog {
   z-index: 2048;
   position: fixed;
-  top: 0;
-  left: 0;
   width: fit-content;
   height: fit-content;
   display: flex;
@@ -58,12 +56,11 @@
 
   // one-liner
   .igv-ui-dialog-one-liner {
-    width: 100%;
+    width: 95%;
     height: 24px;
     line-height: 24px;
     text-align: left;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin: 8px;
     overflow-wrap: break-word;
     background-color: white;
     font-weight: bold;

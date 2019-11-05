@@ -24,6 +24,7 @@ class Dialog {
         }
 
         // input container
+        content.elem.style.margin = '8px';
         this.elem.appendChild(content.elem);
 
         // ok | cancel

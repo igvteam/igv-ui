@@ -32,7 +32,19 @@ class Panel {
     }
 
     add(component) {
-        this.elem.append(component.elem);
+
+        if(component instanceof Node) {
+            this.elem.append(component);
+        }
+        else if(typeof component === 'object') {
+            this.elem.append(component.elem);
+        }
+        else {
+            // Assuming a string, possibly html
+            const wrapper = DomUtils.div();
+            wrapper.innerHTML = component;
+            this.elem.append(wrapper);
+        }
     }
 
 

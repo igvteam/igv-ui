@@ -10,10 +10,10 @@ const style = {
 
 class Checkbox {
 
-    constructor({selected, label, onchange: handler}) {
+    constructor({selected, label, onchange}) {
 
         this.state = selected;
-        this.onchange = handler;
+        this.onchange = onchange;
         this.elem = div({style: style});
 
         const svgDiv = div({
@@ -37,20 +37,17 @@ class Checkbox {
             this.elem.appendChild(d);
         }
 
-        this.elem.addEventListener('click', handleClick);
-        this.elem.addEventListener('touchend', handleClick);
-
-        const that = this;
-
-        function handleClick(e) {
+        const handleClick = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            const newState = !that.state;
-            that.selected = newState;
+            const newState = !this.state;
+            this.selected = newState;
             if (typeof this.onchange === 'function') {
                 this.onchange(newState);
             }
         }
+        this.elem.addEventListener('click', handleClick);
+        this.elem.addEventListener('touchend', handleClick);
     }
 
     set selected(selected) {
