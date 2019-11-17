@@ -27,6 +27,7 @@ import makeDraggable from "./draggable.js";
 import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
 import {div, empty, hide, hideAll, pageCoordinates, show} from "./dom-utils.js";
 import {createCheckbox} from "./bootstrap-icons.js"
+import ColorPicker from "./colorPicker.js";
 
 class Popover {
 
@@ -134,14 +135,39 @@ function createMenuElements(itemList, popover) {
 
                 if ("checkbox" === item.type) {
                     elem = createCheckbox("Show all bases", item.value);
-                } else {
+                } else if("color" === item.type) {
+                    const colorPicker = new ColorPicker({
+                        parent: popover.parentElement,
+                        width: 364,
+                        //defaultColor: 'aqua',
+                        colorHandler: (color) => item.click(color)
+                    })
+                    elem = div();
+                    if (typeof item.label === 'string') {
+                        elem.textContent = item.label;
+                    }
+                    const clickHandler =  e => {
+                        colorPicker.show();
+                        hide(popover);
+                        e.preventDefault();
+                        e.stopPropagation()
+                    }
+                    elem.addEventListener('click', clickHandler);
+                    elem.addEventListener('touchend', clickHandler);
+                    elem.addEventListener('mouseup', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    })
+                }
+
+                else {
                     elem = div();
                     if (typeof item.label === 'string') {
                         elem.textContent = item.label;
                     }
                 }
 
-                if (item.click) {
+                if (item.click && "color" !== item.type) {
                     elem.addEventListener('click', handleClick);
                     elem.addEventListener('touchend', handleClick);
                     elem.addEventListener('mouseup', function (e) {

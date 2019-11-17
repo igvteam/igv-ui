@@ -6,7 +6,7 @@ class Dialog {
 
     constructor({label, content, okHandler, cancelHandler}) {
 
-        
+
         // dialog container
         this.elem = div({class: 'igv-ui-dialog'});;
 
