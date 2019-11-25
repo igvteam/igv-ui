@@ -10,3 +10,4 @@
 /miRNA/
 *.iml
 /npm-debug.log
+/css/.sass-cache/

@@ -780,6 +780,11 @@ function attachDialogCloseHandlerWithParent(parent, closeHandler) {
     });
 }
 
+var uiUtils = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    attachDialogCloseHandlerWithParent: attachDialogCloseHandlerWithParent
+});
+
 class InputDialog {
 
     constructor(parent) {
@@ -1519,4 +1524,4 @@ function stylesheetExists(stylesheetName) {
     return false;
 }
 
-export { AlertDialog, Checkbox, ColorPicker, Dialog, domUtils as DomUtils, bootstrapIcons as Icon, InputDialog, Panel, Popover, Textbox, makeDraggable };
+export { AlertDialog, Checkbox, ColorPicker, Dialog, domUtils as DomUtils, bootstrapIcons as Icon, InputDialog, Panel, Popover, Textbox, uiUtils as UIUtils, makeDraggable };
