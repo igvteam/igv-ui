@@ -1,6 +1,4 @@
 
-import $ from './vendor/jquery-1.12.4.js';
-
 function div(options) {
     return create("div", options);
 }
@@ -75,30 +73,6 @@ function pageCoordinates(e) {
     }
 }
 
-/**
- * Translate the mouse coordinates for the event to the coordinates for the given target element
- * @param e
- * @param target
- * @returns {{x: number, y: number}}
- */
-function translateMouseCoordinates(e, target) {
-
-    var $target = $(target),
-        posx,
-        posy;
-
-    if (undefined === $target.offset()) {
-        console.log('translateMouseCoordinates - $target.offset() is undefined.');
-    }
-
-    const coords = pageCoordinates(e);
-
-    posx = coords.x - $target.offset().left;
-    posy = coords.y - $target.offset().top;
-
-    return {x: posx, y: posy}
-}
-
 const relativeDOMBBox = (parentElement, childElement) => {
     const { x: x_p, y: y_p, width: width_p, height: height_p } = parentElement.getBoundingClientRect();
     const { x: x_c, y: y_c, width: width_c, height: height_c } = childElement.getBoundingClientRect();
@@ -115,4 +89,4 @@ function guid  () {
     return ("0000" + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
 }
 
-export {create, div, hide, show, offset, hideAll, empty, pageCoordinates, translateMouseCoordinates, relativeDOMBBox, applyStyle, guid}
+export { create, div, hide, show, offset, hideAll, empty, pageCoordinates, relativeDOMBBox, applyStyle, guid }
