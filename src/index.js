@@ -6,7 +6,7 @@ import Checkbox from "../src/components/checkbox.js";
 import Panel from "../src/components/panel.js";
 import Textbox from "../src/components/textbox.js"
 import Dialog from "../src/components/dialog.js"
-import * as DomUtils from "./dom-utils.js"
+import * as DOMUtils from "./dom-utils.js"
 import * as UIUtils from './ui-utils.js'
 import * as Icon from "./bootstrap-icons.js"
 import * as Color from './colorPalletes.js';
@@ -31,4 +31,4 @@ function stylesheetExists(stylesheetName) {
 }
 
 
-export {AlertDialog, InputDialog, Popover, Color, ColorPicker, Checkbox, Panel, Textbox, Dialog, DomUtils, UIUtils, Icon, makeDraggable}
+export {AlertDialog, InputDialog, Popover, Color, ColorPicker, Checkbox, Panel, Textbox, Dialog, DOMUtils, UIUtils, Icon, makeDraggable}
