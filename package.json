@@ -2,17 +2,16 @@
   "name": "igv-ui",
   "version": "0.1.0",
   "description": "UI code for igv.js and related projects",
-  "browser": "dist/igv-ui.js",
-  "module": "dist/igv-ui.js",
+  "browser": "src/index.js",
+  "module": "src/index.js",
   "files": [
-    "dist/**",
     "src/**"
   ],
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "build": "node scripts/generateEmbedCss.js && npx rollup --config",
+    "build": "node scripts/generateEmbedCss.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepack": "npm run build"
   },
