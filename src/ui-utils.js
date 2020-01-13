@@ -35,7 +35,6 @@ function createColorSwatchSelector(container, colorHandler, defaultColor) {
 
         if ('white' === color) {
             // do nothing
-            console.log('-');
         } else {
 
             swatch.onmouseenter = function(){

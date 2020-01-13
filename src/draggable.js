@@ -49,15 +49,12 @@ function drag(event) {
         console.log("No drag data!");
         return;
     }
-    console.log(event.screenY);
     event.stopPropagation();
     event.preventDefault();
     const dx = event.screenX - dragData.screenX;
     const dy = event.screenY - dragData.screenY;
     this.style.left = `${dragData.left + dx}px`;
     this.style.top = `${dragData.top + dy}px`;
-
-    // console.log('drag ' + 'x ' + styleX + ' y ' + styleY);
 }
 
 function dragEnd(event) {
