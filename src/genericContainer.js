@@ -61,7 +61,8 @@ class GenericContainer {
         this.container.appendChild(header);
 
         // close button
-        attachDialogCloseHandlerWithParent(header, (e) => hide(this.container));
+        const ch = closeHandler || function(e) {hide(this.container)};
+        attachDialogCloseHandlerWithParent(header, ch);
 
         makeDraggable(this.container, header);
     }
@@ -71,7 +72,7 @@ class GenericContainer {
     }
 
     hide() {
-        hide(this.container())
+        hide(this.container)
     }
 
     dispose() {

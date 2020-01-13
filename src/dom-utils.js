@@ -89,4 +89,20 @@ function guid  () {
     return ("0000" + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
 }
 
-export { create, div, hide, show, offset, hideAll, empty, pageCoordinates, relativeDOMBBox, applyStyle, guid }
+/**
+ * Translate the mouse coordinates for the event to the coordinates for the given target element
+ * @param e
+ * @param target
+ * @returns {{x: number, y: number}}
+ */
+function translateMouseCoordinates(e, target) {
+
+    const coords = pageCoordinates(e);
+    const off = offset(e)
+    const posx = coords.x - off.left;
+    const posy = coords.y - off.top;
+
+    return {x: posx, y: posy}
+}
+
+export { create, div, hide, show, offset, hideAll, empty, pageCoordinates, relativeDOMBBox, applyStyle, guid, translateMouseCoordinates }
