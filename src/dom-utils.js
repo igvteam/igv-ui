@@ -89,6 +89,18 @@ function guid  () {
     return ("0000" + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
 }
 
+let getMouseXY = (domElement, event) => {
+
+    const { clientX, clientY } = event;
+
+    // a DOMRect object with eight properties:
+    // left, top, right, bottom, x, y, width, height
+    const { left, top, width, height } = domElement.getBoundingClientRect();
+
+    return { x: clientX - left,  y: clientY - top, xNormalized: (clientX - left)/width, yNormalized: (clientY - top)/height };
+
+};
+
 /**
  * Translate the mouse coordinates for the event to the coordinates for the given target element
  * @param e
@@ -97,12 +109,17 @@ function guid  () {
  */
 function translateMouseCoordinates(e, target) {
 
-    const coords = pageCoordinates(e);
-    const off = offset(e)
-    const posx = coords.x - off.left;
-    const posy = coords.y - off.top;
+    const { x, y } = pageCoordinates(e);
+    const { left, top } = offset(target);
 
-    return {x: posx, y: posy}
+    const xx = x - left;
+    const yy = y - top;
+
+    const { x: xxx, y: yyy } = getMouseXY(target, e);
+
+    console.log(`legacy ${ xx } ${ yy } getMouse ${ xxx } ${ yyy }`);
+
+    return { x: xx, y: yy }
 }
 
 export { create, div, hide, show, offset, hideAll, empty, pageCoordinates, relativeDOMBBox, applyStyle, guid, translateMouseCoordinates }
