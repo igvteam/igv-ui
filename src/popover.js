@@ -26,7 +26,7 @@
 import makeDraggable from "./draggable.js";
 import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
 import {div, empty, hide, hideAll, pageCoordinates, show} from "./dom-utils.js";
-import {createCheckbox} from "./bootstrap-icons.js"
+import {createCheckbox} from "./icons.js"
 import ColorPicker from "./colorPicker.js";
 
 class Popover {

@@ -1,4 +1,4 @@
-import {createIcon} from "./bootstrap-icons.js";
+import {createIcon} from "./icons.js";
 import {appleCrayonPalette} from "./colorPalletes.js"
 import {div} from "./dom-utils.js"
 import makeDraggable from "./draggable.js"

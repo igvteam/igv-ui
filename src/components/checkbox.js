@@ -1,5 +1,5 @@
 import {div} from "../dom-utils.js";
-import {createIcon} from "../bootstrap-icons.js";
+import {createIcon} from "../icons.js";
 
 const style = {
     display: 'flex',
