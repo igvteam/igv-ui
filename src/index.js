@@ -31,4 +31,18 @@ function stylesheetExists(stylesheetName) {
 }
 
 
-export {AlertDialog, InputDialog, Popover, Color, ColorPicker, Checkbox, Panel, Textbox, Dialog, DOMUtils, UIUtils, Icon, makeDraggable}
+export {
+    AlertDialog,
+    InputDialog,
+    Popover,
+    Color,
+    ColorPicker,
+    Checkbox,
+    Panel,
+    Textbox,
+    Dialog,
+    DOMUtils,
+    UIUtils,
+    Icon,
+    makeDraggable
+}
