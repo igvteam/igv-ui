@@ -1,18 +1,18 @@
-import * as DomUtils from "../dom-utils.js"
+import * as DOMUtils from "../dom-utils.js"
 
 class Textbox {
 
     constructor({text: value, label, onchange}) {
 
-        this.elem = DomUtils.div({class: 'igv-ui-textbox'});
+        this.elem = DOMUtils.div({class: 'igv-ui-textbox'});
 
         if(label) {
-            const div = DomUtils.div();
+            const div = DOMUtils.div();
             div.innerHTML = label;
             this.elem.appendChild(div);
         }
 
-        this.textBox = DomUtils.create('input');
+        this.textBox = DOMUtils.create('input');
         if(value) {
             this.textBox.value = value;
         }

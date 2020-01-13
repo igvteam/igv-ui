@@ -1,4 +1,4 @@
-import * as DomUtils from '../dom-utils.js';
+import * as DOMUtils from '../dom-utils.js';
 
 
 const rowStyle = {
@@ -26,7 +26,7 @@ class Panel {
 
     constructor() {
 
-        this.elem = DomUtils.create('div', {
+        this.elem = DOMUtils.create('div', {
             class: 'igv-ui-panel-column'
         })
     }
@@ -41,7 +41,7 @@ class Panel {
         }
         else {
             // Assuming a string, possibly html
-            const wrapper = DomUtils.div();
+            const wrapper = DOMUtils.div();
             wrapper.innerHTML = component;
             this.elem.append(wrapper);
         }
