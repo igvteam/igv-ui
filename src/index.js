@@ -14,6 +14,7 @@ import * as Icon from "./icons.js"
 import * as Color from './colorPalletes.js';
 import makeDraggable from "./draggable.js"
 import embedCSS from "./embedCSS.js"
+import { createGenericSelectModal } from './genericSelectModal.js'
 
 if(!stylesheetExists("igv-ui.css")) {
     embedCSS();
@@ -48,4 +49,5 @@ export {
     Icon,
     GenericContainer,
     makeDraggable,
+    createGenericSelectModal
 }
