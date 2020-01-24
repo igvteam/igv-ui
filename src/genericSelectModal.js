@@ -1,5 +1,5 @@
 
-const createGenericSelectModal = id => {
+const createGenericSelectModal = (id, select_id) => {
 
     const generic_select_modal_string =
         `<div id="${ id }" class="modal">
@@ -17,7 +17,7 @@ const createGenericSelectModal = id => {
         
                     <div class="modal-body">
                         <div class="form-group">
-                            <select class="form-control"></select>
+                            <select id="${ select_id }" class="form-control"></select>
                         </div>
                     </div>
 
