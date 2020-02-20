@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/igvteam/igv-ui#readme",
   "devDependencies": {
-    "rollup": "^1.25.0",
-    "sass": "^1.23.3"
+    "rollup": "^1.31.1",
+    "sass": "^1.25.0"
   }
 }
