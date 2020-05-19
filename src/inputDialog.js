@@ -76,11 +76,11 @@ class InputDialog {
         this.cancel.addEventListener('click', cancel);
 
         function cancel() {
-            if (typeof self.callback === 'function') {
-                self.callback(undefined);
-                self.callback = undefined;
-            }
-            self.input.value = undefined;
+            // if (typeof self.callback === 'function') {
+            //     self.callback(undefined);
+            //     self.callback = undefined;
+            // }
+            self.input.value = '';
             hide(self.container);
         }
 
