@@ -86,14 +86,14 @@ class InputDialog {
 
     }
 
-    present({ label, value, callback }, e) {
+    present(options, e) {
 
-        this.label.textContent = label;
-        this.input.value = value;
-        this.callback = callback;
+        this.label.textContent = options.label;
+        this.input.value = options.value;
+        this.callback = options.callback;
 
-        const { x, y } = pageCoordinates(e);
-        this.clampLocation(x, y);
+        const page = pageCoordinates(e);
+        this.clampLocation(page.x, page.y);
 
         show(this.container);
     }
