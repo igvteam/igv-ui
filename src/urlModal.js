@@ -1,4 +1,4 @@
-const createModal = (id, title) => {
+const createURLModal = (id, title) => {
 
     const html =
         `<div id="${ id }" class="modal">
@@ -33,4 +33,4 @@ const createModal = (id, title) => {
     return html;
 };
 
-export { createModal };
+export { createURLModal };
