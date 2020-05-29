@@ -16,6 +16,7 @@ import makeDraggable from "./draggable.js"
 import embedCSS from "./embedCSS.js"
 import { createGenericSelectModal } from './genericSelectModal.js'
 import { createTrackURLModal } from './trackURLModal.js'
+import { createModal } from "./modal.js";
 
 if(!stylesheetExists("igv-ui.css")) {
     embedCSS();
@@ -50,6 +51,7 @@ export {
     Icon,
     GenericContainer,
     makeDraggable,
+    createModal,
     createGenericSelectModal,
     createTrackURLModal
 }
