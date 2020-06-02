@@ -17,6 +17,8 @@ import embedCSS from "./embedCSS.js"
 import { createGenericSelectModal } from './genericSelectModal.js'
 import { createTrackURLModal } from './trackURLModal.js'
 import { createURLModal } from "./urlModal.js";
+import { dropboxButtonImageBase64 } from "./createDropboxButtonImage.js";
+import { googleDriveButtonImageBase64 } from "./createGoogleDriveButtonImage.js";
 
 if(!stylesheetExists("igv-ui.css")) {
     embedCSS();
@@ -53,5 +55,7 @@ export {
     makeDraggable,
     createURLModal,
     createGenericSelectModal,
-    createTrackURLModal
+    createTrackURLModal,
+    dropboxButtonImageBase64,
+    googleDriveButtonImageBase64
 }
