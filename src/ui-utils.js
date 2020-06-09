@@ -17,40 +17,40 @@ function attachDialogCloseHandlerWithParent(parent, closeHandler) {
 
 function createColorSwatchSelector(container, colorHandler, defaultColors) {
 
-    const appleColors = Object.values(appleCrayonPalette);
+    const hexColorStrings = Object.values(appleCrayonPalette);
 
-    for (let color of appleColors) {
+    for (let hexColorString of hexColorStrings) {
         const swatch = div({ class: 'igv-ui-color-swatch' });
         container.appendChild(swatch);
-        decorateSwatch(swatch, color, colorHandler)
+        decorateSwatch(swatch, hexColorString, colorHandler)
     }
 
     if (defaultColors) {
-        for (let color of defaultColors) {
+        for (let hexColorString of defaultColors) {
             const swatch = div({ class: 'igv-ui-color-swatch' });
             container.appendChild(swatch);
-            decorateSwatch(swatch, color, colorHandler)
+            decorateSwatch(swatch, hexColorString, colorHandler)
         }
     }
 
 }
 
-const decorateSwatch = (swatch, color, colorHandler) => {
+const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
-    swatch.style.backgroundColor = color;
+    swatch.style.backgroundColor = hexColorString;
 
-    swatch.onmouseenter = () => swatch.style.borderColor = color;
+    swatch.onmouseenter = () => swatch.style.borderColor = hexColorString;
     swatch.onmouseenter = () => swatch.style.borderColor = 'white';
 
 
     swatch.addEventListener('click', event => {
         event.stopPropagation();
-        colorHandler(color);
+        colorHandler(hexColorString);
     });
 
     swatch.addEventListener('touchend', event => {
         event.stopPropagation();
-        colorHandler(color);
+        colorHandler(hexColorString);
     });
 
 }
