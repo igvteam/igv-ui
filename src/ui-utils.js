@@ -1,5 +1,5 @@
 import {createIcon} from "./icons.js";
-import {appleCrayonPalette} from "./colorPalletes.js"
+import {appleCrayonPalette} from "./colorPalettes.js"
 import {div} from "./dom-utils.js"
 import makeDraggable from "./draggable.js"
 
@@ -15,48 +15,44 @@ function attachDialogCloseHandlerWithParent(parent, closeHandler) {
     });
 }
 
-function createColorSwatchSelector(container, colorHandler, defaultColor) {
+function createColorSwatchSelector(container, colorHandler, defaultColors) {
 
-    let appleColors = Object.values(appleCrayonPalette);
-
-    if (defaultColor && !(typeof defaultColor === 'function')) {
-        // Remove 'snow' color.
-        appleColors.splice(11, 1);
-        // Add default color.
-        appleColors.unshift(rgbToHex(defaultColor));
-    }
+    const appleColors = Object.values(appleCrayonPalette);
 
     for (let color of appleColors) {
-
-        let swatch = div({class: 'igv-ui-color-swatch'});
+        const swatch = div({ class: 'igv-ui-color-swatch' });
         container.appendChild(swatch);
+        decorateSwatch(swatch, color, colorHandler)
+    }
 
-        swatch.style.backgroundColor = color;
-
-        if ('white' === color) {
-            // do nothing
-        } else {
-
-            swatch.onmouseenter = function(){
-                this.style.borderColor = color;
-            };
-
-            swatch.onmouseleave = function(){
-                this.style.borderColor = 'white'
-            };
-
-            swatch.addEventListener('click', (event) => {
-                event.stopPropagation();
-                colorHandler(color);
-            });
-
-            swatch.addEventListener('touchend', (event) => {
-                event.stopPropagation();
-                colorHandler(color);
-            });
-
+    if (defaultColors) {
+        for (let color of defaultColors) {
+            const swatch = div({ class: 'igv-ui-color-swatch' });
+            container.appendChild(swatch);
+            decorateSwatch(swatch, color, colorHandler)
         }
     }
+
+}
+
+const decorateSwatch = (swatch, color, colorHandler) => {
+
+    swatch.style.backgroundColor = color;
+
+    swatch.onmouseenter = () => swatch.style.borderColor = color;
+    swatch.onmouseenter = () => swatch.style.borderColor = 'white';
+
+
+    swatch.addEventListener('click', event => {
+        event.stopPropagation();
+        colorHandler(color);
+    });
+
+    swatch.addEventListener('touchend', event => {
+        event.stopPropagation();
+        colorHandler(color);
+    });
+
 }
 
 function rgbToHex(rgb) {
