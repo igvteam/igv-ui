@@ -11,7 +11,7 @@ import Alert from "./alert.js";
 import * as DOMUtils from "./dom-utils.js"
 import * as UIUtils from './ui-utils.js'
 import * as Icon from "./icons.js"
-import * as Color from './colorPalletes.js';
+import * as Color from './colorPalettes.js';
 import makeDraggable from "./draggable.js"
 import embedCSS from "./embedCSS.js"
 import { createGenericSelectModal } from './genericSelectModal.js'
