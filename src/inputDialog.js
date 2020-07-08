@@ -14,6 +14,9 @@ class InputDialog {
         this.container = div({class: 'igv-ui-generic-dialog-container'});
         parent.appendChild(this.container);
 
+        this.rect = this.container.getBoundingClientRect();
+        console.log(`x ${ this.rect.x } y ${ this.rect.y } width ${ this.rect.width } height ${ this.rect.height }`)
+
         // dialog header
         const header = div({class: 'igv-ui-generic-dialog-header'});
         this.container.appendChild(header);
@@ -92,20 +95,24 @@ class InputDialog {
         this.input.value = options.value;
         this.callback = options.callback;
 
-        const page = pageCoordinates(e);
-        this.clampLocation(page.x, page.y);
+        const { x, y } = pageCoordinates(e);
+        this.clampLocation(x, y);
 
         show(this.container);
     }
 
     clampLocation(pageX, pageY) {
 
-        let popoverRect = this.container.getBoundingClientRect();
-        let parentRect = this.parent.getBoundingClientRect();
-        const y = Math.min(Math.max(pageY, parentRect.y), parentRect.y + parentRect.height - popoverRect.height);
-        const x = Math.min(Math.max(pageX, parentRect.x), parentRect.x + parentRect.width - popoverRect.width);
-        this.container.style.left = x + "px";
-        this.container.style.top = y + "px";
+        // const { width:w, height:h } = this.container.getBoundingClientRect();
+        const { width:w, height:h } = this.rect;
+        console.log(`container width ${ w } height ${ h }`)
+
+        const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
+
+        const y = Math.min(Math.max(pageY, py), py + ph - h);
+        const x = Math.min(Math.max(pageX, px), px + pw - w);
+        this.container.style.left = `${ x }px`;
+        this.container.style.top  = `${ y }px`;
     }
 }
 
