@@ -106,6 +106,19 @@ class Popover {
 
     clampLocation(pageX, pageY) {
 
+        const { width:w, height:h } = this.popover.getBoundingClientRect();
+        console.log(`Popover - this.popover - width ${ w } height ${ h }`)
+
+        const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
+
+        const y = Math.min(Math.max(pageY, py), py + ph - h);
+        const x = Math.min(Math.max(pageX, px), px + pw - w);
+        this.popover.style.left = `${ x }px`;
+        this.popover.style.top  = `${ y }px`;
+    }
+
+    _clampLocation(pageX, pageY) {
+
         let popoverRect = this.popover.getBoundingClientRect();
         let parentRect = this.parent.getBoundingClientRect();
         const y = Math.min(Math.max(pageY, parentRect.y), parentRect.y + parentRect.height - popoverRect.height);

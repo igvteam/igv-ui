@@ -105,7 +105,7 @@ class InputDialog {
 
         // const { width:w, height:h } = this.container.getBoundingClientRect();
         const { width:w, height:h } = this.rect;
-        console.log(`container width ${ w } height ${ h }`)
+        console.log(`InputDialog - this.rect - width ${ w } height ${ h }`)
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 
