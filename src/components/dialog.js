@@ -8,7 +8,7 @@ class Dialog {
 
 
         // dialog container
-        this.elem = div({class: 'igv-ui-dialog'});;
+        this.elem = div({class: 'igv-ui-dialog'});
 
         // dialog header
         const header = div({class: 'igv-ui-dialog-header'});
@@ -20,7 +20,7 @@ class Dialog {
         if(label) {
             const labelDiv = div({class: 'igv-ui-dialog-one-liner'});
             this.elem.appendChild(labelDiv);
-            labelDiv.innerHTML = label;;
+            labelDiv.innerHTML = label;
         }
 
         // input container

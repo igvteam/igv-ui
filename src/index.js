@@ -1,3 +1,5 @@
+import AlertDialog from "./alertDialog.js";
+import Alert from "./alert.js";
 import InputDialog from "./inputDialog.js"
 import Popover from "./popover.js"
 import ColorPicker from "./colorPicker.js"
@@ -21,8 +23,6 @@ if(!stylesheetExists("igv-ui.css")) {
     embedCSS();
 }
 
-
-
 function stylesheetExists(stylesheetName) {
     for (let ss of document.styleSheets) {
         ss = ss.href ? ss.href.replace(/^.*[\\\/]/, '') : '';
@@ -35,6 +35,8 @@ function stylesheetExists(stylesheetName) {
 
 
 export {
+    AlertDialog,
+    Alert,
     InputDialog,
     Popover,
     Color,
