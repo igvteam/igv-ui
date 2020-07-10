@@ -1,27 +1,24 @@
 
 // popover
 .igv-ui-popover {
-    position: absolute;
+
+    position: fixed;
     top: 0;
     left: 0;
 
-    min-width: 128px;
-
-    z-index: 4096;
+    border-color: $igv-trackgear-grey-color;
+    border-radius: $igv-trackgear-popover-border-radius;
+    border-style: solid;
+    border-width: thin;
 
     font-family: $igv-default-font-face;
     font-size: small;
     font-weight: 400;
-    color: $igv-trackgear-font-color;
+
+    z-index: 2048;
 
     background-color: white;
 
-    border-radius: $igv-trackgear-popover-border-radius;
-    border-color: $igv-trackgear-grey-color;
-    border-style: solid;
-    border-width: thin;
-
-    display: none;
 }
 
 .igv-ui-popover-header {

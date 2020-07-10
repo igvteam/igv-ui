@@ -6,22 +6,18 @@ class InputDialog {
 
     constructor(parent) {
 
-        const self = this;
-
         this.parent = parent;
 
         // dialog container
         this.container = div({class: 'igv-ui-generic-dialog-container'});
         parent.appendChild(this.container);
 
-        this.rect = this.container.getBoundingClientRect();
-        console.log(`x ${ this.rect.x } y ${ this.rect.y } width ${ this.rect.width } height ${ this.rect.height }`)
+        const { x, y, width, height } = this.container.getBoundingClientRect();
+        console.log(`InputDialog - x ${ x } y ${ y } width ${ width } height ${ height }`)
 
         // dialog header
         const header = div({class: 'igv-ui-generic-dialog-header'});
         this.container.appendChild(header);
-
-        attachDialogCloseHandlerWithParent(header, cancel);
 
         // dialog label
         this.label = div({class: 'igv-ui-generic-dialog-one-liner'});
@@ -50,42 +46,37 @@ class InputDialog {
         buttons.appendChild(this.cancel);
         this.cancel.textContent = 'Cancel';
 
-
-        //this.$container.draggable({ handle:$header.get(0) });
-        makeDraggable(this.container, header);
-
         hide(this.container);
 
-        this.input.addEventListener('keyup', function (e) {
+        this.input.addEventListener('keyup', e => {
             if (13 === e.keyCode) {
-                if (typeof self.callback === 'function') {
-                    self.callback(self.input.value);
-                    self.callback = undefined;
+                if (typeof this.callback === 'function') {
+                    this.callback(this.input.value);
+                    this.callback = undefined;
                 }
-                self.input.value = undefined;
-                hide(self.container);
+                this.input.value = undefined;
+                hide(this.container);
             }
         });
 
-        this.ok.addEventListener('click', function () {
-            if (typeof self.callback === 'function') {
-                self.callback(self.input.value);
-                self.callback = undefined;
+        this.ok.addEventListener('click', () => {
+            if (typeof this.callback === 'function') {
+                this.callback(this.input.value);
+                this.callback = undefined;
             }
-            self.input.value = undefined;
-            hide(self.container);
+            this.input.value = undefined;
+            hide(this.container);
         });
+
+        const cancel = () => {
+            this.input.value = '';
+            hide(this.container);
+        }
 
         this.cancel.addEventListener('click', cancel);
 
-        function cancel() {
-            // if (typeof self.callback === 'function') {
-            //     self.callback(undefined);
-            //     self.callback = undefined;
-            // }
-            self.input.value = '';
-            hide(self.container);
-        }
+        attachDialogCloseHandlerWithParent(header, cancel);
+        makeDraggable(this.container, header);
 
     }
 
@@ -95,17 +86,16 @@ class InputDialog {
         this.input.value = options.value;
         this.callback = options.callback;
 
+        show(this.container);
         const { x, y } = pageCoordinates(e);
         this.clampLocation(x, y);
 
-        show(this.container);
     }
 
     clampLocation(pageX, pageY) {
 
-        // const { width:w, height:h } = this.container.getBoundingClientRect();
-        const { width:w, height:h } = this.rect;
-        console.log(`InputDialog - this.rect - width ${ w } height ${ h }`)
+        const { width:w, height:h } = this.container.getBoundingClientRect();
+        console.log(`InputDialog - clampLocation() - width ${ w } height ${ h }`)
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 

@@ -33,26 +33,26 @@ class Popover {
 
     constructor(parent) {
 
-        const self = this;
-
         this.parent = parent;
 
-        // popover container
         this.popover = div({class: "igv-ui-popover"});
         parent.appendChild(this.popover);
+
+        const { x, y, width, height } = this.popover.getBoundingClientRect();
+        console.log(`Popover - constructor() - x ${ x } y ${ y } width ${ width } height ${ height }`)
 
         // popover header
         const popoverHeader = div({class: "igv-ui-popover-header"});
         this.popover.appendChild(popoverHeader);
-        attachDialogCloseHandlerWithParent(popoverHeader, function () {
-            hide(self.popover);
-        });
 
         // popover content
         this.popoverContent = div({class: "igv-ui-popover-track-popup-content"});
         this.popover.appendChild(this.popoverContent);
 
+        attachDialogCloseHandlerWithParent(popoverHeader,  () => hide(this.popover))
         makeDraggable(this.popover, popoverHeader);
+
+        this.hide()
     }
 
     hide() {
@@ -60,6 +60,12 @@ class Popover {
     }
 
     dispose() {
+        if(this.popover.parent)  {
+            this.popover.parent.removeChild(this.popover);
+        }
+    }
+
+    DEPRICATED_dispose() {
         empty(this.popover);
         Object.keys(this).forEach(function (key) {
             this[key] = undefined;
@@ -68,22 +74,20 @@ class Popover {
 
     presentMenu(e, menuItems) {
 
-        const popover = this.popover;
-
         // Only 1 popover open at a time
         hideAll('.igv-ui-popover');
 
         empty(this.popoverContent);
+        show(this.popover);
 
         if (menuItems.length > 0) {
-            const menuElements = createMenuElements(menuItems, popover);
+            const menuElements = createMenuElements(menuItems, this.popover);
             for (let item of menuElements) {
                 this.popoverContent.appendChild(item.object);
             }
 
-            const page = pageCoordinates(e);
-            this.clampLocation(page.x, page.y);
-            show(popover);
+            const { x, y } = pageCoordinates(e);
+            popupAt(this.popover, x, y);
         }
     }
 
@@ -97,35 +101,31 @@ class Popover {
         }
 
         empty(this.popoverContent);
-
-        this.popoverContent.innerHTML = content;
-        this.clampLocation(pageX, pageY);
         show(this.popover);
 
+        this.popoverContent.innerHTML = content;
+        popupAt(this.popover, pageX, pageY);
     }
 
-    clampLocation(pageX, pageY) {
+    DEPRICATED_clampLocation(pageX, pageY) {
 
         const { width:w, height:h } = this.popover.getBoundingClientRect();
-        console.log(`Popover - this.popover - width ${ w } height ${ h }`)
+        console.log(`Popover - clampLocation() - width ${ w } height ${ h }`)
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 
         const y = Math.min(Math.max(pageY, py), py + ph - h);
         const x = Math.min(Math.max(pageX, px), px + pw - w);
-        this.popover.style.left = `${ x }px`;
-        this.popover.style.top  = `${ y }px`;
+
+        this.popover.style.left = `${ pageX }px`;
+        this.popover.style.top  = `${ pageY }px`;
     }
 
-    _clampLocation(pageX, pageY) {
+}
 
-        let popoverRect = this.popover.getBoundingClientRect();
-        let parentRect = this.parent.getBoundingClientRect();
-        const y = Math.min(Math.max(pageY, parentRect.y), parentRect.y + parentRect.height - popoverRect.height);
-        const x = Math.min(Math.max(pageX, parentRect.x), parentRect.x + parentRect.width - popoverRect.width);
-        this.popover.style.left = x + "px";
-        this.popover.style.top = y + "px";
-    }
+const popupAt = (popover, pageX, pageY) => {
+    popover.style.left = `${ pageX }px`;
+    popover.style.top  = `${ pageY }px`;
 }
 
 function createMenuElements(itemList, popover) {
