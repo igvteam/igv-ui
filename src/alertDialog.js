@@ -1,3 +1,4 @@
+import makeDraggable from "./draggable.js";
 import { div, show, hide } from './dom-utils.js'
 
 const httpMessages =
@@ -44,6 +45,8 @@ class AlertDialog {
             self.body.innerHTML = '';
             hide(self.container);
         });
+
+        makeDraggable(this.container, header);
 
         hide(this.container);
     }

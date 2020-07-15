@@ -20,7 +20,10 @@ import { createURLModal } from "./urlModal.js";
 import { dropboxButtonImageBase64, googleDriveButtonImageBase64, dropboxDropdownItem, googleDriveDropdownItem } from './markupFactory.js'
 
 if(!stylesheetExists("igv-ui.css")) {
+    console.log('IGV-UI. Call embedCSS()');
     embedCSS();
+} else {
+    console.log('IGV-UI. Did not call embedCSS()');
 }
 
 function stylesheetExists(stylesheetName) {
