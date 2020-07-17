@@ -14,10 +14,6 @@ import * as Icon from "./icons.js"
 import * as Color from './colorPalettes.js';
 import makeDraggable from "./draggable.js"
 import embedCSS from "./embedCSS.js"
-import { createGenericSelectModal } from './genericSelectModal.js'
-import { createTrackURLModal } from './trackURLModal.js'
-import { createURLModal } from "./urlModal.js";
-import { dropboxButtonImageBase64, googleDriveButtonImageBase64, dropboxDropdownItem, googleDriveDropdownItem } from './markupFactory.js'
 
 if(!stylesheetExists("igv-ui.css")) {
     console.log('IGV-UI. Call embedCSS()');
@@ -52,12 +48,5 @@ export {
     UIUtils,
     Icon,
     GenericContainer,
-    makeDraggable,
-    createURLModal,
-    createGenericSelectModal,
-    createTrackURLModal,
-    dropboxButtonImageBase64,
-    googleDriveButtonImageBase64,
-    dropboxDropdownItem,
-    googleDriveDropdownItem
+    makeDraggable
 }
