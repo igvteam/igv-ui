@@ -1,6 +1,4 @@
-import makeDraggable from "../draggable.js";
-import {attachDialogCloseHandlerWithParent} from "../ui-utils.js";
-import {div, hide, offset, show, pageCoordinates} from "../dom-utils.js"
+import { DOMUtils, UIUtils, makeDraggable } from '../../node_modules/igv-utils/src/index.js'
 
 class Dialog {
 
@@ -8,17 +6,17 @@ class Dialog {
 
 
         // dialog container
-        this.elem = div({class: 'igv-ui-dialog'});
+        this.elem = DOMUtils.div({class: 'igv-ui-dialog'});
 
         // dialog header
-        const header = div({class: 'igv-ui-dialog-header'});
+        const header = DOMUtils.div({class: 'igv-ui-dialog-header'});
         this.elem.appendChild(header);
 
-        attachDialogCloseHandlerWithParent(header, cancel);
+        UIUtils.attachDialogCloseHandlerWithParent(header, cancel);
 
         // dialog label
         if(label) {
-            const labelDiv = div({class: 'igv-ui-dialog-one-liner'});
+            const labelDiv = DOMUtils.div({class: 'igv-ui-dialog-one-liner'});
             this.elem.appendChild(labelDiv);
             labelDiv.innerHTML = label;
         }
@@ -28,22 +26,22 @@ class Dialog {
         this.elem.appendChild(content.elem);
 
         // ok | cancel
-        const buttons = div({class: 'igv-ui-dialog-ok-cancel'});
+        const buttons = DOMUtils.div({class: 'igv-ui-dialog-ok-cancel'});
         this.elem.appendChild(buttons);
 
         // ok
-        this.ok = div();
+        this.ok = DOMUtils.div();
         buttons.appendChild(this.ok);
         this.ok.textContent = 'OK';
 
         // cancel
-        this.cancel = div();
+        this.cancel = DOMUtils.div();
         buttons.appendChild(this.cancel);
         this.cancel.textContent = 'Cancel';
 
         const self = this;
         this.ok.addEventListener('click', function () {
-            hide(self.elem);
+            DOMUtils.hide(self.elem);
             if (typeof okHandler === 'function') {
                 okHandler(self);
             }
@@ -55,7 +53,7 @@ class Dialog {
 
         function cancel() {
             self.canceled = true;
-            hide(self.elem);
+            DOMUtils.hide(self.elem);
             if (typeof cancelHandler === 'function') {
                 cancelHandler(self);
             }
@@ -70,10 +68,10 @@ class Dialog {
         this.input.value = options.value;
         this.callback = options.callback;
 
-        const page = pageCoordinates(e);
+        const page = DOMUtils.pageCoordinates(e);
         this.clampLocation(page.x, page.y);
 
-        show(this.elem);
+        DOMUtils.show(this.elem);
     }
 
     clampLocation(pageX, pageY) {

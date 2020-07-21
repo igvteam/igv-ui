@@ -1,5 +1,5 @@
+import { UIUtils } from '../node_modules/igv-utils/src/index.js'
 import GenericContainer from "./genericContainer.js"
-import {createColorSwatchSelector} from "./ui-utils.js"
 
 class ColorPicker extends GenericContainer {
 
@@ -7,7 +7,7 @@ class ColorPicker extends GenericContainer {
 
         super({ parent, top, left, width: (width || 364), height, border: '1px solid gray'})
 
-        createColorSwatchSelector(this.container, colorHandler, defaultColor);
+        UIUtils.createColorSwatchSelector(this.container, colorHandler, defaultColor);
   }
 
 }

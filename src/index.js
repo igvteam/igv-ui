@@ -8,18 +8,13 @@ import Panel from "../src/components/panel.js";
 import Textbox from "../src/components/textbox.js"
 import Dialog from "../src/components/dialog.js"
 import GenericContainer from "./genericContainer.js"
-import * as DOMUtils from "./dom-utils.js"
-import * as UIUtils from './ui-utils.js'
-import * as Icon from "./icons.js"
-import * as Color from './colorPalettes.js';
-import makeDraggable from "./draggable.js"
+import { UIUtils } from '../node_modules/igv-utils/src/index.js'
 import embedCSS from "./embedCSS.js"
 
 if(!stylesheetExists("igv-ui.css")) {
-    console.log('IGV-UI. Call embedCSS()');
+    console.log('igv-ui. will call embedCSS() ...');
     embedCSS();
-} else {
-    console.log('IGV-UI. Did not call embedCSS()');
+    console.log('... done.');
 }
 
 function stylesheetExists(stylesheetName) {
@@ -38,15 +33,11 @@ export {
     Alert,
     InputDialog,
     Popover,
-    Color,
     ColorPicker,
     Checkbox,
     Panel,
     Textbox,
     Dialog,
-    DOMUtils,
     UIUtils,
-    Icon,
-    GenericContainer,
-    makeDraggable
+    GenericContainer
 }

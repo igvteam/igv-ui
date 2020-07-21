@@ -23,10 +23,7 @@
  * THE SOFTWARE.
  */
 
-import makeDraggable from "./draggable.js";
-import {attachDialogCloseHandlerWithParent} from "./ui-utils.js";
-import {div, empty, hide, hideAll, pageCoordinates, show} from "./dom-utils.js";
-import {createCheckbox} from "./icons.js"
+import { DOMUtils, UIUtils, Icon, makeDraggable } from '../node_modules/igv-utils/src/index.js'
 import ColorPicker from "./colorPicker.js";
 
 class Popover {
@@ -35,28 +32,28 @@ class Popover {
 
         this.parent = parent;
 
-        this.popover = div({class: "igv-ui-popover"});
+        this.popover = DOMUtils.div({class: "igv-ui-popover"});
         parent.appendChild(this.popover);
 
         const { x, y, width, height } = this.popover.getBoundingClientRect();
         console.log(`Popover - constructor() - x ${ x } y ${ y } width ${ width } height ${ height }`)
 
         // popover header
-        const popoverHeader = div({class: "igv-ui-popover-header"});
+        const popoverHeader = DOMUtils.div({class: "igv-ui-popover-header"});
         this.popover.appendChild(popoverHeader);
 
         // popover content
-        this.popoverContent = div({class: "igv-ui-popover-track-popup-content"});
+        this.popoverContent = DOMUtils.div({class: "igv-ui-popover-track-popup-content"});
         this.popover.appendChild(this.popoverContent);
 
-        attachDialogCloseHandlerWithParent(popoverHeader,  () => hide(this.popover))
+        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => DOMUtils.hide(this.popover))
         makeDraggable(this.popover, popoverHeader);
 
-        this.hide()
+        DOMUtils.hide(this.popover)
     }
 
     hide() {
-        hide(this.popover);
+        DOMUtils.hide(this.popover);
     }
 
     dispose() {
@@ -66,7 +63,7 @@ class Popover {
     }
 
     DEPRICATED_dispose() {
-        empty(this.popover);
+        DOMUtils.empty(this.popover);
         Object.keys(this).forEach(function (key) {
             this[key] = undefined;
         })
@@ -75,10 +72,10 @@ class Popover {
     presentMenu(e, menuItems) {
 
         // Only 1 popover open at a time
-        hideAll('.igv-ui-popover');
+        DOMUtils.hideAll('.igv-ui-popover');
 
-        empty(this.popoverContent);
-        show(this.popover);
+        DOMUtils.empty(this.popoverContent);
+        DOMUtils.show(this.popover);
 
         if (menuItems.length > 0) {
             const menuElements = createMenuElements(menuItems, this.popover);
@@ -86,7 +83,7 @@ class Popover {
                 this.popoverContent.appendChild(item.object);
             }
 
-            const { x, y } = pageCoordinates(e);
+            const { x, y } = DOMUtils.pageCoordinates(e);
             popupAt(this.popover, x, y);
         }
     }
@@ -94,14 +91,14 @@ class Popover {
     presentContent(pageX, pageY, content) {
 
         // Only 1 popover open at a time
-        hideAll('.igv-ui-popover');
+        DOMUtils.hideAll('.igv-ui-popover');
 
         if (undefined === content) {
             return;
         }
 
-        empty(this.popoverContent);
-        show(this.popover);
+        DOMUtils.empty(this.popoverContent);
+        DOMUtils.show(this.popover);
 
         this.popoverContent.innerHTML = content;
         popupAt(this.popover, pageX, pageY);
@@ -137,7 +134,7 @@ function createMenuElements(itemList, popover) {
             let elem;
 
             if (typeof item === 'string') {
-                elem = div();
+                elem = DOMUtils.div();
                 elem.innerHTML = item;
             } else if (typeof item === 'Node') {
                 elem = item;
@@ -147,7 +144,7 @@ function createMenuElements(itemList, popover) {
                 }
 
                 if ("checkbox" === item.type) {
-                    elem = createCheckbox("Show all bases", item.value);
+                    elem = Icon.createCheckbox("Show all bases", item.value);
                 } else if("color" === item.type) {
                     const colorPicker = new ColorPicker({
                         parent: popover.parentElement,
@@ -155,13 +152,13 @@ function createMenuElements(itemList, popover) {
                         //defaultColor: 'aqua',
                         colorHandler: (color) => item.click(color)
                     })
-                    elem = div();
+                    elem = DOMUtils.div();
                     if (typeof item.label === 'string') {
                         elem.textContent = item.label;
                     }
                     const clickHandler =  e => {
                         colorPicker.show();
-                        hide(popover);
+                        DOMUtils.hide(popover);
                         e.preventDefault();
                         e.stopPropagation()
                     }
@@ -174,7 +171,7 @@ function createMenuElements(itemList, popover) {
                 }
 
                 else {
-                    elem = div();
+                    elem = DOMUtils.div();
                     if (typeof item.label === 'string') {
                         elem.textContent = item.label;
                     }
@@ -191,7 +188,7 @@ function createMenuElements(itemList, popover) {
                     // eslint-disable-next-line no-inner-declarations
                     function handleClick(e) {
                         item.click();
-                        hide(popover);
+                        DOMUtils.hide(popover);
                         e.preventDefault();
                         e.stopPropagation()
                     }

@@ -1,5 +1,4 @@
-import makeDraggable from "./draggable.js";
-import { div, show, hide } from './dom-utils.js'
+import { DOMUtils, makeDraggable } from '../node_modules/igv-utils/src/index.js'
 
 const httpMessages =
     {
@@ -13,27 +12,27 @@ class AlertDialog {
     constructor(parent) {
 
         // container
-        this.container = div({class: "igv-ui-alert-dialog-container"});
+        this.container = DOMUtils.div({class: "igv-ui-alert-dialog-container"});
         parent.appendChild(this.container);
 
         // header
-        let header = div();
+        let header = DOMUtils.div();
         this.container.appendChild(header);
 
         // body container
-        let bodyContainer = div({id: 'igv-ui-alert-dialog-body'});
+        let bodyContainer = DOMUtils.div({id: 'igv-ui-alert-dialog-body'});
         this.container.appendChild(bodyContainer);
 
         // body copy
-        this.body = div({id: 'igv-ui-alert-dialog-body-copy'});
+        this.body = DOMUtils.div({id: 'igv-ui-alert-dialog-body-copy'});
         bodyContainer.appendChild(this.body);
 
         // ok container
-        let ok_container = div();
+        let ok_container = DOMUtils.div();
         this.container.appendChild(ok_container);
 
         // ok
-        this.ok = div();
+        this.ok = DOMUtils.div();
         ok_container.appendChild(this.ok);
         this.ok.textContent = 'OK';
         const self = this;
@@ -43,12 +42,12 @@ class AlertDialog {
                 self.callback = undefined;
             }
             self.body.innerHTML = '';
-            hide(self.container);
+            DOMUtils.hide(self.container);
         });
 
         makeDraggable(this.container, header);
 
-        hide(this.container);
+        DOMUtils.hide(this.container);
     }
 
     present(alert, callback) {
@@ -58,7 +57,7 @@ class AlertDialog {
         }
         this.body.innerHTML = string;
         this.callback = callback;
-        show(this.container, "flex");
+        DOMUtils.show(this.container, "flex");
     }
 }
 
