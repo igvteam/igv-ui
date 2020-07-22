@@ -8,7 +8,8 @@ import Panel from "../src/components/panel.js";
 import Textbox from "../src/components/textbox.js"
 import Dialog from "../src/components/dialog.js"
 import GenericContainer from "./genericContainer.js"
-import { UIUtils } from '../node_modules/igv-utils/src/index.js'
+
+
 import embedCSS from "./embedCSS.js"
 
 if(!stylesheetExists("igv-ui.css")) {
@@ -38,6 +39,5 @@ export {
     Panel,
     Textbox,
     Dialog,
-    UIUtils,
     GenericContainer
 }

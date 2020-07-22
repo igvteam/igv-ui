@@ -320,13 +320,6 @@ const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
 };
 
-var uiUtils = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    attachDialogCloseHandlerWithParent: attachDialogCloseHandlerWithParent,
-    createColorSwatchSelector: createColorSwatchSelector,
-    makeDraggable: makeDraggable
-});
-
 /**
  * @fileoverview Zlib namespace. Zlib の仕様に準拠した圧縮は Zlib.Deflate で実装
  * されている. これは Inflate との共存を考慮している為.
@@ -6422,4 +6415,4 @@ function stylesheetExists(stylesheetName) {
     return false;
 }
 
-export { Alert, AlertDialog, Checkbox, ColorPicker, Dialog, GenericContainer, InputDialog, Panel, Popover, Textbox, uiUtils as UIUtils };
+export { Alert, AlertDialog, Checkbox, ColorPicker, Dialog, GenericContainer, InputDialog, Panel, Popover, Textbox };
