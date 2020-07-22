@@ -1,11 +1,12 @@
 
-$igv-alert-dialog-width: 300px;
+//$igv-alert-dialog-width: 300px;
+$igv-alert-dialog-width: 400px;
+$igv-alert-dialog-height: 200px;
 $igv-alert-dialog-margin: -150px;
-$igv-alert-dialog-height: 256px;
 
 $igv-alert-dialog-header-height: 24px;
 $igv-alert-dialog-ok-container-height: 64px;
-$igv-alert-dialog-ok-button-height: 36px;
+$igv-alert-dialog-ok-button-height: 30px;
 $igv-alert-dialog-body-copy-margin: 16px;
 
 .igv-ui-alert-dialog-container {
@@ -27,18 +28,16 @@ $igv-alert-dialog-body-copy-margin: 16px;
   font-size: 15px;
   font-weight: 400;
 
-  z-index: 2048;
-
   background-color: white;
 
   display: flex;
   flex-flow: column;
   flex-wrap: nowrap;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 
   // header
-  div:first-child {
+  > div:first-child {
 
     display: flex;
     flex-flow: row;
@@ -103,10 +102,11 @@ $igv-alert-dialog-body-copy-margin: 16px;
   }
 
   // ok - container
-  div:last-child {
+  > div:last-child {
 
     width: 100%;
-    height: $igv-alert-dialog-ok-container-height;
+    margin-bottom: 10px;
+
     background-color: white;
 
     display: flex;
@@ -117,7 +117,8 @@ $igv-alert-dialog-body-copy-margin: 16px;
 
     // ok - button
     div {
-      width: 98px;
+      margin: unset;
+      width: 40px;
       height: $igv-alert-dialog-ok-button-height;
 
       line-height: $igv-alert-dialog-ok-button-height;
@@ -125,7 +126,7 @@ $igv-alert-dialog-body-copy-margin: 16px;
 
       color: white;
       font-family: $igv-default-font-face;
-      font-size: medium;
+      font-size: small;
       font-weight: 400;
 
       border-color: #2B81AF;

@@ -5,13 +5,13 @@
   "browser": "src/index.js",
   "module": "src/index.js",
   "files": [
-    "src/**"
+    "dist/**"
   ],
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "build": "node scripts/generateEmbedCss.js",
+    "build": "node scripts/generateEmbedCss.js && npx rollup --config",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,5 +31,8 @@
   "devDependencies": {
     "rollup": "^1.31.1",
     "sass": "^1.25.0"
+  },
+  "dependencies": {
+    "igv-utils": "github:igvteam/igv-utils"
   }
 }

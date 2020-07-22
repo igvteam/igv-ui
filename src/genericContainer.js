@@ -23,17 +23,15 @@
  * THE SOFTWARE.
  */
 
-import makeDraggable from "./draggable.js";
-import {div, hide, show} from "./dom-utils.js";
-import {attachDialogCloseHandlerWithParent} from "./ui-utils.js"
+import { DOMUtils, UIUtils, makeDraggable } from '../node_modules/igv-utils/src/index.js'
 
 class GenericContainer {
 
     constructor({parent,  top, left, width, height, border, closeHandler}) {
 
-        let container = div({class: 'igv-ui-generic-container'});
+        let container = DOMUtils.div({class: 'igv-ui-generic-container'});
         parent.appendChild(container);
-        hide(container);
+        DOMUtils.hide(container);
         this.container = container;
 
         if(top !== undefined) {
@@ -57,12 +55,12 @@ class GenericContainer {
         // this.container.offset({left: this.origin.x, top: this.origin.y});
 
         // header
-        const header = div();
+        const header = DOMUtils.div();
         this.container.appendChild(header);
 
         // close button
-        attachDialogCloseHandlerWithParent(header, (e) => {
-            hide(this.container);
+        UIUtils.attachDialogCloseHandlerWithParent(header, (e) => {
+            DOMUtils.hide(this.container);
             if(typeof closeHandler === "function") {
                 closeHandler(e);
             }
@@ -72,11 +70,11 @@ class GenericContainer {
     }
 
     show() {
-        show(this.container);
+        DOMUtils.show(this.container);
     }
 
     hide() {
-        hide(this.container)
+        DOMUtils.hide(this.container)
     }
 
     dispose() {

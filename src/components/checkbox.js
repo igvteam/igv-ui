@@ -1,5 +1,4 @@
-import {div} from "../dom-utils.js";
-import {createIcon} from "../icons.js";
+import { DOMUtils, Icon } from '../../node_modules/igv-utils/src/index.js'
 
 const style = {
     display: 'flex',
@@ -14,9 +13,9 @@ class Checkbox {
 
         this.state = selected;
         this.onchange = onchange;
-        this.elem = div({style: style});
+        this.elem = DOMUtils.div({style: style});
 
-        const svgDiv = div({
+        const svgDiv = DOMUtils.div({
             style: {
                 width: '14px',
                 height: '14px',
@@ -25,14 +24,14 @@ class Checkbox {
                 borderStyle: 'solid'
             }
         })
-        this.svg = createIcon('check', (true === selected ? '#444' : 'transparent'));
+        this.svg = Icon.createIcon('check', (true === selected ? '#444' : 'transparent'));
         this.svg.style.width = '12px';
         this.svg.style.height = '12px';
         svgDiv.appendChild(this.svg);
         this.elem.appendChild(svgDiv);
 
         if (label) {
-            const d = div({style: {marginLeft: '5px'}}); //{ class: 'igv-some-label-class' });
+            const d = DOMUtils.div({style: {marginLeft: '5px'}}); //{ class: 'igv-some-label-class' });
             d.textContent = label
             this.elem.appendChild(d);
         }
