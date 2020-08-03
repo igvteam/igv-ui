@@ -14,7 +14,7 @@ class AlertDialog {
         // container
         this.container = DOMUtils.div({class: "igv-ui-alert-dialog-container"});
         parent.appendChild(this.container);
-        this.container.setAttribute('tabIndex', '0')
+        this.container.setAttribute('tabIndex', '-1')
 
         // header
         let header = DOMUtils.div();
@@ -76,6 +76,7 @@ class AlertDialog {
         this.body.innerHTML = string;
         this.callback = callback;
         DOMUtils.show(this.container, "flex");
+        this.container.focus()
     }
 }
 
