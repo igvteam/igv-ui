@@ -17,8 +17,12 @@ class AlertDialog {
         this.container.setAttribute('tabIndex', '-1')
 
         // header
-        let header = DOMUtils.div();
+        const header = DOMUtils.div();
         this.container.appendChild(header);
+
+        const error = DOMUtils.div();
+        header.appendChild(error);
+        error.textContent = "ERROR";
 
         // body container
         let bodyContainer = DOMUtils.div({id: 'igv-ui-alert-dialog-body'});
