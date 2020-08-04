@@ -59,8 +59,9 @@ $igv-alert-dialog-body-copy-margin: 16px;
 
     background-color: #eee;
 
-    div {
+    div:first-child {
       // ERROR
+      padding-left: 8px;
     }
 
   }
