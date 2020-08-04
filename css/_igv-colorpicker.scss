@@ -10,6 +10,8 @@ $igv-color-swatch-border-width: 2px;
   justify-content: center;
   align-items: center;
 
+  box-sizing: content-box;
+  
   width: $igv-color-swatch-size;
   height: $igv-color-swatch-size;
 

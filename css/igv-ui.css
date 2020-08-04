@@ -85,6 +85,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  box-sizing: content-box;
   width: 32px;
   height: 32px;
   border-style: solid;
