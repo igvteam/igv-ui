@@ -280,46 +280,6 @@ function attachDialogCloseHandlerWithParent(parent, closeHandler) {
     });
 }
 
-function createColorSwatchSelector(container, colorHandler, defaultColors) {
-
-    const hexColorStrings = Object.values(appleCrayonPalette);
-
-    for (let hexColorString of hexColorStrings) {
-        const swatch = div({ class: 'igv-ui-color-swatch' });
-        container.appendChild(swatch);
-        decorateSwatch(swatch, hexColorString, colorHandler);
-    }
-
-    if (defaultColors) {
-        for (let hexColorString of defaultColors) {
-            const swatch = div({ class: 'igv-ui-color-swatch' });
-            container.appendChild(swatch);
-            decorateSwatch(swatch, hexColorString, colorHandler);
-        }
-    }
-
-}
-
-const decorateSwatch = (swatch, hexColorString, colorHandler) => {
-
-    swatch.style.backgroundColor = hexColorString;
-
-    swatch.onmouseenter = () => swatch.style.borderColor = hexColorString;
-    swatch.onmouseenter = () => swatch.style.borderColor = 'white';
-
-
-    swatch.addEventListener('click', event => {
-        event.stopPropagation();
-        colorHandler(hexColorString);
-    });
-
-    swatch.addEventListener('touchend', event => {
-        event.stopPropagation();
-        colorHandler(hexColorString);
-    });
-
-};
-
 /**
  * @fileoverview Zlib namespace. Zlib の仕様に準拠した圧縮は Zlib.Deflate で実装
  * されている. これは Inflate との共存を考慮している為.
@@ -5987,14 +5947,53 @@ class GenericContainer {
 
 class ColorPicker extends GenericContainer {
 
-    constructor({parent, top, left, width, height, defaultColor, colorHandler}) {
+    constructor({parent, top, left, width, height, defaultColors, colorHandler}) {
 
-        super({ parent, top, left, width: (width || 364), height, border: '1px solid gray'});
+        super({ parent, top, left, width, height, border: '1px solid gray'});
 
-        createColorSwatchSelector(this.container, colorHandler, defaultColor);
+        createColorSwatchSelector(this.container, colorHandler, defaultColors);
   }
 
 }
+
+const createColorSwatchSelector = (container, colorHandler, defaultColors) => {
+
+    const hexColorStrings = Object.values(appleCrayonPalette);
+
+    for (let hexColorString of hexColorStrings) {
+        const swatch = div({ class: 'igv-ui-color-swatch' });
+        container.appendChild(swatch);
+        decorateSwatch(swatch, hexColorString, colorHandler);
+    }
+
+    if (defaultColors) {
+        for (let hexColorString of defaultColors) {
+            const swatch = div({ class: 'igv-ui-color-swatch' });
+            container.appendChild(swatch);
+            decorateSwatch(swatch, hexColorString, colorHandler);
+        }
+    }
+
+};
+
+const decorateSwatch = (swatch, hexColorString, colorHandler) => {
+
+    swatch.style.backgroundColor = hexColorString;
+
+    swatch.onmouseenter = () => swatch.style.borderColor = hexColorString;
+    swatch.onmouseenter = () => swatch.style.borderColor = 'white';
+
+    swatch.addEventListener('click', event => {
+        event.stopPropagation();
+        colorHandler(hexColorString);
+    });
+
+    swatch.addEventListener('touchend', event => {
+        event.stopPropagation();
+        colorHandler(hexColorString);
+    });
+
+};
 
 /*
  * The MIT License (MIT)
