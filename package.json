@@ -32,6 +32,6 @@
     "sass": "^1.25.0"
   },
   "dependencies": {
-    "igv-utils": "github:igvteam/igv-utils#v1.0.0"
+    "igv-utils": "github:igvteam/igv-utils#v1.0.1"
   }
 }
