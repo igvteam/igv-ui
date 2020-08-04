@@ -4,14 +4,14 @@ $igv-color-swatch-border-width: 2px;
 
 .igv-ui-color-swatch {
 
+  box-sizing: content-box;
+
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 
-  box-sizing: content-box;
-  
   width: $igv-color-swatch-size;
   height: $igv-color-swatch-size;
 

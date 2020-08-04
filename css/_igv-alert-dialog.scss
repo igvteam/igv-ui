@@ -11,6 +11,8 @@ $igv-alert-dialog-body-copy-margin: 16px;
 
 .igv-ui-alert-dialog-container {
 
+  box-sizing: content-box;
+
   position: absolute;
   z-index: 2048;
   top:50%;
