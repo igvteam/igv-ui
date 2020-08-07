@@ -1,7 +1,7 @@
 import strip from 'rollup-plugin-strip';
 export default [
     {
-        input: 'src/index.js',
+        input: 'js/index.js',
         output:
             [
                 {
