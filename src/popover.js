@@ -154,7 +154,7 @@ function createMenuElements(itemList, popover) {
                     })
                     elem = DOMUtils.div();
                     if (typeof item.label === 'string') {
-                        elem.textContent = item.label;
+                        elem.innerHTML = item.label;
                     }
                     const clickHandler =  e => {
                         colorPicker.show();
@@ -173,7 +173,7 @@ function createMenuElements(itemList, popover) {
                 else {
                     elem = DOMUtils.div();
                     if (typeof item.label === 'string') {
-                        elem.textContent = item.label;
+                        elem.innerHTML = item.label;
                     }
                 }
 
