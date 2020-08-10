@@ -5573,7 +5573,6 @@ function dragStart(event) {
 function drag(event) {
 
     if (!dragData) {
-        console.log("No drag data!");
         return;
     }
     event.stopPropagation();
@@ -5587,7 +5586,6 @@ function drag(event) {
 function dragEnd(event) {
 
     if (!dragData) {
-        console.log("No drag data!");
         return;
     }
     event.stopPropagation();
@@ -5768,7 +5766,6 @@ class InputDialog {
         parent.appendChild(this.container);
 
         const { x, y, width, height } = this.container.getBoundingClientRect();
-        console.log(`InputDialog - x ${ x } y ${ y } width ${ width } height ${ height }`);
 
         // dialog header
         const header = div({class: 'igv-ui-generic-dialog-header'});
@@ -5850,7 +5847,6 @@ class InputDialog {
     clampLocation(pageX, pageY) {
 
         const { width:w, height:h } = this.container.getBoundingClientRect();
-        console.log(`InputDialog - clampLocation() - width ${ w } height ${ h }`);
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 
@@ -6030,7 +6026,6 @@ class Popover {
         parent.appendChild(this.popover);
 
         const { x, y, width, height } = this.popover.getBoundingClientRect();
-        console.log(`Popover - constructor() - x ${ x } y ${ y } width ${ width } height ${ height }`);
 
         // popover header
         const popoverHeader = div({class: "igv-ui-popover-header"});
@@ -6101,7 +6096,6 @@ class Popover {
     DEPRICATED_clampLocation(pageX, pageY) {
 
         const { width:w, height:h } = this.popover.getBoundingClientRect();
-        console.log(`Popover - clampLocation() - width ${ w } height ${ h }`);
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 
@@ -6422,9 +6416,7 @@ function embedCSS() {
 }
 
 if(!stylesheetExists("igv-ui.css")) {
-    console.log('igv-ui. will call embedCSS() ...');
     embedCSS();
-    console.log('... done.');
 }
 
 function stylesheetExists(stylesheetName) {
