@@ -3,10 +3,10 @@ import Alert from "./alert.js";
 import InputDialog from "./inputDialog.js"
 import Popover from "./popover.js"
 import ColorPicker from "./colorPicker.js"
-import Checkbox from "../src/components/checkbox.js";
-import Panel from "../src/components/panel.js";
-import Textbox from "../src/components/textbox.js"
-import Dialog from "../src/components/dialog.js"
+import Checkbox from ".//components/checkbox.js";
+import Panel from ".//components/panel.js";
+import Textbox from ".//components/textbox.js"
+import Dialog from ".//components/dialog.js"
 import GenericContainer from "./genericContainer.js"
 
 
