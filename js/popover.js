@@ -56,17 +56,20 @@ class Popover {
         DOMUtils.hide(this.popover);
     }
 
-    dispose() {
-        if(this.popover.parent)  {
-            this.popover.parent.removeChild(this.popover);
-        }
-    }
+    // dispose() {
+    //     if(this.parent)  {
+    //         this.parent.removeChild(this.popover);
+    //     }
+    // }
 
-    DEPRICATED_dispose() {
-        DOMUtils.empty(this.popover);
-        Object.keys(this).forEach(function (key) {
-            this[key] = undefined;
-        })
+    dispose() {
+
+        this.popover.parentNode.removeChild(this.popover);
+
+        const keys = Object.keys(this)
+        for (let key of keys) {
+            this[ key ] = undefined
+        }
     }
 
     presentMenu(e, menuItems) {
