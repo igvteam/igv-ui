@@ -56,12 +56,6 @@ class Popover {
         DOMUtils.hide(this.popover);
     }
 
-    // dispose() {
-    //     if(this.parent)  {
-    //         this.parent.removeChild(this.popover);
-    //     }
-    // }
-
     dispose() {
 
         this.popover.parentNode.removeChild(this.popover);
@@ -91,6 +85,24 @@ class Popover {
         }
     }
 
+    presentContentWithEvent(e, content) {
+
+        // Only 1 popover open at a time
+        DOMUtils.hideAll('.igv-ui-popover');
+
+        if (undefined === content) {
+            return;
+        }
+
+        DOMUtils.empty(this.popoverContent);
+        DOMUtils.show(this.popover);
+
+        this.popoverContent.innerHTML = content;
+
+        const { x, y } = DOMUtils.pageCoordinates(e);
+        popupAt(this.popover, x, y);
+    }
+
     presentContent(pageX, pageY, content) {
 
         // Only 1 popover open at a time
@@ -106,26 +118,12 @@ class Popover {
         this.popoverContent.innerHTML = content;
         popupAt(this.popover, pageX, pageY);
     }
-
-    DEPRICATED_clampLocation(pageX, pageY) {
-
-        const { width:w, height:h } = this.popover.getBoundingClientRect();
-        console.log(`Popover - clampLocation() - width ${ w } height ${ h }`)
-
-        const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
-
-        const y = Math.min(Math.max(pageY, py), py + ph - h);
-        const x = Math.min(Math.max(pageX, px), px + pw - w);
-
-        this.popover.style.left = `${ pageX }px`;
-        this.popover.style.top  = `${ pageY }px`;
-    }
-
 }
 
 const popupAt = (popover, pageX, pageY) => {
-    popover.style.left = `${ pageX }px`;
-    popover.style.top  = `${ pageY }px`;
+    const { x, y } = popover.parentNode.getBoundingClientRect()
+    popover.style.left = `${ pageX - x }px`
+    popover.style.top  = `${ pageY - y }px`
 }
 
 function createMenuElements(itemList, popover) {
@@ -206,7 +204,6 @@ function createMenuElements(itemList, popover) {
     }
     return list;
 }
-
 
 export default Popover;
 
