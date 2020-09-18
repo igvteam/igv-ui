@@ -5954,7 +5954,8 @@ class ColorPicker extends GenericContainer {
 
 const createColorSwatchSelector = (container, colorHandler, defaultColors) => {
 
-    const hexColorStrings = Object.values(appleCrayonPalette);
+    // No white
+    const hexColorStrings = Object.values(appleCrayonPalette).filter(hex => '#ffffff' !== hex);
 
     for (let hexColorString of hexColorStrings) {
         const swatch = div({ class: 'igv-ui-color-swatch' });
