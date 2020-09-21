@@ -6434,4 +6434,4 @@ function stylesheetExists(stylesheetName) {
     return false;
 }
 
-export { Alert, AlertDialog, Checkbox, ColorPicker, Dialog, GenericContainer, InputDialog, Panel, Popover, Textbox };
+export { Alert, AlertDialog, Checkbox, ColorPicker, Dialog, GenericContainer, InputDialog, Panel, Popover, Textbox, createColorSwatchSelector };
