@@ -51,4 +51,5 @@ const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
 }
 
+export { createColorSwatchSelector }
 export default ColorPicker
