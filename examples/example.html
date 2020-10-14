@@ -19,8 +19,10 @@
 <div id="test" style="width:500px;height:100px;"></div>
 <script type="module">
 
-    import {AlertDialog, InputDialog, Popover, ColorPicker, DOMUtils, Checkbox, Panel, Textbox, Dialog}
-        from "../dist/igv-ui.js"
+    import {AlertDialog, InputDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog}
+        from "../js/index.js";
+    import { DOMUtils, makeDraggable } from '../node_modules/igv-utils/src/index.js'
+
 
     const parent = document.getElementById("test");
 
