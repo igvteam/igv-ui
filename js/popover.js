@@ -69,19 +69,20 @@ class Popover {
     presentMenu(e, menuItems) {
 
         // Only 1 popover open at a time
-        DOMUtils.hideAll('.igv-ui-popover');
+        DOMUtils.hideAll('.igv-ui-popover')
 
-        DOMUtils.empty(this.popoverContent);
-        DOMUtils.show(this.popover);
+        DOMUtils.empty(this.popoverContent)
+        DOMUtils.show(this.popover)
 
         if (menuItems.length > 0) {
-            const menuElements = createMenuElements(menuItems, this.popover);
+            const menuElements = createMenuElements(menuItems, this.popover)
             for (let item of menuElements) {
-                this.popoverContent.appendChild(item.object);
+                this.popoverContent.appendChild(item.object)
             }
 
-            const { x, y } = DOMUtils.pageCoordinates(e);
-            popupAt(this.popover, x, y);
+            const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
+            this.popover.style.left = `${ x }px`
+            this.popover.style.top  = `${ y }px`
         }
     }
 
@@ -99,8 +100,9 @@ class Popover {
 
         this.popoverContent.innerHTML = content;
 
-        const { x, y } = DOMUtils.pageCoordinates(e);
-        popupAt(this.popover, x, y);
+        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
+        this.popover.style.left = `${ x }px`
+        this.popover.style.top  = `${ y }px`
     }
 
     presentContent(pageX, pageY, content) {

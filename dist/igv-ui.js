@@ -78,6 +78,30 @@ function applyStyle(elem, style) {
     }
 }
 
+let getMouseXY = (domElement, { clientX, clientY }) => {
+
+    // DOMRect object with eight properties: left, top, right, bottom, x, y, width, height
+    const { left, top, width, height } = domElement.getBoundingClientRect();
+
+    const x = clientX - left;
+    const y = clientY - top;
+    return { x, y, xNormalized: x/width, yNormalized: y/height };
+
+};
+
+/**
+ * Translate the mouse coordinates for the event to the coordinates for the given target element
+ * @param event
+ * @param domElement
+ * @returns {{x: number, y: number}}
+ */
+function translateMouseCoordinates(event, domElement) {
+
+    const { clientX, clientY } = event;
+    const { x, y } = getMouseXY(domElement, { clientX, clientY });
+    return { x, y }
+}
+
 function createCheckbox(name, initialState) {
     const container = div({class: 'igv-ui-trackgear-popover-check-container'});
     const svg = iconMarkup('check', (true === initialState ? '#444' : 'transparent'));
@@ -6069,8 +6093,9 @@ class Popover {
                 this.popoverContent.appendChild(item.object);
             }
 
-            const { x, y } = pageCoordinates(e);
-            popupAt(this.popover, x, y);
+            const { x, y } = translateMouseCoordinates(e, this.popover.parentNode);
+            this.popover.style.left = `${ x }px`;
+            this.popover.style.top  = `${ y }px`;
         }
     }
 
@@ -6088,8 +6113,9 @@ class Popover {
 
         this.popoverContent.innerHTML = content;
 
-        const { x, y } = pageCoordinates(e);
-        popupAt(this.popover, x, y);
+        const { x, y } = translateMouseCoordinates(e, this.popover.parentNode);
+        this.popover.style.left = `${ x }px`;
+        this.popover.style.top  = `${ y }px`;
     }
 
     presentContent(pageX, pageY, content) {
