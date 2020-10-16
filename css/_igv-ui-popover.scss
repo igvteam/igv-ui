@@ -2,6 +2,9 @@
 // popover
 .igv-ui-popover {
 
+    resize: both;
+    overflow: auto;
+
     box-sizing: content-box;
 
     position: absolute;
