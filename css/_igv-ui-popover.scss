@@ -67,8 +67,8 @@
     top: 0;
     left: 0;
     max-height: 384px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    //overflow-x: hidden;
+    //overflow-y: auto;
 
     background-color: white;
 
@@ -98,9 +98,9 @@
 
 .igv-ui-popover-value {
     padding-left: 4px;
-    overflow: hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
+    //overflow: hidden;
+    //white-space:nowrap;
+    //text-overflow:ellipsis;
     max-width:256px;
     display:inline-block;
 }

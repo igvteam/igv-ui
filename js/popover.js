@@ -28,22 +28,23 @@ import ColorPicker from "./colorPicker.js";
 
 class Popover {
 
-    constructor(parent) {
+    constructor(parent, { width, height }) {
 
         this.parent = parent;
 
-        this.popover = DOMUtils.div({class: "igv-ui-popover"});
-        parent.appendChild(this.popover);
+        // popover
+        this.popover = DOMUtils.div({ class: "igv-ui-popover" })
+        parent.appendChild(this.popover)
 
-        const { x, y, width, height } = this.popover.getBoundingClientRect();
-        console.log(`Popover - constructor() - x ${ x } y ${ y } width ${ width } height ${ height }`)
+        this.popover.style.width = `${ width }px`;
+        this.popover.style.height = `${ height }px`;
 
-        // popover header
-        const popoverHeader = DOMUtils.div({class: "igv-ui-popover-header"});
+        // header
+        const popoverHeader = DOMUtils.div();
         this.popover.appendChild(popoverHeader);
 
-        // popover content
-        this.popoverContent = DOMUtils.div({class: "igv-ui-popover-track-popup-content"});
+        // content
+        this.popoverContent = DOMUtils.div();
         this.popover.appendChild(this.popoverContent);
 
         UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => DOMUtils.hide(this.popover))
