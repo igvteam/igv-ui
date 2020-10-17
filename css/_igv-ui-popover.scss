@@ -2,10 +2,9 @@
 // popover
 .igv-ui-popover {
 
-    resize: both;
-    overflow: auto;
-
-    box-sizing: content-box;
+    direction: ltr;
+    resize: horizontal;
+    overflow-x: auto;
 
     position: absolute;
     top: 0;
@@ -23,84 +22,100 @@
     z-index: 2048;
 
     background-color: white;
-}
-
-.igv-ui-popover-header {
 
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
 
-    width: 100%;
-    height: 24px;
+    // header
+    >div:first-child {
 
-    cursor: move;
+        width: 100%;
+        height: 24px;
 
-    border-top-left-radius: $igv-trackgear-popover-border-radius;
-    border-top-right-radius: $igv-trackgear-popover-border-radius;
-    border-bottom-color: $igv-trackgear-grey-color;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
+        cursor: move;
 
-    background-color: #eee;
+        border-top-left-radius: $igv-trackgear-popover-border-radius;
+        border-top-right-radius: $igv-trackgear-popover-border-radius;
+        border-bottom-color: $igv-trackgear-grey-color;
+        border-bottom-style: solid;
+        border-bottom-width: thin;
 
-    // close button container
-    div {
-        margin-right: 4px;
-        height: 12px;
-        width: 12px;
-        color: $igv-trackgear-grey-color;
+        background-color: #eee;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+
+        // close button container
+        div {
+            margin-right: 4px;
+            height: 12px;
+            width: 12px;
+            color: $igv-trackgear-grey-color;
+        }
+
+        div:hover {
+            cursor: pointer;
+            color: #444;
+        }
+
     }
 
-    div:hover {
-        cursor: pointer;
-        color: #444;
-    }
+    // content
+    >div:last-child {
 
-
-}
-
-.igv-ui-popover-track-popup-content {
-    position: relative;
-    top: 0;
-    left: 0;
-    max-height: 384px;
-    //overflow-x: hidden;
-    //overflow-y: auto;
-
-    background-color: white;
-
-    div {
-        margin-left: 4px;
+        max-height: 384px;
         background-color: white;
+
+        overflow-y: auto;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+
+        // content row
+        >div {
+            margin-left: 4px;
+            background-color: white;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
+
+            >div:first-child {
+                font-weight: bold;
+                min-width: 128px;
+            }
+
+            hr {
+                width: 100%;
+            }
+        }
+
+        >div:hover {
+            background-color: #efefef;
+        }
+
     }
-    div:hover {
-        cursor: pointer;
-        background-color: #efefef;
-    }
-
 }
 
-.igv-ui-popover-name-value {
-    cursor: default;
-    text-wrap: none;
-    white-space:nowrap;
-    max-width: 384px;
-}
+::-webkit-resizer {
+    border: 2px solid $igv-trackgear-grey-color;
+    background: transparent;
+    //box-shadow: 0 0 2px 5px red;
+    //outline: 2px dashed green;
 
-.igv-ui-popover-name {
-    font-weight: bold;
-    padding-right: 4px;
-    float: left;
-}
-
-.igv-ui-popover-value {
-    padding-left: 4px;
-    //overflow: hidden;
-    //white-space:nowrap;
-    //text-overflow:ellipsis;
-    max-width:256px;
-    display:inline-block;
+    /*size does not work*/
+    //display:block;
+    //width: 150px !important;
+    //height: 150px !important;
 }

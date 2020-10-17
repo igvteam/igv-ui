@@ -1,6 +1,7 @@
 .igv-ui-popover {
-  resize: both;
-  overflow: auto;
+  direction: ltr;
+  resize: horizontal;
+  overflow-x: auto;
   position: absolute;
   top: 0;
   left: 0;
@@ -42,7 +43,9 @@
       cursor: pointer;
       color: #444; }
   .igv-ui-popover > div:last-child {
+    max-height: 384px;
     background-color: white;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -59,24 +62,15 @@
       .igv-ui-popover > div:last-child > div > div:first-child {
         font-weight: bold;
         min-width: 128px; }
+      .igv-ui-popover > div:last-child > div hr {
+        width: 100%; }
     .igv-ui-popover > div:last-child > div:hover {
       background-color: #efefef; }
 
-.igv-ui-popover-name-value {
-  cursor: default;
-  text-wrap: none;
-  white-space: nowrap;
-  max-width: 384px; }
-
-.igv-ui-popover-name {
-  font-weight: bold;
-  padding-right: 4px;
-  float: left; }
-
-.igv-ui-popover-value {
-  padding-left: 4px;
-  max-width: 256px;
-  display: inline-block; }
+::-webkit-resizer {
+  border: 2px solid #7F7F7F;
+  background: transparent;
+  /*size does not work*/ }
 
 .igv-ui-alert-dialog-container {
   box-sizing: content-box;
