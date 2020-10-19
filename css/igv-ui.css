@@ -1,6 +1,54 @@
 .igv-ui-popover {
+  resize: horizontal;
+  overflow-x: auto;
+  position: absolute;
+  z-index: 2048;
+  border-color: #7F7F7F;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Open Sans", sans-serif;
+  font-size: small;
+  background-color: lightpink; }
+  .igv-ui-popover > div:first-child {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 24px;
+    cursor: move;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-color: #7F7F7F;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    background-color: #eee; }
+    .igv-ui-popover > div:first-child div {
+      margin-right: 4px;
+      height: 12px;
+      width: 12px;
+      color: #7F7F7F; }
+    .igv-ui-popover > div:first-child div:hover {
+      cursor: pointer;
+      color: #444; }
+  .igv-ui-popover > div:last-child {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: auto;
+    background-color: lightcyan; }
+    .igv-ui-popover > div:last-child > div {
+      width: 100%;
+      height: 32px;
+      background-color: white; }
+    .igv-ui-popover > div:last-child hr {
+      width: 100%; }
+
+.DEPRICATED_igv-ui-popover {
   resize: both;
-  overflow: auto;
+  overflow-x: auto;
   position: absolute;
   top: 0;
   left: 0;
@@ -12,7 +60,7 @@
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   background-color: lightgreen; }
-  .igv-ui-popover > div:first-child {
+  .DEPRICATED_igv-ui-popover > div:first-child {
     width: 100%;
     min-height: 24px;
     cursor: move;
@@ -27,23 +75,24 @@
     flex-wrap: nowrap;
     justify-content: flex-end;
     align-items: center; }
-    .igv-ui-popover > div:first-child div {
+    .DEPRICATED_igv-ui-popover > div:first-child div {
       margin-right: 4px;
       height: 12px;
       width: 12px;
       color: #7F7F7F; }
-    .igv-ui-popover > div:first-child div:hover {
+    .DEPRICATED_igv-ui-popover > div:first-child div:hover {
       cursor: pointer;
       color: #444; }
-  .igv-ui-popover > div:last-child {
+  .DEPRICATED_igv-ui-popover > div:last-child {
+    overflow-y: auto;
     background-color: pink; }
-    .igv-ui-popover > div:last-child > div {
+    .DEPRICATED_igv-ui-popover > div:last-child > div {
       height: 32px;
       width: 100%;
       background-color: white; }
-    .igv-ui-popover > div:last-child > div:hover {
+    .DEPRICATED_igv-ui-popover > div:last-child > div:hover {
       background-color: #efefef; }
-    .igv-ui-popover > div:last-child hr {
+    .DEPRICATED_igv-ui-popover > div:last-child hr {
       width: 100%; }
 
 ::-webkit-resizer {

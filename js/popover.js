@@ -43,7 +43,7 @@ class Popover {
         const popoverHeader = DOMUtils.div();
         this.popover.appendChild(popoverHeader);
 
-        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.popover.style.display = 'none')
+        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.hide())
         makeDraggable(this.popover, popoverHeader);
 
         // content
