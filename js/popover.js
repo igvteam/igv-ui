@@ -36,8 +36,8 @@ class Popover {
         this.popover = DOMUtils.div({ class: "igv-ui-popover" })
         parent.appendChild(this.popover)
 
-        // this.popover.style.width = `${ width }px`;
-        // this.popover.style.height = `${ height }px`;
+        this.popover.style.width = `${ width }px`;
+        this.popover.style.height = `${ height }px`;
 
         // header
         const popoverHeader = DOMUtils.div();
