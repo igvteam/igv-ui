@@ -36,35 +36,35 @@ class Popover {
         this.popover = DOMUtils.div({ class: "igv-ui-popover" })
         parent.appendChild(this.popover)
 
-        this.popover.style.width = `${ width }px`;
+        // this.popover.style.width = `${ width }px`;
         // this.popover.style.height = `${ height }px`;
 
         // header
         const popoverHeader = DOMUtils.div();
         this.popover.appendChild(popoverHeader);
 
+        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.popover.style.display = 'none')
+        makeDraggable(this.popover, popoverHeader);
+
         // content
         this.popoverContent = DOMUtils.div();
         this.popover.appendChild(this.popoverContent);
 
-        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => DOMUtils.hide(this.popover))
-        makeDraggable(this.popover, popoverHeader);
+        this.popover.style.display = 'none'
 
-        DOMUtils.hide(this.popover)
+
     }
 
-    hide() {
-        DOMUtils.hide(this.popover);
-    }
+    presentContentWithEvent(e, content) {
 
-    dispose() {
+        this.popover.style.display = 'block'
 
-        this.popover.parentNode.removeChild(this.popover);
+        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
+        this.popover.style.left = `${ x }px`
+        this.popover.style.top  = `${ y }px`
 
-        const keys = Object.keys(this)
-        for (let key of keys) {
-            this[ key ] = undefined
-        }
+        this.popoverContent.innerHTML = content;
+
     }
 
     presentMenu(e, menuItems) {
@@ -87,25 +87,6 @@ class Popover {
         }
     }
 
-    presentContentWithEvent(e, content) {
-
-        // Only 1 popover open at a time
-        DOMUtils.hideAll('.igv-ui-popover');
-
-        if (undefined === content) {
-            return;
-        }
-
-        DOMUtils.empty(this.popoverContent);
-        DOMUtils.show(this.popover);
-
-        this.popoverContent.innerHTML = content;
-
-        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
-        this.popover.style.left = `${ x }px`
-        this.popover.style.top  = `${ y }px`
-    }
-
     presentContent(pageX, pageY, content) {
 
         // Only 1 popover open at a time
@@ -121,6 +102,22 @@ class Popover {
         this.popoverContent.innerHTML = content;
         popupAt(this.popover, pageX, pageY);
     }
+
+    hide() {
+        this.popover.style.display = 'none'
+        this.dispose()
+    }
+
+    dispose() {
+
+        this.popover.parentNode.removeChild(this.popover);
+
+        const keys = Object.keys(this)
+        for (let key of keys) {
+            this[ key ] = undefined
+        }
+    }
+
 }
 
 const popupAt = (popover, pageX, pageY) => {

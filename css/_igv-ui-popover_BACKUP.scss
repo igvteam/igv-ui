@@ -3,23 +3,29 @@
 .igv-ui-popover {
 
     resize: both;
-    overflow: auto;
+    overflow-x: auto;
 
     position: absolute;
     top: 0;
     left: 0;
 
-    z-index: 2048;
-
-    border-color: orangered;
+    border-color: $igv-trackgear-grey-color;
     border-radius: $igv-trackgear-popover-border-radius;
     border-style: solid;
     border-width: thin;
 
     font-family: $igv-default-font-face;
-    font-size: 16px;
+    font-size: 12px;
 
-    background-color: lightgreen;
+    z-index: 2048;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
 
     // header
     >div:first-child {
@@ -39,7 +45,7 @@
 
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         justify-content: flex-end;
         align-items: center;
 
@@ -61,46 +67,52 @@
     // content
     >div:last-child {
 
-        background-color: pink;
+        //max-height: 384px;
+        background-color: white;
 
-        // row
+        overflow-y: auto;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+
+        // content row
         >div {
-            height: 32px;
-            width: 100%;
 
-            //margin-top: 2px;
-            //margin-bottom: 2px;
-            //margin-left: 4px;
+            height: 32px;
+
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-left: 4px;
 
             background-color: white;
 
-            //display: flex;
-            //flex-direction: row;
-            //flex-wrap: nowrap;
-            //justify-content: flex-start;
-            //align-items: center;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
 
-            //>div:first-child {
-            //    font-weight: bold;
-            //    min-width: 128px;
-            //    background-color: lightcyan;
-            //}
+            >div:first-child {
+                font-weight: bold;
+                min-width: 128px;
+            }
 
+            hr {
+                width: 100%;
+            }
         }
 
         >div:hover {
             background-color: #efefef;
         }
 
-        hr {
-            width: 100%;
-        }
-
     }
-
 }
 
 ::-webkit-resizer {
-    border: 2px solid greenyellow;
-    background: orangered;
+    border: 2px solid $igv-trackgear-grey-color;
+    background: transparent;
 }
