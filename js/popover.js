@@ -110,7 +110,9 @@ class Popover {
 
     dispose() {
 
-        this.popover.parentNode.removeChild(this.popover);
+        if (this.popover) {
+            this.popover.parentNode.removeChild(this.popover);
+        }
 
         const keys = Object.keys(this)
         for (let key of keys) {
