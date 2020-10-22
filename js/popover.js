@@ -36,8 +36,8 @@ class Popover {
         this.popover = DOMUtils.div({ class: "igv-ui-popover" })
         parent.appendChild(this.popover)
 
-        this.popover.style.width = `${ width }px`;
-        this.popover.style.height = `${ height }px`;
+        // this.popover.style.width = `${ width }px`;
+        // this.popover.style.height = `${ height }px`;
 
         // header
         const popoverHeader = DOMUtils.div();
@@ -69,38 +69,26 @@ class Popover {
 
     presentMenu(e, menuItems) {
 
-        // Only 1 popover open at a time
-        DOMUtils.hideAll('.igv-ui-popover')
-
-        DOMUtils.empty(this.popoverContent)
-        DOMUtils.show(this.popover)
-
-        if (menuItems.length > 0) {
-            const menuElements = createMenuElements(menuItems, this.popover)
-            for (let item of menuElements) {
-                this.popoverContent.appendChild(item.object)
-            }
-
-            const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
-            this.popover.style.left = `${ x }px`
-            this.popover.style.top  = `${ y }px`
-        }
-    }
-
-    presentContent(pageX, pageY, content) {
-
-        // Only 1 popover open at a time
-        DOMUtils.hideAll('.igv-ui-popover');
-
-        if (undefined === content) {
-            return;
+        if (0 === menuItems.length) {
+            return
         }
 
-        DOMUtils.empty(this.popoverContent);
-        DOMUtils.show(this.popover);
+        // Only 1 popover open at a time
+        // DOMUtils.hideAll('.igv-ui-popover')
 
-        this.popoverContent.innerHTML = content;
-        popupAt(this.popover, pageX, pageY);
+        // DOMUtils.empty(this.popoverContent)
+        // DOMUtils.show(this.popover)
+
+        this.popover.style.display = 'block'
+
+        const menuElements = createMenuElements(menuItems, this.popover)
+        for (let item of menuElements) {
+            this.popoverContent.appendChild(item.object)
+        }
+
+        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
+        this.popover.style.left = `${ x }px`
+        this.popover.style.top  = `${ y }px`
     }
 
     hide() {
@@ -130,80 +118,75 @@ const popupAt = (popover, pageX, pageY) => {
 
 function createMenuElements(itemList, popover) {
 
-    let list;
-    if (itemList.length > 0) {
+    const list  = itemList.map(function (item, i) {
+        let elem;
 
-        list = itemList.map(function (item, i) {
-            let elem;
+        if (typeof item === 'string') {
+            elem = DOMUtils.div();
+            elem.innerHTML = item;
+        } else if (typeof item === 'Node') {
+            elem = item;
+        } else {
+            if (typeof item.init === 'function') {
+                item.init();
+            }
 
-            if (typeof item === 'string') {
+            if ("checkbox" === item.type) {
+                elem = Icon.createCheckbox("Show all bases", item.value);
+            } else if("color" === item.type) {
+                const colorPicker = new ColorPicker({
+                    parent: popover.parentElement,
+                    width: 364,
+                    //defaultColor: 'aqua',
+                    colorHandler: (color) => item.click(color)
+                })
                 elem = DOMUtils.div();
-                elem.innerHTML = item;
-            } else if (typeof item === 'Node') {
-                elem = item;
-            } else {
-                if (typeof item.init === 'function') {
-                    item.init();
+                if (typeof item.label === 'string') {
+                    elem.innerHTML = item.label;
                 }
-
-                if ("checkbox" === item.type) {
-                    elem = Icon.createCheckbox("Show all bases", item.value);
-                } else if("color" === item.type) {
-                    const colorPicker = new ColorPicker({
-                        parent: popover.parentElement,
-                        width: 364,
-                        //defaultColor: 'aqua',
-                        colorHandler: (color) => item.click(color)
-                    })
-                    elem = DOMUtils.div();
-                    if (typeof item.label === 'string') {
-                        elem.innerHTML = item.label;
-                    }
-                    const clickHandler =  e => {
-                        colorPicker.show();
-                        DOMUtils.hide(popover);
-                        e.preventDefault();
-                        e.stopPropagation()
-                    }
-                    elem.addEventListener('click', clickHandler);
-                    elem.addEventListener('touchend', clickHandler);
-                    elem.addEventListener('mouseup', function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    })
+                const clickHandler =  e => {
+                    colorPicker.show();
+                    DOMUtils.hide(popover);
+                    e.preventDefault();
+                    e.stopPropagation()
                 }
+                elem.addEventListener('click', clickHandler);
+                elem.addEventListener('touchend', clickHandler);
+                elem.addEventListener('mouseup', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+            }
 
-                else {
-                    elem = DOMUtils.div();
-                    if (typeof item.label === 'string') {
-                        elem.innerHTML = item.label;
-                    }
-                }
-
-                if (item.click && "color" !== item.type) {
-                    elem.addEventListener('click', handleClick);
-                    elem.addEventListener('touchend', handleClick);
-                    elem.addEventListener('mouseup', function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    })
-
-                    // eslint-disable-next-line no-inner-declarations
-                    function handleClick(e) {
-                        item.click();
-                        DOMUtils.hide(popover);
-                        e.preventDefault();
-                        e.stopPropagation()
-                    }
+            else {
+                elem = DOMUtils.div();
+                if (typeof item.label === 'string') {
+                    elem.innerHTML = item.label;
                 }
             }
 
+            if (item.click && "color" !== item.type) {
+                elem.addEventListener('click', handleClick);
+                elem.addEventListener('touchend', handleClick);
+                elem.addEventListener('mouseup', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
 
-            return {object: elem, init: item.init};
-        })
-    } else {
-        list = [];
-    }
+                // eslint-disable-next-line no-inner-declarations
+                function handleClick(e) {
+                    item.click();
+                    DOMUtils.hide(popover);
+                    e.preventDefault();
+                    e.stopPropagation()
+                }
+            }
+        }
+
+
+        return { object: elem, init: item.init };
+    })
+
     return list;
 }
 

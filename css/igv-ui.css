@@ -8,11 +8,11 @@
   border-width: 1px;
   font-family: "Open Sans", sans-serif;
   font-size: small;
-  background-color: lightpink; }
+  background-color: white; }
   .igv-ui-popover > div:first-child {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-end;
     align-items: center;
     width: 100%;
@@ -33,70 +33,31 @@
       color: #444; }
   .igv-ui-popover > div:last-child {
     overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow-y: auto;
-    width: 100%;
-    height: calc(100% - 24px - 2 * 1px);
-    background-color: lightcyan; }
+    max-width: 200px;
+    max-height: 400px;
+    background-color: white; }
     .igv-ui-popover > div:last-child > div {
-      user-select: all;
+      -webkit-user-select: all;
+      /* Chrome/Safari */
+      -moz-user-select: all;
+      /* Firefox */
       width: 100%;
-      height: 32px;
-      background-color: white; }
+      height: 24px;
+      background-color: white;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: center; }
+      .igv-ui-popover > div:last-child > div > div {
+        margin-left: 4px; }
+        .igv-ui-popover > div:last-child > div > div > span {
+          font-weight: bolder; }
     .igv-ui-popover > div:last-child hr {
       width: 100%; }
-
-.DEPRICATED_igv-ui-popover {
-  resize: both;
-  overflow-x: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2048;
-  border-color: orangered;
-  border-radius: 4px;
-  border-style: solid;
-  border-width: thin;
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
-  background-color: lightgreen; }
-  .DEPRICATED_igv-ui-popover > div:first-child {
-    width: 100%;
-    min-height: 24px;
-    cursor: move;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-color: #7F7F7F;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    background-color: #eee;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-items: center; }
-    .DEPRICATED_igv-ui-popover > div:first-child div {
-      margin-right: 4px;
-      height: 12px;
-      width: 12px;
-      color: #7F7F7F; }
-    .DEPRICATED_igv-ui-popover > div:first-child div:hover {
-      cursor: pointer;
-      color: #444; }
-  .DEPRICATED_igv-ui-popover > div:last-child {
-    overflow-y: auto;
-    background-color: pink; }
-    .DEPRICATED_igv-ui-popover > div:last-child > div {
-      height: 32px;
-      width: 100%;
-      background-color: white; }
-    .DEPRICATED_igv-ui-popover > div:last-child > div:hover {
-      background-color: #efefef; }
-    .DEPRICATED_igv-ui-popover > div:last-child hr {
-      width: 100%; }
-
-::-webkit-resizer {
-  border: 2px solid greenyellow;
-  background: orangered; }
 
 .igv-ui-alert-dialog-container {
   box-sizing: content-box;
