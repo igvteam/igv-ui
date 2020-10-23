@@ -82,7 +82,7 @@ class InputDialog {
 
         this.label.textContent = options.label;
         this.input.value = options.value;
-        this.callback = options.callback;
+        this.callback = options.callback || options.click;
 
         DOMUtils.show(this.container);
         const { x, y } = DOMUtils.pageCoordinates(e);
