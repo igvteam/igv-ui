@@ -1,0 +1,118 @@
+
+// popover
+.igv-ui-popover {
+
+    resize: both;
+    overflow-x: auto;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    border-color: $igv-trackgear-grey-color;
+    border-radius: $igv-trackgear-popover-border-radius;
+    border-style: solid;
+    border-width: thin;
+
+    font-family: $igv-default-font-face;
+    font-size: 12px;
+
+    z-index: 2048;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    // header
+    >div:first-child {
+
+        width: 100%;
+        min-height: 24px;
+
+        cursor: move;
+
+        border-top-left-radius: $igv-trackgear-popover-border-radius;
+        border-top-right-radius: $igv-trackgear-popover-border-radius;
+        border-bottom-color: $igv-trackgear-grey-color;
+        border-bottom-style: solid;
+        border-bottom-width: thin;
+
+        background-color: #eee;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+
+        // close button container
+        div {
+            margin-right: 4px;
+            height: 12px;
+            width: 12px;
+            color: $igv-trackgear-grey-color;
+        }
+
+        div:hover {
+            cursor: pointer;
+            color: #444;
+        }
+
+    }
+
+    // content
+    >div:last-child {
+
+        //max-height: 384px;
+        background-color: white;
+
+        overflow-y: auto;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+
+        // content row
+        >div {
+
+            height: 32px;
+
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-left: 4px;
+
+            background-color: white;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
+
+            >div:first-child {
+                font-weight: bold;
+                min-width: 128px;
+            }
+
+            hr {
+                width: 100%;
+            }
+        }
+
+        >div:hover {
+            background-color: #efefef;
+        }
+
+    }
+}
+
+::-webkit-resizer {
+    border: 2px solid $igv-trackgear-grey-color;
+    background: transparent;
+}

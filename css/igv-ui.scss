@@ -63,11 +63,11 @@ $igv-trackgear-default-font-face: 'Open Sans', sans-serif;
   }
 }
 
+@import "igv-ui-popover";
 @import "igv-ui-alert-dialog";
 @import "igv-ui-colorpicker";
 @import "igv-ui-generic-dialog-container";
 @import "igv-ui-generic-container";
-@import "igv-ui-popover";
 @import "igv-ui-dialog";
 @import "igv-ui-panel";
 @import "igv-ui-textbox";

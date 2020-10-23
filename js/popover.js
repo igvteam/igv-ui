@@ -32,33 +32,72 @@ class Popover {
 
         this.parent = parent;
 
-        this.popover = DOMUtils.div({class: "igv-ui-popover"});
-        parent.appendChild(this.popover);
+        // popover
+        this.popover = DOMUtils.div({ class: "igv-ui-popover" })
+        parent.appendChild(this.popover)
 
-        const { x, y, width, height } = this.popover.getBoundingClientRect();
-        console.log(`Popover - constructor() - x ${ x } y ${ y } width ${ width } height ${ height }`)
-
-        // popover header
-        const popoverHeader = DOMUtils.div({class: "igv-ui-popover-header"});
+        // header
+        const popoverHeader = DOMUtils.div();
         this.popover.appendChild(popoverHeader);
 
-        // popover content
-        this.popoverContent = DOMUtils.div({class: "igv-ui-popover-track-popup-content"});
-        this.popover.appendChild(this.popoverContent);
-
-        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => DOMUtils.hide(this.popover))
+        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.hide())
         makeDraggable(this.popover, popoverHeader);
 
-        DOMUtils.hide(this.popover)
+        // content
+        this.popoverContent = DOMUtils.div();
+        this.popover.appendChild(this.popoverContent);
+
+        this.popover.style.display = 'none'
+
+
+    }
+
+    presentContentWithEvent(e, content) {
+
+        this.popover.style.display = 'block'
+
+        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
+        this.popover.style.left = `${ x }px`
+        this.popover.style.top  = `${ y }px`
+
+        this.popoverContent.innerHTML = content;
+
+    }
+
+    presentMenu(e, menuItems) {
+
+        if (0 === menuItems.length) {
+            return
+        }
+
+        // Only 1 popover open at a time
+        // DOMUtils.hideAll('.igv-ui-popover')
+
+        // DOMUtils.empty(this.popoverContent)
+        // DOMUtils.show(this.popover)
+
+        this.popover.style.display = 'block'
+
+        const menuElements = createMenuElements(menuItems, this.popover)
+        for (let item of menuElements) {
+            this.popoverContent.appendChild(item.object)
+        }
+
+        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
+        this.popover.style.left = `${ x }px`
+        this.popover.style.top  = `${ y }px`
     }
 
     hide() {
-        DOMUtils.hide(this.popover);
+        this.popover.style.display = 'none'
+        this.dispose()
     }
 
     dispose() {
 
-        this.popover.parentNode.removeChild(this.popover);
+        if (this.popover) {
+            this.popover.parentNode.removeChild(this.popover);
+        }
 
         const keys = Object.keys(this)
         for (let key of keys) {
@@ -66,60 +105,6 @@ class Popover {
         }
     }
 
-    presentMenu(e, menuItems) {
-
-        // Only 1 popover open at a time
-        DOMUtils.hideAll('.igv-ui-popover')
-
-        DOMUtils.empty(this.popoverContent)
-        DOMUtils.show(this.popover)
-
-        if (menuItems.length > 0) {
-            const menuElements = createMenuElements(menuItems, this.popover)
-            for (let item of menuElements) {
-                this.popoverContent.appendChild(item.object)
-            }
-
-            const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
-            this.popover.style.left = `${ x }px`
-            this.popover.style.top  = `${ y }px`
-        }
-    }
-
-    presentContentWithEvent(e, content) {
-
-        // Only 1 popover open at a time
-        DOMUtils.hideAll('.igv-ui-popover');
-
-        if (undefined === content) {
-            return;
-        }
-
-        DOMUtils.empty(this.popoverContent);
-        DOMUtils.show(this.popover);
-
-        this.popoverContent.innerHTML = content;
-
-        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
-        this.popover.style.left = `${ x }px`
-        this.popover.style.top  = `${ y }px`
-    }
-
-    presentContent(pageX, pageY, content) {
-
-        // Only 1 popover open at a time
-        DOMUtils.hideAll('.igv-ui-popover');
-
-        if (undefined === content) {
-            return;
-        }
-
-        DOMUtils.empty(this.popoverContent);
-        DOMUtils.show(this.popover);
-
-        this.popoverContent.innerHTML = content;
-        popupAt(this.popover, pageX, pageY);
-    }
 }
 
 const popupAt = (popover, pageX, pageY) => {
@@ -130,80 +115,75 @@ const popupAt = (popover, pageX, pageY) => {
 
 function createMenuElements(itemList, popover) {
 
-    let list;
-    if (itemList.length > 0) {
+    const list  = itemList.map(function (item, i) {
+        let elem;
 
-        list = itemList.map(function (item, i) {
-            let elem;
+        if (typeof item === 'string') {
+            elem = DOMUtils.div();
+            elem.innerHTML = item;
+        } else if (typeof item === 'Node') {
+            elem = item;
+        } else {
+            if (typeof item.init === 'function') {
+                item.init();
+            }
 
-            if (typeof item === 'string') {
+            if ("checkbox" === item.type) {
+                elem = Icon.createCheckbox("Show all bases", item.value);
+            } else if("color" === item.type) {
+                const colorPicker = new ColorPicker({
+                    parent: popover.parentElement,
+                    width: 364,
+                    //defaultColor: 'aqua',
+                    colorHandler: (color) => item.click(color)
+                })
                 elem = DOMUtils.div();
-                elem.innerHTML = item;
-            } else if (typeof item === 'Node') {
-                elem = item;
-            } else {
-                if (typeof item.init === 'function') {
-                    item.init();
+                if (typeof item.label === 'string') {
+                    elem.innerHTML = item.label;
                 }
-
-                if ("checkbox" === item.type) {
-                    elem = Icon.createCheckbox("Show all bases", item.value);
-                } else if("color" === item.type) {
-                    const colorPicker = new ColorPicker({
-                        parent: popover.parentElement,
-                        width: 364,
-                        //defaultColor: 'aqua',
-                        colorHandler: (color) => item.click(color)
-                    })
-                    elem = DOMUtils.div();
-                    if (typeof item.label === 'string') {
-                        elem.innerHTML = item.label;
-                    }
-                    const clickHandler =  e => {
-                        colorPicker.show();
-                        DOMUtils.hide(popover);
-                        e.preventDefault();
-                        e.stopPropagation()
-                    }
-                    elem.addEventListener('click', clickHandler);
-                    elem.addEventListener('touchend', clickHandler);
-                    elem.addEventListener('mouseup', function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    })
+                const clickHandler =  e => {
+                    colorPicker.show();
+                    DOMUtils.hide(popover);
+                    e.preventDefault();
+                    e.stopPropagation()
                 }
+                elem.addEventListener('click', clickHandler);
+                elem.addEventListener('touchend', clickHandler);
+                elem.addEventListener('mouseup', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+            }
 
-                else {
-                    elem = DOMUtils.div();
-                    if (typeof item.label === 'string') {
-                        elem.innerHTML = item.label;
-                    }
-                }
-
-                if (item.click && "color" !== item.type) {
-                    elem.addEventListener('click', handleClick);
-                    elem.addEventListener('touchend', handleClick);
-                    elem.addEventListener('mouseup', function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    })
-
-                    // eslint-disable-next-line no-inner-declarations
-                    function handleClick(e) {
-                        item.click();
-                        DOMUtils.hide(popover);
-                        e.preventDefault();
-                        e.stopPropagation()
-                    }
+            else {
+                elem = DOMUtils.div();
+                if (typeof item.label === 'string') {
+                    elem.innerHTML = item.label;
                 }
             }
 
+            if (item.click && "color" !== item.type) {
+                elem.addEventListener('click', handleClick);
+                elem.addEventListener('touchend', handleClick);
+                elem.addEventListener('mouseup', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
 
-            return {object: elem, init: item.init};
-        })
-    } else {
-        list = [];
-    }
+                // eslint-disable-next-line no-inner-declarations
+                function handleClick(e) {
+                    item.click();
+                    DOMUtils.hide(popover);
+                    e.preventDefault();
+                    e.stopPropagation()
+                }
+            }
+        }
+
+
+        return { object: elem, init: item.init };
+    })
+
     return list;
 }
 
