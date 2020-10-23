@@ -6032,16 +6032,13 @@ const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
 class Popover {
 
-    constructor(parent, { width, height }) {
+    constructor(parent) {
 
         this.parent = parent;
 
         // popover
         this.popover = div({ class: "igv-ui-popover" });
         parent.appendChild(this.popover);
-
-        // this.popover.style.width = `${ width }px`;
-        // this.popover.style.height = `${ height }px`;
 
         // header
         const popoverHeader = div();
