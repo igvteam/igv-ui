@@ -8,24 +8,23 @@ import Panel from "./components/panel.js";
 import Textbox from "./components/textbox.js"
 import Dialog from "./components/dialog.js"
 import GenericContainer from "./genericContainer.js"
-
-
 import embedCSS from "./embedCSS.js"
 
-if(!stylesheetExists("igv-ui.css")) {
-    console.log('igv-ui. will call embedCSS() ...');
-    embedCSS();
-    console.log('... done.');
-}
-
-function stylesheetExists(stylesheetName) {
-    for (let ss of document.styleSheets) {
-        ss = ss.href ? ss.href.replace(/^.*[\\\/]/, '') : '';
-        if (ss === stylesheetName) {
-            return true;
-        }
+if(typeof document !== 'undefined') {
+    if (!stylesheetExists("igv-ui.css")) {
+        console.log('igv-ui. will call embedCSS() ...');
+        embedCSS();
+        console.log('... done.');
     }
-    return false;
+    function stylesheetExists(stylesheetName) {
+        for (let ss of document.styleSheets) {
+            ss = ss.href ? ss.href.replace(/^.*[\\\/]/, '') : '';
+            if (ss === stylesheetName) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
