@@ -5850,7 +5850,7 @@ class InputDialog {
 
         this.label.textContent = options.label;
         this.input.value = options.value;
-        this.callback = options.callback;
+        this.callback = options.callback || options.click;
 
         show(this.container);
         const { x, y } = pageCoordinates(e);
@@ -6411,18 +6411,19 @@ function embedCSS() {
 
 }
 
-if(!stylesheetExists("igv-ui.css")) {
-    embedCSS();
-}
-
-function stylesheetExists(stylesheetName) {
-    for (let ss of document.styleSheets) {
-        ss = ss.href ? ss.href.replace(/^.*[\\\/]/, '') : '';
-        if (ss === stylesheetName) {
-            return true;
-        }
+if(typeof document !== 'undefined') {
+    if (!stylesheetExists("igv-ui.css")) {
+        embedCSS();
     }
-    return false;
+    function stylesheetExists(stylesheetName) {
+        for (let ss of document.styleSheets) {
+            ss = ss.href ? ss.href.replace(/^.*[\\\/]/, '') : '';
+            if (ss === stylesheetName) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 export { Alert, AlertDialog, Checkbox, ColorPicker, Dialog, GenericContainer, InputDialog, Panel, Popover, Textbox, createColorSwatchSelector };
