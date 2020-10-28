@@ -10,8 +10,8 @@ class InputDialog {
         this.container = DOMUtils.div({class: 'igv-ui-generic-dialog-container'});
         parent.appendChild(this.container);
 
-        const { x, y, width, height } = this.container.getBoundingClientRect();
-        console.log(`InputDialog - x ${ x } y ${ y } width ${ width } height ${ height }`)
+        // const { x, y, width, height } = this.container.getBoundingClientRect();
+        // console.log(`InputDialog - x ${ x } y ${ y } width ${ width } height ${ height }`)
 
         // dialog header
         const header = DOMUtils.div({class: 'igv-ui-generic-dialog-header'});

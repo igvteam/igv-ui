@@ -12,9 +12,9 @@ import embedCSS from "./embedCSS.js"
 
 if(typeof document !== 'undefined') {
     if (!stylesheetExists("igv-ui.css")) {
-        console.log('igv-ui. will call embedCSS() ...');
+        // console.log('igv-ui. will call embedCSS() ...');
         embedCSS();
-        console.log('... done.');
+        // console.log('... done.');
     }
     function stylesheetExists(stylesheetName) {
         for (let ss of document.styleSheets) {

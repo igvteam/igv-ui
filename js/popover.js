@@ -56,11 +56,9 @@ class Popover {
 
         this.popover.style.display = 'block'
 
-        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
-        this.popover.style.left = `${ x }px`
-        this.popover.style.top  = `${ y }px`
+        this.popoverContent.innerHTML = content
 
-        this.popoverContent.innerHTML = content;
+        present(e, this.popover)
 
     }
 
@@ -70,12 +68,6 @@ class Popover {
             return
         }
 
-        // Only 1 popover open at a time
-        // DOMUtils.hideAll('.igv-ui-popover')
-
-        // DOMUtils.empty(this.popoverContent)
-        // DOMUtils.show(this.popover)
-
         this.popover.style.display = 'block'
 
         const menuElements = createMenuElements(menuItems, this.popover)
@@ -83,9 +75,7 @@ class Popover {
             this.popoverContent.appendChild(item.object)
         }
 
-        const { x, y } = DOMUtils.translateMouseCoordinates(e, this.popover.parentNode)
-        this.popover.style.left = `${ x }px`
-        this.popover.style.top  = `${ y }px`
+        present(e, this.popover)
     }
 
     hide() {
@@ -107,10 +97,21 @@ class Popover {
 
 }
 
-const popupAt = (popover, pageX, pageY) => {
-    const { x, y } = popover.parentNode.getBoundingClientRect()
-    popover.style.left = `${ pageX - x }px`
-    popover.style.top  = `${ pageY - y }px`
+function present(e, popover) {
+
+    const { x, y } = DOMUtils.translateMouseCoordinates(e, popover.parentNode)
+
+    // parent bbox
+    const { width } = popover.parentNode.getBoundingClientRect()
+    const { width: w } = popover.getBoundingClientRect()
+
+    const xmax = x + w
+
+    console.log(`popover-parent width ${ width }. popover x ${ x } width ${ w } xmax ${ xmax }.`)
+
+    popover.style.left = `${ xmax > width ? (x - (xmax - width)) : x }px`
+    popover.style.top  = `${ y }px`
+
 }
 
 function createMenuElements(itemList, popover) {
