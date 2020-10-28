@@ -59,40 +59,26 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
     // content
     >div:last-child {
 
-        overflow-x: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-
         overflow-y: auto;
+        overflow-x: hidden;
 
-        //width: 100%;
-        //height: $igv-ui-popover-content-height;
-
-        max-width: 200px;
         max-height: 400px;
 
         background-color: white;
 
         // row
-        >div {
-            -webkit-user-select: all; /* Chrome/Safari */
-            -moz-user-select: all; /* Firefox */
+        >div{
+            margin-left: 4px;
+            margin-right: 4px;
 
-            width: 100%;
-            height: 24px;
-            background-color: white;
+            max-width: 384px;
 
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            justify-content: flex-start;
-            align-items: center;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
-            >div{
-                margin-left: 4px;
-                >span {
-                    font-weight: bolder;
-                }
+            >span {
+                font-weight: bolder;
             }
         }
 
