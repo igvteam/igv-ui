@@ -37,9 +37,14 @@
     max-height: 400px;
     background-color: white; }
     .igv-ui-popover > div:last-child > div {
+      -webkit-user-select: all;
+      /* Chrome/Safari */
+      -moz-user-select: all;
+      /* Firefox */
       margin-left: 4px;
       margin-right: 4px;
       max-width: 384px;
+      min-width: 220px;
       overflow-x: hidden;
       text-overflow: ellipsis;
       white-space: nowrap; }
