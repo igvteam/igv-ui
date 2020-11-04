@@ -5753,6 +5753,26 @@ class AlertDialog {
     }
 }
 
+class AlertSingleton {
+    constructor(root) {
+
+        if (root) {
+            this.alertDialog = undefined;
+        }
+    }
+
+    init(root) {
+        this.alertDialog = new AlertDialog(root);
+    }
+
+    present(alert, callback) {
+        this.alertDialog.present(alert, callback);
+    }
+
+}
+
+var alertSingleton = new AlertSingleton();
+
 // The global Alert dialog
 
 let alertDialog;
@@ -6434,4 +6454,4 @@ if(typeof document !== 'undefined') {
     }
 }
 
-export { Alert, AlertDialog, Checkbox, ColorPicker, Dialog, GenericContainer, InputDialog, Panel, Popover, Textbox, createColorSwatchSelector };
+export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, Dialog, GenericContainer, InputDialog, Panel, Popover, Textbox, createColorSwatchSelector };

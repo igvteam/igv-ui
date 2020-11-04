@@ -1,4 +1,5 @@
 import AlertDialog from "./alertDialog.js";
+import AlertSingleton from './alertSingleton.js'
 import Alert from "./alert.js";
 import InputDialog from "./inputDialog.js"
 import Popover from "./popover.js"
@@ -30,6 +31,7 @@ if(typeof document !== 'undefined') {
 
 export {
     AlertDialog,
+    AlertSingleton,
     Alert,
     InputDialog,
     Popover,
