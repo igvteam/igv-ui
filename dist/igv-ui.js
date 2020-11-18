@@ -5691,7 +5691,7 @@ class AlertDialog {
 
         const error = div();
         header.appendChild(error);
-        error.textContent = "ERROR";
+        // error.textContent = "ERROR";
 
         // body container
         let bodyContainer = div({id: 'igv-ui-alert-dialog-body'});
