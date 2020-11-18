@@ -52,6 +52,7 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
         }
 
         >div:hover {
+            cursor: pointer;
             color: #444;
         }
     }
@@ -67,7 +68,10 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
         background-color: white;
 
         // row
-        >div{
+        >div {
+
+            cursor: pointer;
+
             -webkit-user-select: all; /* Chrome/Safari */
             -moz-user-select: all; /* Firefox */
 
@@ -84,6 +88,10 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
             >span {
                 font-weight: bolder;
             }
+        }
+
+        > div:hover {
+            background: #efefef;
         }
 
         hr {

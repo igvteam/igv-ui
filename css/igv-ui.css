@@ -30,6 +30,7 @@
       width: 12px;
       color: #7F7F7F; }
     .igv-ui-popover > div:first-child > div:hover {
+      cursor: pointer;
       color: #444; }
   .igv-ui-popover > div:last-child {
     overflow-y: auto;
@@ -37,6 +38,7 @@
     max-height: 400px;
     background-color: white; }
     .igv-ui-popover > div:last-child > div {
+      cursor: pointer;
       -webkit-user-select: all;
       /* Chrome/Safari */
       -moz-user-select: all;
@@ -50,6 +52,8 @@
       white-space: nowrap; }
       .igv-ui-popover > div:last-child > div > span {
         font-weight: bolder; }
+    .igv-ui-popover > div:last-child > div:hover {
+      background: #efefef; }
     .igv-ui-popover > div:last-child hr {
       width: 100%; }
 
