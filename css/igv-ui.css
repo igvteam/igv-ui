@@ -38,7 +38,6 @@
     max-height: 400px;
     background-color: white; }
     .igv-ui-popover > div:last-child > div {
-      cursor: pointer;
       -webkit-user-select: all;
       /* Chrome/Safari */
       -moz-user-select: all;
@@ -52,8 +51,6 @@
       white-space: nowrap; }
       .igv-ui-popover > div:last-child > div > span {
         font-weight: bolder; }
-    .igv-ui-popover > div:last-child > div:hover {
-      background: #efefef; }
     .igv-ui-popover > div:last-child hr {
       width: 100%; }
 

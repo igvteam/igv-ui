@@ -70,8 +70,6 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
         // row
         >div {
 
-            cursor: pointer;
-
             -webkit-user-select: all; /* Chrome/Safari */
             -moz-user-select: all; /* Firefox */
 
@@ -88,10 +86,6 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
             >span {
                 font-weight: bolder;
             }
-        }
-
-        > div:hover {
-            background: #efefef;
         }
 
         hr {
