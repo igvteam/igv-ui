@@ -20,9 +20,9 @@ class AlertDialog {
         const header = DOMUtils.div();
         this.container.appendChild(header);
 
-        const error = DOMUtils.div();
-        header.appendChild(error);
-        error.textContent = "ERROR";
+        this.errorHeadline = DOMUtils.div();
+        header.appendChild(this.errorHeadline);
+        this.errorHeadline.textContent = '';
 
         // body container
         let bodyContainer = DOMUtils.div({id: 'igv-ui-alert-dialog-body'});
@@ -73,13 +73,17 @@ class AlertDialog {
     }
 
     present(alert, callback) {
-        let string = alert.message || alert;
+
+        this.errorHeadline.textContent = alert.message ? 'ERROR' : ''
+        let string = alert.message || alert
+
         if (httpMessages.hasOwnProperty(string)) {
             string = httpMessages[string];
         }
-        this.body.innerHTML = string;
-        this.callback = callback;
-        DOMUtils.show(this.container, "flex");
+
+        this.body.innerHTML = string
+        this.callback = callback
+        DOMUtils.show(this.container, "flex")
         this.container.focus()
     }
 }
