@@ -5,13 +5,17 @@ import AlertDialog from './alertDialog.js';
 let alertDialog
 
 const Alert = {
+
     init(root) {
         if (!alertDialog) {
             alertDialog = new AlertDialog(root);
         }
     },
 
-    presentAlert: function (alert, callback) {
+    presentAlert (alert, callback) {
+        if(!alertDialog) {
+            this.init(document.body);
+        }
         alertDialog.present(alert, callback);
     },
 }
