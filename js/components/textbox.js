@@ -1,10 +1,10 @@
-import { DOMUtils } from '../../node_modules/igv-utils/src/index.js'
+import * as DOMUtils from '../dom-utils.js';
 
 class Textbox {
 
-    constructor({text: value, label, onchange}) {
+    constructor({value, label, onchange}) {
 
-        this.elem = DOMUtils.div({class: 'igv-ui-textbox'});
+        this.elem = DOMUtils.div({class: 'igv-ui-generic-dialog-label-input'});
 
         if(label) {
             const div = DOMUtils.div();

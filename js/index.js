@@ -1,15 +1,18 @@
-import AlertDialog from "./alertDialog.js";
+import DataRangeDialog from "./components/dataRangeDialog.js"
+import AlertDialog from "./components/alertDialog.js";
 import AlertSingleton from './alertSingleton.js'
 import Alert from "./alert.js";
-import InputDialog from "./inputDialog.js"
+import InputDialog from "./components/inputDialog.js"
 import Popover from "./popover.js"
-import ColorPicker, { createColorSwatchSelector } from "./colorPicker.js"
+import ColorPicker, { createColorSwatchSelector } from "./components/colorPicker.js"
 import Checkbox from "./components/checkbox.js";
 import Panel from "./components/panel.js";
 import Textbox from "./components/textbox.js"
 import Dialog from "./components/dialog.js"
 import GenericContainer from "./genericContainer.js"
 import embedCSS from "./embedCSS.js"
+import * as DOMUtils from "./dom-utils.js"
+import {makeDraggable} from "./draggable.js"
 
 if(typeof document !== 'undefined') {
     if (!stylesheetExists("igv-ui.css")) {
@@ -30,6 +33,7 @@ if(typeof document !== 'undefined') {
 
 
 export {
+    DataRangeDialog,
     AlertDialog,
     AlertSingleton,
     Alert,
@@ -41,5 +45,7 @@ export {
     Panel,
     Textbox,
     Dialog,
-    GenericContainer
+    GenericContainer,
+    DOMUtils,
+    makeDraggable
 }

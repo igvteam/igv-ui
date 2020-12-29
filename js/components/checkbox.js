@@ -1,4 +1,5 @@
-import { DOMUtils, Icon } from '../../node_modules/igv-utils/src/index.js'
+import * as DOMUtils from '../dom-utils.js';
+import * as Icon from '../icons.js';
 
 const style = {
     display: 'flex',

@@ -1,15 +1,23 @@
-import { DOMUtils, UIUtils, makeDraggable } from '../../node_modules/igv-utils/src/index.js'
+import * as DOMUtils from '../dom-utils.js';
+import {makeDraggable} from '../draggable.js';
+import * as UIUtils from '../ui-utils.js'
 
 class Dialog {
 
     constructor({label, content, okHandler, cancelHandler}) {
 
+        const cancel = () => {
+            DOMUtils.hide(this.elem);
+            if (typeof cancelHandler === 'function') {
+                cancelHandler(this);
+            }
+        }
 
         // dialog container
-        this.elem = DOMUtils.div({class: 'igv-ui-dialog'});
+        this.elem = DOMUtils.div({class: 'igv-ui-generic-dialog-container'});
 
         // dialog header
-        const header = DOMUtils.div({class: 'igv-ui-dialog-header'});
+        const header = DOMUtils.div({class: 'igv-ui-generic-dialog-header'});
         this.elem.appendChild(header);
 
         UIUtils.attachDialogCloseHandlerWithParent(header, cancel);
@@ -26,7 +34,7 @@ class Dialog {
         this.elem.appendChild(content.elem);
 
         // ok | cancel
-        const buttons = DOMUtils.div({class: 'igv-ui-dialog-ok-cancel'});
+        const buttons = DOMUtils.div({class: 'igv-ui-generic-dialog-ok-cancel'});
         this.elem.appendChild(buttons);
 
         // ok
@@ -39,11 +47,10 @@ class Dialog {
         buttons.appendChild(this.cancel);
         this.cancel.textContent = 'Cancel';
 
-        const self = this;
-        this.ok.addEventListener('click', function () {
-            DOMUtils.hide(self.elem);
+        this.ok.addEventListener('click',  (e) => {
+            DOMUtils.hide(this.elem);
             if (typeof okHandler === 'function') {
-                okHandler(self);
+                okHandler(this);
             }
         });
 
@@ -51,14 +58,12 @@ class Dialog {
 
         makeDraggable(this.elem, header);
 
-        function cancel() {
-            self.canceled = true;
-            DOMUtils.hide(self.elem);
-            if (typeof cancelHandler === 'function') {
-                cancelHandler(self);
-            }
-        }
 
+        // Consume all clicks in component
+        this.elem.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        })
 
     }
 

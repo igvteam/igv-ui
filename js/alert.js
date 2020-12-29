@@ -1,4 +1,4 @@
-import AlertDialog from './alertDialog.js';
+import AlertDialog from './components/alertDialog.js';
 
 // The global Alert dialog
 

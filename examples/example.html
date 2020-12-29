@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <link rel="stylesheet" type="text/css" href="../css/igv-ui.css">
 </head>
 <body>
 
@@ -14,14 +15,18 @@
     <button id="menu-id"><h2>Menu</h2></button>
     <button id="color-id"><h2>Color picker</h2></button>
     <button id="form-id"><h2>Form</h2></button>
+    <button id="dr-id"><h2>Data Range</h2></button>
 </p>
 
 <div id="test" style="width:500px;height:100px;"></div>
 <script type="module">
 
-    import {AlertDialog, InputDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog}
+    import {
+        AlertDialog, InputDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog,
+        DOMUtils
+    }
         from "../js/index.js";
-    import { DOMUtils, makeDraggable } from '../node_modules/igv-utils/src/index.js'
+    import {createDataRangeDialog} from "../js/components/dataRangeDialog.js"
 
 
     const parent = document.getElementById("test");
@@ -35,6 +40,9 @@
     const dialog = createDialog();
     DOMUtils.hide(dialog.elem);
     parent.appendChild(dialog.elem);
+
+    // Data range
+    const drDialog = createDataRangeDialog(parent, 0, 100)
 
 
     const colorPicker = new ColorPicker({
@@ -66,13 +74,13 @@
                 label: "bar",
                 click: ((e) => alertDialog.present("Clicked: " + "bar"))
             },
-            '<hr/>',
-            {
-                type: "checkbox",
-                label: "toggle",
-                value: toggle,
-                click: ((e) => toggle = !toggle)
-            },
+            // '<hr/>',
+            // {
+            //     type: "checkbox",
+            //     label: "toggle",
+            //     value: toggle,
+            //     click: ((e) => toggle = !toggle)
+            // },
             '<hr/>',
             {
                 type: "color",
@@ -86,6 +94,11 @@
     document.getElementById("color-id").addEventListener("click", (ev) => colorPicker.show());
 
     document.getElementById("form-id").addEventListener("click", (ev) => DOMUtils.show(dialog.elem));
+
+    document.getElementById("dr-id").addEventListener("click", (ev) => {
+        drDialog.show({min: 0, max: Math.random()})
+    });
+
 
     function createDialog() {
 
