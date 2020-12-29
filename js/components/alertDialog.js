@@ -1,5 +1,5 @@
-import * as DOMUtils from '../dom-utils.js';
-import {makeDraggable} from '../draggable.js';
+import * as DOMUtils from '../../node_modules/igv-utils/src/dom-utils.js';
+import makeDraggable from '../../node_modules/igv-utils/src/draggable.js';
 
 const httpMessages =
     {

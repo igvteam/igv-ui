@@ -11,8 +11,6 @@ import Textbox from "./components/textbox.js"
 import Dialog from "./components/dialog.js"
 import GenericContainer from "./genericContainer.js"
 import embedCSS from "./embedCSS.js"
-import * as DOMUtils from "./dom-utils.js"
-import {makeDraggable} from "./draggable.js"
 
 if(typeof document !== 'undefined') {
     if (!stylesheetExists("igv-ui.css")) {
@@ -45,7 +43,5 @@ export {
     Panel,
     Textbox,
     Dialog,
-    GenericContainer,
-    DOMUtils,
-    makeDraggable
+    GenericContainer
 }

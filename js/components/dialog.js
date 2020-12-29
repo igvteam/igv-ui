@@ -1,6 +1,6 @@
-import * as DOMUtils from '../dom-utils.js';
-import {makeDraggable} from '../draggable.js';
-import * as UIUtils from '../ui-utils.js'
+import * as DOMUtils from '../../node_modules/igv-utils/src/dom-utils.js';
+import makeDraggable from '../../node_modules/igv-utils/src/draggable.js';
+import * as UIUtils from '../../node_modules/igv-utils/src/ui-utils.js'
 
 class Dialog {
 

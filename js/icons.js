@@ -1,4 +1,4 @@
-import * as DOMUtils from './dom-utils.js'
+import * as DOMUtils from '../node_modules/igv-utils/src/dom-utils.js'
 
 function createWrappedIcon(name, color) {
     let svg = createIcon(name, color);
