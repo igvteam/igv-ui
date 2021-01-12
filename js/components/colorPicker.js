@@ -37,18 +37,19 @@ const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
     swatch.style.backgroundColor = hexColorString;
 
-    swatch.onmouseenter = () => swatch.style.borderColor = hexColorString;
-    swatch.onmouseenter = () => swatch.style.borderColor = 'white';
+    swatch.addEventListener('mouseenter', e => swatch.style.borderColor = hexColorString)
+
+    swatch.addEventListener('mouseleave', e => swatch.style.borderColor = 'white')
 
     swatch.addEventListener('click', event => {
         event.stopPropagation();
         colorHandler(hexColorString);
-    });
+    })
 
     swatch.addEventListener('touchend', event => {
         event.stopPropagation();
         colorHandler(hexColorString);
-    });
+    })
 
 }
 

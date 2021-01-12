@@ -150,6 +150,9 @@
   border-color: white;
   border-radius: 4px; }
 
+.igv-ui-color-swatch:hover {
+  border-color: dimgray; }
+
 .igv-ui-colorpicker-menu-close-button {
   display: flex;
   flex-flow: row;
