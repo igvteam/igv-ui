@@ -24,6 +24,10 @@ $igv-color-swatch-border-width: 2px;
 
 }
 
+.igv-ui-color-swatch:hover {
+  border-color: dimgray;
+}
+
 .igv-ui-colorpicker-menu-close-button {
 
   display: flex;
