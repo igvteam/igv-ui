@@ -1,4 +1,4 @@
-import * as DOMUtils from '../../node_modules/igv-utils/src/dom-utils.js';
+import { DOMUtils } from '../../node_modules/igv-utils/src/index.js';
 
 class Textbox {
 

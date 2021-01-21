@@ -1,6 +1,6 @@
-import {appleCrayonPalette} from '../../node_modules/igv-utils/src/colorPalettes.js'
-import * as DOMUtils from '../../node_modules/igv-utils/src/dom-utils.js';
+import { appleCrayonPalette, DOMUtils } from '../../node_modules/igv-utils/src/index.js';
 import GenericContainer from "../genericContainer.js"
+
 
 class ColorPicker extends GenericContainer {
 
@@ -9,7 +9,13 @@ class ColorPicker extends GenericContainer {
         super({ parent, top, left, width, height, border: '1px solid gray'})
 
         createColorSwatchSelector(this.container, colorHandler, defaultColors);
-  }
+    }
+
+    present() {
+        const { x, y } = this.container.parentElement.getBoundingClientRect()
+        console.log(`color picker - present x ${ x } y ${ y }`)
+        this.show()
+    }
 
 }
 

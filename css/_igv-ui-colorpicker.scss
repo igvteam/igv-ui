@@ -4,6 +4,8 @@ $igv-color-swatch-border-width: 2px;
 
 .igv-ui-color-swatch {
 
+  position: relative;
+
   box-sizing: content-box;
 
   display: flex;
