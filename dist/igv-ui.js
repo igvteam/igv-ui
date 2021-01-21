@@ -5587,7 +5587,6 @@ function dragStart(event) {
 function drag(event) {
 
     if (!dragData) {
-        console.log("No drag data!");
         return;
     }
     event.stopPropagation();
@@ -5601,7 +5600,6 @@ function drag(event) {
 function dragEnd(event) {
 
     if (!dragData) {
-        console.log("No drag data!");
         return;
     }
     event.stopPropagation();
@@ -5961,8 +5959,6 @@ class DataRangeDialog {
             };
         } else {
             callback = (d) => {
-                console.log(`Minimum: ${this.minbox.value}`);
-                console.log(`Maximum: ${this.maxbox.value}`);
             };
         }
 
@@ -6207,7 +6203,6 @@ class InputDialog {
     clampLocation(pageX, pageY) {
 
         const { width:w, height:h } = this.container.getBoundingClientRect();
-        console.log(`InputDialog - clampLocation() - width ${ w } height ${ h }`);
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 
@@ -6284,12 +6279,6 @@ class ColorPicker extends GenericContainer {
         super({ parent, top, left, width, height, border: '1px solid gray'});
 
         createColorSwatchSelector(this.container, colorHandler, defaultColors);
-    }
-
-    present() {
-        const { x, y } = this.container.parentElement.getBoundingClientRect();
-        console.log(`color picker - present x ${ x } y ${ y }`);
-        this.show();
     }
 
 }
@@ -6414,8 +6403,6 @@ function present(e, popover) {
     const { width: w } = popover.getBoundingClientRect();
 
     const xmax = x + w;
-
-    console.log(`popover-parent width ${ width }. popover x ${ x } width ${ w } xmax ${ xmax }.`);
 
     popover.style.left = `${ xmax > width ? (x - (xmax - width)) : x }px`;
     popover.style.top  = `${ y }px`;
