@@ -11,12 +11,6 @@ class ColorPicker extends GenericContainer {
         createColorSwatchSelector(this.container, colorHandler, defaultColors);
     }
 
-    present() {
-        const { x, y } = this.container.parentElement.getBoundingClientRect()
-        console.log(`color picker - present x ${ x } y ${ y }`)
-        this.show()
-    }
-
 }
 
 const createColorSwatchSelector = (container, colorHandler, defaultColors) => {
