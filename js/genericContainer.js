@@ -1,6 +1,4 @@
-import * as DOMUtils from '../node_modules/igv-utils/src/dom-utils.js';
-import * as UIUtils from '../node_modules/igv-utils/src/ui-utils.js'
-import makeDraggable from '../node_modules/igv-utils/src/draggable.js';
+import { DOMUtils, UIUtils, makeDraggable } from '../node_modules/igv-utils/src/index.js'
 
 class GenericContainer {
 
@@ -12,16 +10,16 @@ class GenericContainer {
         this.container = container;
 
         if(top !== undefined) {
-            this.container.style.width = top + "px";
+            this.container.style.top = `${ top }px`
         }
         if(left !== undefined) {
-            this.container.style.width = left + "px";
+            this.container.style.left = `${ left }px`
         }
         if (width !== undefined) {
-            this.container.style.width = width + "px";
+            this.container.style.width = `${ width }px`
         }
         if (height !== undefined) {
-            this.container.style.height = height + "px";
+            this.container.style.height = `${ height }px`
         }
         if(border) {
             this.container.style.border = border;

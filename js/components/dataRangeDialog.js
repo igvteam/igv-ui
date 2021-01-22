@@ -1,8 +1,7 @@
 import Textbox from "./textbox.js"
 import Panel from "./panel.js"
 import Dialog from "./dialog.js"
-import * as DOMUtils from "../../node_modules/igv-utils/src/dom-utils.js"
-
+import { DOMUtils } from '../../node_modules/igv-utils/src/index.js';
 
 class DataRangeDialog {
 

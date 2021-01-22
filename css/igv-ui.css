@@ -137,6 +137,7 @@
       background-color: #25597f; }
 
 .igv-ui-color-swatch {
+  position: relative;
   box-sizing: content-box;
   display: flex;
   flex-flow: row;
