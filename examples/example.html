@@ -21,13 +21,8 @@
 <div id="test" style="width:500px;height:100px;"></div>
 <script type="module">
 
-    import {
-        AlertDialog, InputDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog,
-        DOMUtils
-    }
-        from "../js/index.js";
-    import {createDataRangeDialog} from "../js/components/dataRangeDialog.js"
-
+    import { DataRangeDialog, AlertDialog, InputDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog } from "../js/index.js";
+    import {DOMUtils} from "../node_modules/igv-utils/src/index.js";
 
     const parent = document.getElementById("test");
 
@@ -42,7 +37,7 @@
     parent.appendChild(dialog.elem);
 
     // Data range
-    const drDialog = createDataRangeDialog(parent, 0, 100)
+    const drDialog = new DataRangeDialog(parent)
 
 
     const colorPicker = new ColorPicker({
