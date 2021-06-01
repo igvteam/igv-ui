@@ -1,8 +1,8 @@
 {
   "name": "igv-ui",
-  "version": "1.1.4",
+  "version": "1.1.7",
   "description": "UI code for igv.js and related projects",
-  "module": "js/index.js",
+  "module": "dist/igv-ui.js",
   "files": [
     "dist/**"
   ],
@@ -29,10 +29,9 @@
   "homepage": "https://github.com/igvteam/igv-ui#readme",
   "devDependencies": {
     "rollup": "^1.31.1",
-    "rollup-plugin-strip": "^1.2.2",
     "sass": "^1.25.0"
   },
   "dependencies": {
-    "igv-utils": "github:igvteam/igv-utils#v1.2.7"
+    "igv-utils": "github:igvteam/igv-utils#v1.2.8"
   }
 }
