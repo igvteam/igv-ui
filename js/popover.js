@@ -1,4 +1,8 @@
-import { Icon, DOMUtils, UIUtils, makeDraggable } from '../node_modules/igv-utils/src/index.js'
+import * as Icon from '../node_modules/igv-utils/src/icons.js'
+import * as UIUtils from "../node_modules/igv-utils/src/ui-utils.js"
+import * as DOMUtils from "../node_modules/igv-utils/src/dom-utils.js"
+import makeDraggable from "../node_modules/igv-utils/src/draggable.js"
+
 import ColorPicker from "./components/colorPicker.js"
 
 class Popover {
