@@ -95,7 +95,6 @@ class InputDialog {
     clampLocation(pageX, pageY) {
 
         const { width:w, height:h } = this.container.getBoundingClientRect();
-        console.log(`InputDialog - clampLocation() - width ${ w } height ${ h }`)
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 

@@ -92,8 +92,6 @@ function present(e, popover) {
 
     const xmax = x + w
 
-    console.log(`popover-parent width ${ width }. popover x ${ x } width ${ w } xmax ${ xmax }.`)
-
     popover.style.left = `${ xmax > width ? (x - (xmax - width)) : x }px`
     popover.style.top  = `${ y }px`
 

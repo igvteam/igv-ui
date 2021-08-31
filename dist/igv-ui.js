@@ -654,7 +654,6 @@ class InputDialog {
     clampLocation(pageX, pageY) {
 
         const { width:w, height:h } = this.container.getBoundingClientRect();
-        console.log(`InputDialog - clampLocation() - width ${ w } height ${ h }`);
 
         const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
 
@@ -919,8 +918,6 @@ function present(e, popover) {
     const { width: w } = popover.getBoundingClientRect();
 
     const xmax = x + w;
-
-    console.log(`popover-parent width ${ width }. popover x ${ x } width ${ w } xmax ${ xmax }.`);
 
     popover.style.left = `${ xmax > width ? (x - (xmax - width)) : x }px`;
     popover.style.top  = `${ y }px`;
