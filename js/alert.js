@@ -6,9 +6,9 @@ let alertDialog
 
 const Alert = {
 
-    init(root) {
+    init(root, settings) {
         if (!alertDialog) {
-            alertDialog = new AlertDialog(root);
+            alertDialog = new AlertDialog(root, settings);
         }
     },
 
