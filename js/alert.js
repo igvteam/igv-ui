@@ -6,14 +6,8 @@ let alertDialog
 
 const Alert = {
 
-    init(root, config) {
-        if (!alertDialog) {
-	    let alertConfig = {};
-            if(config && config.alert) {
-                alertConfig = config.alert
-            }
-            alertDialog = new AlertDialog(root, alertConfig);
-        }
+    init(root, config={}) {
+	    alertDialog = new AlertDialog(root, config);
     },
 
     presentAlert (alert, callback) {
