@@ -15,7 +15,7 @@ class AlertDialog {
      * @param parent
      * @param alertProps - Optional - properties such as scroll to error
      */
-    constructor(parent, alertProps) {
+    constructor(parent, alertProps={}) {
         this.alertProps = {
             /** When an alert is presented - focus occur */
             shouldFocus: true,
