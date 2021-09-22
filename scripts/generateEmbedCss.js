@@ -10,5 +10,5 @@ const templatePath = require.resolve('./embedCssTemplate.js')
 let foo = fs.readFileSync(templatePath,  'utf-8');
 foo = foo.replace('_CSS_', ping);
 
-const outputPath = require.resolve('../js/embedCss.js')
+const outputPath = require.resolve('../js/embedCSS.js')
 fs.writeFileSync(outputPath, foo,  'utf-8');
