@@ -15,13 +15,13 @@ class AlertDialog {
      * @param parent
      * @param alertProps - Optional - properties such as scroll to error
      */
-    constructor(parent, alertProps={}) {
-        this.alertProps = {
+    constructor(parent, alertProps) {
+        this.alertProps = Object.assign({
             /** When an alert is presented - focus occur */
             shouldFocus: true,
             /** When focus occur - scroll into that element in the view */
-            preventScroll:false,
-            ...alertProps};
+            preventScroll: false
+        }, alertProps);
 
         // container
         this.container = DOMUtils.div({class: "igv-ui-alert-dialog-container"});
