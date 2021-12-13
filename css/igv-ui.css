@@ -38,7 +38,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 400px;
-    max-width: 1500px;
+    max-width: 800px;
     background-color: white; }
     .igv-ui-popover > div:last-child > div {
       -webkit-user-select: all;

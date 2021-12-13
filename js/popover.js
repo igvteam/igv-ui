@@ -43,7 +43,7 @@ class Popover {
 
         this.popoverContent.innerHTML = content
 
-        present(e, this.popover)
+        present(e, this.popover, this.popoverContent)
 
     }
 
@@ -60,7 +60,7 @@ class Popover {
             this.popoverContent.appendChild(item.object)
         }
 
-        present(e, this.popover)
+        present(e, this.popover, this.popoverContent)
     }
 
     hide() {
@@ -82,18 +82,19 @@ class Popover {
 
 }
 
-function present(e, popover) {
+function present(e, popover, popoverContent) {
 
-    const { x, y } = DOMUtils.translateMouseCoordinates(e, popover.parentNode)
+    const { x, y, width } = DOMUtils.translateMouseCoordinates(e, popover.parentNode)
+    popover.style.top  = `${ y }px`
 
-    // parent bbox
-    const { width } = popover.parentNode.getBoundingClientRect()
     const { width: w } = popover.getBoundingClientRect()
 
     const xmax = x + w
+    const delta = xmax - width
 
-    popover.style.left = `${ xmax > width ? (x - (xmax - width)) : x }px`
-    popover.style.top  = `${ y }px`
+    popover.style.left = `${ xmax > width ? (x - delta) : x }px`
+    popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
+
 
 }
 
