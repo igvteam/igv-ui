@@ -37,11 +37,11 @@ class AlertDialog {
         this.errorHeadline.textContent = '';
 
         // body container
-        let bodyContainer = DOMUtils.div({id: 'igv-ui-alert-dialog-body'});
+        let bodyContainer = DOMUtils.div({class: 'igv-ui-alert-dialog-body'});
         this.container.appendChild(bodyContainer);
 
         // body copy
-        this.body = DOMUtils.div({id: 'igv-ui-alert-dialog-body-copy'});
+        this.body = DOMUtils.div({class: 'igv-ui-alert-dialog-body-copy'});
         bodyContainer.appendChild(this.body);
 
         // ok container
