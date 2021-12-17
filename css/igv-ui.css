@@ -95,18 +95,22 @@
     background-color: #eee; }
     .igv-ui-alert-dialog-container > div:first-child div:first-child {
       padding-left: 8px; }
-  .igv-ui-alert-dialog-container #igv-ui-alert-dialog-body {
+  .igv-ui-alert-dialog-container .igv-ui-alert-dialog-body {
     color: #373737;
     width: 100%;
     height: calc(100% - 24px - 64px);
     overflow-y: scroll; }
-    .igv-ui-alert-dialog-container #igv-ui-alert-dialog-body #igv-ui-alert-dialog-body-copy {
+    .igv-ui-alert-dialog-container .igv-ui-alert-dialog-body .igv-ui-alert-dialog-body-copy {
       cursor: pointer;
       margin: 16px;
       width: auto;
       height: auto;
       overflow-wrap: break-word;
       word-break: break-word;
+      -webkit-user-select: all;
+      -moz-user-select: all;
+      -ms-user-select: all;
+      user-select: all;
       background-color: white;
       border: unset; }
   .igv-ui-alert-dialog-container > div:last-child {
