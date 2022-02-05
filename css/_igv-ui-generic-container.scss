@@ -17,7 +17,7 @@
   align-items: center;
 
   // header bar
-  div:first-child {
+  >div:first-child {
 
     cursor: move;
 
@@ -32,7 +32,7 @@
 
     background-color: #dddddd;
 
-    div {
+    >div {
       display: block;
       color: #5f5f5f;
       cursor: pointer;

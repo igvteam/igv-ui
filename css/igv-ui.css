@@ -375,7 +375,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center; }
-  .igv-ui-generic-container div:first-child {
+  .igv-ui-generic-container > div:first-child {
     cursor: move;
     display: flex;
     flex-flow: row;
@@ -385,7 +385,7 @@
     height: 24px;
     width: 100%;
     background-color: #dddddd; }
-    .igv-ui-generic-container div:first-child div {
+    .igv-ui-generic-container > div:first-child > div {
       display: block;
       color: #5f5f5f;
       cursor: pointer;
