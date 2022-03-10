@@ -78,8 +78,10 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
         // row
         >div {
 
-            -webkit-user-select: all; /* Chrome/Safari */
-            -moz-user-select: all; /* Firefox */
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
 
             margin-left: 4px;
             margin-right: 4px;

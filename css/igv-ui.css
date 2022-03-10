@@ -41,10 +41,10 @@
     max-width: 800px;
     background-color: white; }
     .igv-ui-popover > div:last-child > div {
-      -webkit-user-select: all;
-      /* Chrome/Safari */
-      -moz-user-select: all;
-      /* Firefox */
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
       margin-left: 4px;
       margin-right: 4px;
       min-width: 220px;
@@ -96,21 +96,20 @@
     .igv-ui-alert-dialog-container > div:first-child div:first-child {
       padding-left: 8px; }
   .igv-ui-alert-dialog-container .igv-ui-alert-dialog-body {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
     color: #373737;
     width: 100%;
     height: calc(100% - 24px - 64px);
     overflow-y: scroll; }
     .igv-ui-alert-dialog-container .igv-ui-alert-dialog-body .igv-ui-alert-dialog-body-copy {
-      cursor: pointer;
       margin: 16px;
       width: auto;
       height: auto;
       overflow-wrap: break-word;
       word-break: break-word;
-      -webkit-user-select: all;
-      -moz-user-select: all;
-      -ms-user-select: all;
-      user-select: all;
       background-color: white;
       border: unset; }
   .igv-ui-alert-dialog-container > div:last-child {

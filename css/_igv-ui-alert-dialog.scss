@@ -70,6 +70,12 @@ $igv-alert-dialog-body-copy-margin: 16px;
 
   // body container
   .igv-ui-alert-dialog-body {
+
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+
     color: $igv-dark-grey-color;
 
     width: 100%;
@@ -78,7 +84,7 @@ $igv-alert-dialog-body-copy-margin: 16px;
     overflow-y: scroll;
 
     .igv-ui-alert-dialog-body-copy {
-      cursor: pointer;
+      //cursor: pointer;
 
       margin: $igv-alert-dialog-body-copy-margin;
 
@@ -87,11 +93,6 @@ $igv-alert-dialog-body-copy-margin: 16px;
 
       overflow-wrap: break-word;
       word-break: break-word;
-
-      -webkit-user-select: all;
-      -moz-user-select: all;
-      -ms-user-select: all;
-      user-select: all;
 
       background-color: white;
       border: unset;
