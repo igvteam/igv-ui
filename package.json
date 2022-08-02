@@ -1,6 +1,6 @@
 {
   "name": "igv-ui",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "UI code for igv.js and related projects",
   "module": "dist/igv-ui.js",
   "files": [
@@ -28,8 +28,9 @@
   },
   "homepage": "https://github.com/igvteam/igv-ui#readme",
   "devDependencies": {
+    "igv-utils": "github:igvteam/igv-utils#v1.3.2",
     "rollup": "^1.31.1",
     "sass": "^1.25.0",
-    "igv-utils": "github:igvteam/igv-utils#v1.3.2"
+    "fs-extra": "^10.1.0"
   }
 }

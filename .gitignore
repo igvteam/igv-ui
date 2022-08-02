@@ -12,3 +12,4 @@
 /npm-debug.log
 /css/.sass-cache/
 /package-lock.json
+/build/

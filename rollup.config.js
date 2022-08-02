@@ -1,6 +1,10 @@
+/**
+ * This config depends on creation of the "build" directory by running scripts/generateEmbedCss.js
+ */
+
 export default [
     {
-        input: 'js/index.js',
+        input: 'build/index.js',
         output:
             [
                 {
