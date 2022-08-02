@@ -10,6 +10,7 @@ import Panel from "./components/panel.js"
 import Textbox from "./components/textbox.js"
 import Dialog from "./components/dialog.js"
 import GenericContainer from "./genericContainer.js"
+import GenericColorPicker from "./components/genericColorPicker.js"
 import embedCSS from "./embedCSS.js"
 
 if (typeof document !== 'undefined') {
@@ -43,5 +44,6 @@ export {
     Panel,
     Textbox,
     Dialog,
-    GenericContainer
+    GenericContainer,
+    GenericColorPicker
 }
