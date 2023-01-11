@@ -11,6 +11,7 @@ import Textbox from "./components/textbox.js"
 import Dialog from "./components/dialog.js"
 import GenericContainer from "./genericContainer.js"
 import GenericColorPicker from "./components/genericColorPicker.js"
+import IGVTable from "./igvTable.js"
 import embedCSS from "./embedCSS.js"
 
 if (typeof document !== 'undefined') {
@@ -45,5 +46,6 @@ export {
     Textbox,
     Dialog,
     GenericContainer,
-    GenericColorPicker
+    GenericColorPicker,
+    IGVTable
 }

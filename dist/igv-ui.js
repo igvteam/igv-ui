@@ -34,24 +34,6 @@ function show(elem) {
     }
 }
 
-function offset(elem) {
-    // Return zeros for disconnected and hidden (display: none) elements (gh-2310)
-    // Support: IE <=11 only
-    // Running getBoundingClientRect on a
-    // disconnected node in IE throws an error
-    if (!elem.getClientRects().length) {
-        return {top: 0, left: 0};
-    }
-
-    // Get document-relative position by adding viewport scroll to viewport-relative gBCR
-    const rect = elem.getBoundingClientRect();
-    const win = elem.ownerDocument.defaultView;
-    return {
-        top: rect.top + win.pageYOffset,
-        left: rect.left + win.pageXOffset
-    };
-}
-
 function pageCoordinates(e) {
 
     if (e.type.startsWith("touch")) {
@@ -96,7 +78,7 @@ class Textbox {
 
     constructor({value, label, onchange}) {
 
-        this.elem = div({class: 'igv-ui-1_3_0-generic-dialog-label-input'});
+        this.elem = div({class: 'igv-ui-1_4_0-generic-dialog-label-input'});
 
         if(label) {
             const div$1 = div();
@@ -132,7 +114,7 @@ class Panel {
     constructor() {
 
         this.elem = create('div', {
-            class: 'igv-ui-1_3_0-panel-column'
+            class: 'igv-ui-1_4_0-panel-column'
         });
     }
 
@@ -234,60 +216,61 @@ function attachDialogCloseHandlerWithParent(parent, closeHandler) {
 
  */
 
-let dragData;   // Its assumed we are only dragging one element at a time.
+let dragData;  // Its assumed we are only dragging one element at a time.
 
+function makeDraggable(target, handle, constraint) {
 
-function makeDraggable(target, handle) {
     handle.addEventListener('mousedown', dragStart.bind(target));
-}
 
+    function dragStart(event) {
 
-function dragStart(event) {
+        event.stopPropagation();
+        event.preventDefault();
 
-    event.stopPropagation();
-    event.preventDefault();
+        const dragFunction = drag.bind(this);
+        const dragEndFunction = dragEnd.bind(this);
+        const computedStyle = getComputedStyle(this);
 
-    const pageCoords = offset(this);
-    const dragFunction = drag.bind(this);
-    const dragEndFunction = dragEnd.bind(this);
-    const computedStyle = getComputedStyle(this);
-    const top = parseInt(computedStyle.top.replace("px", ""));
-    const left = parseInt(computedStyle.left.replace("px", ""));
+        dragData =
+            {
+                constraint,
+                dragFunction,
+                dragEndFunction,
+                screenX: event.screenX,
+                screenY: event.screenY,
+                top: parseInt(computedStyle.top.replace("px", "")),
+                left: parseInt(computedStyle.left.replace("px", ""))
+            };
 
-    dragData =
-        {
-            dragFunction: dragFunction,
-            dragEndFunction: dragEndFunction,
-            screenX: event.screenX,
-            screenY: event.screenY,
-            top: top,
-            left: left
-        };
-
-    document.addEventListener('mousemove', dragFunction);
-    document.addEventListener('mouseup', dragEndFunction);
-    document.addEventListener('mouseleave', dragEndFunction);
-    document.addEventListener('mouseexit', dragEndFunction);
+        document.addEventListener('mousemove', dragFunction);
+        document.addEventListener('mouseup', dragEndFunction);
+        document.addEventListener('mouseleave', dragEndFunction);
+        document.addEventListener('mouseexit', dragEndFunction);
+    }
 }
 
 function drag(event) {
 
     if (!dragData) {
-        console.log("No drag data!");
+        console.error("No drag data!");
         return;
     }
     event.stopPropagation();
     event.preventDefault();
     const dx = event.screenX - dragData.screenX;
     const dy = event.screenY - dragData.screenY;
-    this.style.left = `${dragData.left + dx}px`;
-    this.style.top = `${dragData.top + dy}px`;
+
+    const left = dragData.left + dx;
+    const  top = dragData.constraint ? Math.max(dragData.constraint.minY, dragData.top  + dy) : dragData.top  + dy;
+
+    this.style.left = `${ left }px`;
+    this.style.top  = `${  top }px`;
 }
 
 function dragEnd(event) {
 
     if (!dragData) {
-        console.log("No drag data!");
+        console.error("No drag data!");
         return;
     }
     event.stopPropagation();
@@ -314,17 +297,17 @@ class Dialog {
         };
 
         // dialog container
-        this.elem = div({class: 'igv-ui-1_3_0-generic-dialog-container'});
+        this.elem = div({class: 'igv-ui-1_4_0-generic-dialog-container'});
 
         // dialog header
-        const header = div({class: 'igv-ui-1_3_0-generic-dialog-header'});
+        const header = div({class: 'igv-ui-1_4_0-generic-dialog-header'});
         this.elem.appendChild(header);
 
         attachDialogCloseHandlerWithParent(header, cancel);
 
         // dialog label
         if(label) {
-            const labelDiv = div({class: 'igv-ui-1_3_0-dialog-one-liner'});
+            const labelDiv = div({class: 'igv-ui-1_4_0-dialog-one-liner'});
             this.elem.appendChild(labelDiv);
             labelDiv.innerHTML = label;
         }
@@ -334,7 +317,7 @@ class Dialog {
         this.elem.appendChild(content.elem);
 
         // ok | cancel
-        const buttons = div({class: 'igv-ui-1_3_0-generic-dialog-ok-cancel'});
+        const buttons = div({class: 'igv-ui-1_4_0-generic-dialog-ok-cancel'});
         this.elem.appendChild(buttons);
 
         // ok
@@ -456,7 +439,7 @@ class AlertDialog {
         }, alertProps);
 
         // container
-        this.container = div({class: "igv-ui-1_3_0-alert-dialog-container"});
+        this.container = div({class: "igv-ui-1_4_0-alert-dialog-container"});
         parent.appendChild(this.container);
         this.container.setAttribute('tabIndex', '-1');
 
@@ -469,11 +452,11 @@ class AlertDialog {
         this.errorHeadline.textContent = '';
 
         // body container
-        let bodyContainer = div({class: 'igv-ui-1_3_0-alert-dialog-body'});
+        let bodyContainer = div({class: 'igv-ui-1_4_0-alert-dialog-body'});
         this.container.appendChild(bodyContainer);
 
         // body copy
-        this.body = div({class: 'igv-ui-1_3_0-alert-dialog-body-copy'});
+        this.body = div({class: 'igv-ui-1_4_0-alert-dialog-body-copy'});
         bodyContainer.appendChild(this.body);
 
         // ok container
@@ -581,23 +564,23 @@ class InputDialog {
         this.parent = parent;
 
         // dialog container
-        this.container = div({class: 'igv-ui-1_3_0-generic-dialog-container'});
+        this.container = div({class: 'igv-ui-1_4_0-generic-dialog-container'});
         parent.appendChild(this.container);
 
         // const { x, y, width, height } = this.container.getBoundingClientRect();
         // console.log(`InputDialog - x ${ x } y ${ y } width ${ width } height ${ height }`)
 
         // dialog header
-        const header = div({class: 'igv-ui-1_3_0-generic-dialog-header'});
+        const header = div({class: 'igv-ui-1_4_0-generic-dialog-header'});
         this.container.appendChild(header);
 
         // dialog label
-        this.label = div({class: 'igv-ui-1_3_0-generic-dialog-one-liner'});
+        this.label = div({class: 'igv-ui-1_4_0-generic-dialog-one-liner'});
         this.container.appendChild(this.label);
         this.label.text = 'Unlabeled';
 
         // input container
-        this.input_container = div({class: 'igv-ui-1_3_0-generic-dialog-input'});
+        this.input_container = div({class: 'igv-ui-1_4_0-generic-dialog-input'});
         this.container.appendChild(this.input_container);
         //
         this.input = document.createElement("input");
@@ -605,7 +588,7 @@ class InputDialog {
 
 
         // ok | cancel
-        const buttons = div({class: 'igv-ui-1_3_0-generic-dialog-ok-cancel'});
+        const buttons = div({class: 'igv-ui-1_4_0-generic-dialog-ok-cancel'});
         this.container.appendChild(buttons);
 
         // ok
@@ -739,7 +722,7 @@ class GenericContainer {
 
     constructor({parent,  top, left, width, height, border, closeHandler}) {
 
-        let container = div({class: 'igv-ui-1_3_0-generic-container'});
+        let container = div({class: 'igv-ui-1_4_0-generic-container'});
         parent.appendChild(container);
         hide(container);
         this.container = container;
@@ -810,14 +793,14 @@ const createColorSwatchSelector = (container, colorHandler, defaultColors) => {
     const hexColorStrings = Object.values(appleCrayonPalette);
 
     for (let hexColorString of hexColorStrings) {
-        const swatch = div({ class: 'igv-ui-1_3_0-color-swatch' });
+        const swatch = div({ class: 'igv-ui-1_4_0-color-swatch' });
         container.appendChild(swatch);
         decorateSwatch(swatch, hexColorString, colorHandler);
     }
 
     if (defaultColors) {
         for (let hexColorString of defaultColors) {
-            const swatch = div({ class: 'igv-ui-1_3_0-color-swatch' });
+            const swatch = div({ class: 'igv-ui-1_4_0-color-swatch' });
             container.appendChild(swatch);
             decorateSwatch(swatch, hexColorString, colorHandler);
         }
@@ -852,7 +835,7 @@ class Popover {
         this.parent = parent;
 
         // popover
-        this.popover = div({ class: "igv-ui-1_3_0-popover" });
+        this.popover = div({ class: "igv-ui-1_4_0-popover" });
         parent.appendChild(this.popover);
 
         // header
@@ -7778,19 +7761,19 @@ class GenericColorPicker extends GenericContainer {
 
     createSwatches(defaultColors) {
 
-        this.container.querySelectorAll('.igv-ui-1_3_0-color-swatch').forEach(swatch => swatch.remove());
+        this.container.querySelectorAll('.igv-ui-1_4_0-color-swatch').forEach(swatch => swatch.remove());
 
         const hexColorStrings = Object.values(appleCrayonPalette);
 
         for (let hexColorString of hexColorStrings) {
-            const swatch = div({class: 'igv-ui-1_3_0-color-swatch'});
+            const swatch = div({class: 'igv-ui-1_4_0-color-swatch'});
             this.container.appendChild(swatch);
             this.decorateSwatch(swatch, hexColorString);
         }
 
         if (defaultColors) {
             for (let hexColorString of defaultColors) {
-                const swatch = div({class: 'igv-ui-1_3_0-color-swatch'});
+                const swatch = div({class: 'igv-ui-1_4_0-color-swatch'});
                 this.container.appendChild(swatch);
                 this.decorateSwatch(swatch, hexColorString);
             }
@@ -7820,11 +7803,129 @@ class GenericColorPicker extends GenericContainer {
 
 }
 
+/**
+ * Create a table with an optional row click handler *
+ *
+ * @param tableConfig {
+ *     headers: column headers (strings)
+ *     rows: row data (array of arrays, 1 for ecah row)
+ *     rowClickHandler:  Optional click handler for a row.  Supplied function will receive a row's data as an array
+ * }
+ * @returns {HTMLTableElement}
+ */
+function createTable(tableConfig) {
+
+    const table = document.createElement("table");
+    table.classList.add("igv-ui-1_4_0-table");
+    table.id = "variant_table";
+
+    const thead = document.createElement('thead');
+    table.appendChild(thead);
+    const headerRow = thead.insertRow(0);
+
+    const headers = tableConfig.headers;
+    for (let j = 0; j < headers.length; j++) {
+        var cell = document.createElement("th");
+        headerRow.appendChild(cell);
+        cell.innerHTML = headers[j];
+    }
+
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    const tableRows = tableConfig.rows;
+    for (let rowData of tableRows) {
+
+        const row = document.createElement("tr");
+        tbody.appendChild(row);
+
+        for (let j = 0; j < headers.length; j++) {
+            var value = rowData[j];
+            cell = document.createElement("td");
+            row.appendChild(cell);
+            cell.innerHTML = value;
+        }
+
+        if (tableConfig.rowClickHandler) {
+            row.onclick = (event) => {
+                tableConfig.rowClickHandler(rowData);
+            };
+        }
+    }
+
+    return table
+
+}
+
+/**
+ * Wraps a simple table (see components/table.js) in a popup component with drag bar and close control.  The table
+ * is initially hidden (display == none)
+ *
+ */
+
+class IGVTable {
+
+    /**
+     *
+     * @param parent - parent element for the popup's html element
+     * @param tableConfig - see components/table.js
+     */
+    constructor(parent, tableConfig) {
+
+        this.parent = parent;
+
+        // popover
+        this.popover = div({class: "igv-ui-1_4_0-popover"});
+        parent.appendChild(this.popover);
+
+        // header
+        const popoverHeader = div();
+        this.popover.appendChild(popoverHeader);
+
+        const titleElement = div();
+        popoverHeader.appendChild(titleElement);
+        if (tableConfig.title) {
+             titleElement.innerHTML = tableConfig.title;
+        }
+
+        attachDialogCloseHandlerWithParent(popoverHeader, () => this.hide());
+        makeDraggable(this.popover, popoverHeader);
+
+        const tableContainer = document.createElement("div");
+        tableContainer.style.maxHeight = tableConfig.maxHeight ? tableConfig.maxHeight + "px" : "800px";
+        tableContainer.style.overflow = "auto";
+        this.popover.appendChild(tableContainer);
+
+        // TODO -- this will be passed as an argument
+
+        const table = createTable(tableConfig);
+        tableContainer.appendChild(table);
+
+        this.popover.style.display = 'none';
+
+    }
+
+    show() {
+        this.popover.style.display = 'block';
+    }
+
+    hide() {
+        this.popover.style.display = 'none';
+    }
+
+    dispose() {
+
+        if (this.popover) {
+            this.popover.parentNode.removeChild(this.popover);
+        }
+    }
+
+}
+
 function embedCSS() {
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
-    style.setAttribute('title', 'igv-ui-1_3_0.css');
-    style.innerHTML = `.igv-ui-1_3_0-popover {
+    style.setAttribute('title', 'igv-ui-1_4_0.css');
+    style.innerHTML = `.igv-ui-1_4_0-popover {
   cursor: default;
   position: absolute;
   z-index: 2048;
@@ -7834,55 +7935,64 @@ function embedCSS() {
   border-width: 1px;
   font-family: "Open Sans", sans-serif;
   font-size: small;
-  background-color: white; }
-  .igv-ui-1_3_0-popover > div:first-child {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 24px;
-    cursor: move;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-color: #7F7F7F;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    background-color: #eee; }
-    .igv-ui-1_3_0-popover > div:first-child > div:first-child {
-      margin-left: 4px; }
-    .igv-ui-1_3_0-popover > div:first-child > div:last-child {
-      margin-right: 4px;
-      height: 12px;
-      width: 12px;
-      color: #7F7F7F; }
-    .igv-ui-1_3_0-popover > div:first-child > div:last-child:hover {
-      cursor: pointer;
-      color: #444; }
-  .igv-ui-1_3_0-popover > div:last-child {
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 400px;
-    max-width: 800px;
-    background-color: white; }
-    .igv-ui-1_3_0-popover > div:last-child > div {
-      -webkit-user-select: text;
-      -moz-user-select: text;
-      -ms-user-select: text;
-      user-select: text;
-      margin-left: 4px;
-      margin-right: 4px;
-      min-width: 220px;
-      overflow-x: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; }
-      .igv-ui-1_3_0-popover > div:last-child > div > span {
-        font-weight: bolder; }
-    .igv-ui-1_3_0-popover > div:last-child hr {
-      width: 100%; }
+  background-color: white;
+}
+.igv-ui-1_4_0-popover > div:first-child {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  cursor: move;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-color: #7F7F7F;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  background-color: #eee;
+}
+.igv-ui-1_4_0-popover > div:first-child > div:first-child {
+  margin-left: 4px;
+}
+.igv-ui-1_4_0-popover > div:first-child > div:last-child {
+  margin-right: 4px;
+  height: 12px;
+  width: 12px;
+  color: #7F7F7F;
+}
+.igv-ui-1_4_0-popover > div:first-child > div:last-child:hover {
+  cursor: pointer;
+  color: #444;
+}
+.igv-ui-1_4_0-popover > div:last-child {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 400px;
+  max-width: 800px;
+  background-color: white;
+}
+.igv-ui-1_4_0-popover > div:last-child > div {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  margin-left: 4px;
+  margin-right: 4px;
+  min-width: 220px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.igv-ui-1_4_0-popover > div:last-child > div > span {
+  font-weight: bolder;
+}
+.igv-ui-1_4_0-popover > div:last-child hr {
+  width: 100%;
+}
 
-.igv-ui-1_3_0-alert-dialog-container {
+.igv-ui-1_4_0-alert-dialog-container {
   box-sizing: content-box;
   position: absolute;
   z-index: 2048;
@@ -7903,71 +8013,79 @@ function embedCSS() {
   flex-flow: column;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: center; }
-  .igv-ui-1_3_0-alert-dialog-container > div:first-child {
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    height: 24px;
-    cursor: move;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-color: #7F7F7F;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    background-color: #eee; }
-    .igv-ui-1_3_0-alert-dialog-container > div:first-child div:first-child {
-      padding-left: 8px; }
-  .igv-ui-1_3_0-alert-dialog-container .igv-ui-1_3_0-alert-dialog-body {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-    color: #373737;
-    width: 100%;
-    height: calc(100% - 24px - 64px);
-    overflow-y: scroll; }
-    .igv-ui-1_3_0-alert-dialog-container .igv-ui-1_3_0-alert-dialog-body .igv-ui-1_3_0-alert-dialog-body-copy {
-      margin: 16px;
-      width: auto;
-      height: auto;
-      overflow-wrap: break-word;
-      word-break: break-word;
-      background-color: white;
-      border: unset; }
-  .igv-ui-1_3_0-alert-dialog-container > div:last-child {
-    width: 100%;
-    margin-bottom: 10px;
-    background-color: white;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center; }
-    .igv-ui-1_3_0-alert-dialog-container > div:last-child div {
-      margin: unset;
-      width: 40px;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      color: white;
-      font-family: "Open Sans", sans-serif;
-      font-size: small;
-      font-weight: 400;
-      border-color: #2B81AF;
-      border-style: solid;
-      border-width: thin;
-      border-radius: 4px;
-      background-color: #2B81AF; }
-    .igv-ui-1_3_0-alert-dialog-container > div:last-child div:hover {
-      cursor: pointer;
-      border-color: #25597f;
-      background-color: #25597f; }
+  align-items: center;
+}
+.igv-ui-1_4_0-alert-dialog-container > div:first-child {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  cursor: move;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-color: #7F7F7F;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  background-color: #eee;
+}
+.igv-ui-1_4_0-alert-dialog-container > div:first-child div:first-child {
+  padding-left: 8px;
+}
+.igv-ui-1_4_0-alert-dialog-container .igv-ui-1_4_0-alert-dialog-body {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  color: #373737;
+  width: 100%;
+  height: calc(100% - 24px - 64px);
+  overflow-y: scroll;
+}
+.igv-ui-1_4_0-alert-dialog-container .igv-ui-1_4_0-alert-dialog-body .igv-ui-1_4_0-alert-dialog-body-copy {
+  margin: 16px;
+  width: auto;
+  height: auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  background-color: white;
+  border: unset;
+}
+.igv-ui-1_4_0-alert-dialog-container > div:last-child {
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: white;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.igv-ui-1_4_0-alert-dialog-container > div:last-child div {
+  margin: unset;
+  width: 40px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-size: small;
+  font-weight: 400;
+  border-color: #2B81AF;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 4px;
+  background-color: #2B81AF;
+}
+.igv-ui-1_4_0-alert-dialog-container > div:last-child div:hover {
+  cursor: pointer;
+  border-color: #25597f;
+  background-color: #25597f;
+}
 
-.igv-ui-1_3_0-color-swatch {
+.igv-ui-1_4_0-color-swatch {
   position: relative;
   box-sizing: content-box;
   display: flex;
@@ -7980,12 +8098,14 @@ function embedCSS() {
   border-style: solid;
   border-width: 2px;
   border-color: white;
-  border-radius: 4px; }
+  border-radius: 4px;
+}
 
-.igv-ui-1_3_0-color-swatch:hover {
-  border-color: dimgray; }
+.igv-ui-1_4_0-color-swatch:hover {
+  border-color: dimgray;
+}
 
-.igv-ui-1_3_0-colorpicker-menu-close-button {
+.igv-ui-1_4_0-colorpicker-menu-close-button {
   display: flex;
   flex-flow: row;
   flex-wrap: nowrap;
@@ -7995,19 +8115,22 @@ function embedCSS() {
   height: 32px;
   margin-top: 4px;
   margin-bottom: 4px;
-  padding-right: 8px; }
-  .igv-ui-1_3_0-colorpicker-menu-close-button i.fa {
-    display: block;
-    margin-left: 4px;
-    margin-right: 4px;
-    color: #5f5f5f; }
-  .igv-ui-1_3_0-colorpicker-menu-close-button i.fa:hover,
-  .igv-ui-1_3_0-colorpicker-menu-close-button i.fa:focus,
-  .igv-ui-1_3_0-colorpicker-menu-close-button i.fa:active {
-    cursor: pointer;
-    color: #0f0f0f; }
+  padding-right: 8px;
+}
+.igv-ui-1_4_0-colorpicker-menu-close-button i.fa {
+  display: block;
+  margin-left: 4px;
+  margin-right: 4px;
+  color: #5f5f5f;
+}
+.igv-ui-1_4_0-colorpicker-menu-close-button i.fa:hover,
+.igv-ui-1_4_0-colorpicker-menu-close-button i.fa:focus,
+.igv-ui-1_4_0-colorpicker-menu-close-button i.fa:active {
+  cursor: pointer;
+  color: #0f0f0f;
+}
 
-.igv-ui-1_3_0-generic-dialog-container {
+.igv-ui-1_4_0-generic-dialog-container {
   box-sizing: content-box;
   position: fixed;
   top: 0;
@@ -8027,169 +8150,190 @@ function embedCSS() {
   flex-flow: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  align-items: center; }
-  .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-header {
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    height: 24px;
-    cursor: move;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-color: #7F7F7F;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    background-color: #eee; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-header div {
-      margin-right: 4px;
-      margin-bottom: 2px;
-      height: 12px;
-      width: 12px;
-      color: #7F7F7F; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-header div:hover {
-      cursor: pointer;
-      color: #444; }
-  .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-one-liner {
-    color: #373737;
-    width: 95%;
-    height: 24px;
-    line-height: 24px;
-    text-align: left;
-    margin-top: 8px;
-    padding-left: 8px;
-    overflow-wrap: break-word;
-    background-color: white; }
-  .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-label-input {
-    margin-top: 8px;
-    width: 95%;
-    height: 24px;
-    color: #373737;
-    line-height: 24px;
-    padding-left: 8px;
-    background-color: white;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-label-input div {
-      width: 30%;
-      height: 100%;
-      font-size: 16px;
-      text-align: right;
-      padding-right: 8px;
-      background-color: white; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-label-input input {
-      display: block;
-      height: 100%;
-      width: 100%;
-      padding-left: 4px;
-      font-family: "Open Sans", sans-serif;
-      font-weight: 400;
-      color: #373737;
-      text-align: left;
-      outline: none;
-      border-style: solid;
-      border-width: thin;
-      border-color: #7F7F7F;
-      background-color: white; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-label-input input {
-      width: 50%;
-      font-size: 16px; }
-  .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-input {
-    margin-top: 8px;
-    width: calc(100% - 16px);
-    height: 24px;
-    color: #373737;
-    line-height: 24px;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-input input {
-      display: block;
-      height: 100%;
-      width: 100%;
-      padding-left: 4px;
-      font-family: "Open Sans", sans-serif;
-      font-weight: 400;
-      color: #373737;
-      text-align: left;
-      outline: none;
-      border-style: solid;
-      border-width: thin;
-      border-color: #7F7F7F;
-      background-color: white; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-input input {
-      font-size: 16px; }
-  .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok-cancel {
-    width: 100%;
-    height: 28px;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok-cancel div {
-      margin-top: 32px;
-      color: white;
-      font-family: "Open Sans", sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      width: 75px;
-      height: 28px;
-      line-height: 28px;
-      text-align: center;
-      border-color: transparent;
-      border-style: solid;
-      border-width: thin;
-      border-radius: 2px; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok-cancel div:first-child {
-      margin-left: 32px;
-      margin-right: 0;
-      background-color: #5ea4e0; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok-cancel div:last-child {
-      margin-left: 0;
-      margin-right: 32px;
-      background-color: #c4c4c4; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok-cancel div:first-child:hover {
-      cursor: pointer;
-      background-color: #3b5c7f; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok-cancel div:last-child:hover {
-      cursor: pointer;
-      background-color: #7f7f7f; }
-  .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok {
-    width: 100%;
-    height: 36px;
-    margin-top: 32px;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok div {
-      width: 98px;
-      height: 36px;
-      line-height: 36px;
-      text-align: center;
-      color: white;
-      font-family: "Open Sans", sans-serif;
-      font-size: medium;
-      font-weight: 400;
-      border-color: white;
-      border-style: solid;
-      border-width: thin;
-      border-radius: 4px;
-      background-color: #2B81AF; }
-    .igv-ui-1_3_0-generic-dialog-container .igv-ui-1_3_0-generic-dialog-ok div:hover {
-      cursor: pointer;
-      background-color: #25597f; }
+  align-items: center;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-header {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  cursor: move;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-color: #7F7F7F;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  background-color: #eee;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-header div {
+  margin-right: 4px;
+  margin-bottom: 2px;
+  height: 12px;
+  width: 12px;
+  color: #7F7F7F;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-header div:hover {
+  cursor: pointer;
+  color: #444;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-one-liner {
+  color: #373737;
+  width: 95%;
+  height: 24px;
+  line-height: 24px;
+  text-align: left;
+  margin-top: 8px;
+  padding-left: 8px;
+  overflow-wrap: break-word;
+  background-color: white;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input {
+  margin-top: 8px;
+  width: 95%;
+  height: 24px;
+  color: #373737;
+  line-height: 24px;
+  padding-left: 8px;
+  background-color: white;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input div {
+  width: 30%;
+  height: 100%;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 8px;
+  background-color: white;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input input {
+  display: block;
+  height: 100%;
+  width: 100%;
+  padding-left: 4px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  color: #373737;
+  text-align: left;
+  outline: none;
+  border-style: solid;
+  border-width: thin;
+  border-color: #7F7F7F;
+  background-color: white;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input input {
+  width: 50%;
+  font-size: 16px;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-input {
+  margin-top: 8px;
+  width: calc(100% - 16px);
+  height: 24px;
+  color: #373737;
+  line-height: 24px;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-input input {
+  display: block;
+  height: 100%;
+  width: 100%;
+  padding-left: 4px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  color: #373737;
+  text-align: left;
+  outline: none;
+  border-style: solid;
+  border-width: thin;
+  border-color: #7F7F7F;
+  background-color: white;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-input input {
+  font-size: 16px;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div {
+  margin-top: 32px;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  width: 75px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-color: transparent;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 2px;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:first-child {
+  margin-left: 32px;
+  margin-right: 0;
+  background-color: #5ea4e0;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:last-child {
+  margin-left: 0;
+  margin-right: 32px;
+  background-color: #c4c4c4;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:first-child:hover {
+  cursor: pointer;
+  background-color: #3b5c7f;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:last-child:hover {
+  cursor: pointer;
+  background-color: #7f7f7f;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok {
+  width: 100%;
+  height: 36px;
+  margin-top: 32px;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok div {
+  width: 98px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-size: medium;
+  font-weight: 400;
+  border-color: white;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 4px;
+  background-color: #2B81AF;
+}
+.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok div:hover {
+  cursor: pointer;
+  background-color: #25597f;
+}
 
-.igv-ui-1_3_0-generic-container {
+.igv-ui-1_4_0-generic-container {
   box-sizing: content-box;
   position: absolute;
   z-index: 2048;
@@ -8199,27 +8343,30 @@ function embedCSS() {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: center; }
-  .igv-ui-1_3_0-generic-container > div:first-child {
-    cursor: move;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    height: 24px;
-    width: 100%;
-    background-color: #dddddd; }
-    .igv-ui-1_3_0-generic-container > div:first-child > div {
-      display: block;
-      color: #5f5f5f;
-      cursor: pointer;
-      width: 14px;
-      height: 14px;
-      margin-right: 8px;
-      margin-bottom: 4px; }
+  align-items: center;
+}
+.igv-ui-1_4_0-generic-container > div:first-child {
+  cursor: move;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  height: 24px;
+  width: 100%;
+  background-color: #dddddd;
+}
+.igv-ui-1_4_0-generic-container > div:first-child > div {
+  display: block;
+  color: #5f5f5f;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  margin-bottom: 4px;
+}
 
-.igv-ui-1_3_0-dialog {
+.igv-ui-1_4_0-dialog {
   z-index: 2048;
   position: fixed;
   width: fit-content;
@@ -8235,100 +8382,114 @@ function embedCSS() {
   border-width: thin;
   font-family: "Open Sans", sans-serif;
   font-size: medium;
-  font-weight: 400; }
-  .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-header {
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    height: 24px;
-    cursor: move;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-color: #7F7F7F;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    background-color: #eee; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-header div {
-      margin-right: 4px;
-      margin-bottom: 2px;
-      height: 12px;
-      width: 12px;
-      color: #7F7F7F; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-header div:hover {
-      cursor: pointer;
-      color: #444; }
-  .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-one-liner {
-    width: 95%;
-    height: 24px;
-    line-height: 24px;
-    text-align: left;
-    margin: 8px;
-    overflow-wrap: break-word;
-    background-color: white;
-    font-weight: bold; }
-  .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok-cancel {
-    width: 100%;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok-cancel div {
-      margin: 16px;
-      margin-top: 32px;
-      color: white;
-      font-family: "Open Sans", sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      width: 75px;
-      height: 28px;
-      line-height: 28px;
-      text-align: center;
-      border-color: transparent;
-      border-style: solid;
-      border-width: thin;
-      border-radius: 2px; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok-cancel div:first-child {
-      background-color: #5ea4e0; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok-cancel div:last-child {
-      background-color: #c4c4c4; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok-cancel div:first-child:hover {
-      cursor: pointer;
-      background-color: #3b5c7f; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok-cancel div:last-child:hover {
-      cursor: pointer;
-      background-color: #7f7f7f; }
-  .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok {
-    width: 100%;
-    height: 36px;
-    margin-top: 32px;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok div {
-      width: 98px;
-      height: 36px;
-      line-height: 36px;
-      text-align: center;
-      color: white;
-      font-family: "Open Sans", sans-serif;
-      font-size: medium;
-      font-weight: 400;
-      border-color: white;
-      border-style: solid;
-      border-width: thin;
-      border-radius: 4px;
-      background-color: #2B81AF; }
-    .igv-ui-1_3_0-dialog .igv-ui-1_3_0-dialog-ok div:hover {
-      cursor: pointer;
-      background-color: #25597f; }
+  font-weight: 400;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-header {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  cursor: move;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-color: #7F7F7F;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  background-color: #eee;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-header div {
+  margin-right: 4px;
+  margin-bottom: 2px;
+  height: 12px;
+  width: 12px;
+  color: #7F7F7F;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-header div:hover {
+  cursor: pointer;
+  color: #444;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-one-liner {
+  width: 95%;
+  height: 24px;
+  line-height: 24px;
+  text-align: left;
+  margin: 8px;
+  overflow-wrap: break-word;
+  background-color: white;
+  font-weight: bold;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div {
+  margin: 16px;
+  margin-top: 32px;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  width: 75px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-color: transparent;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 2px;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:first-child {
+  background-color: #5ea4e0;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:last-child {
+  background-color: #c4c4c4;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:first-child:hover {
+  cursor: pointer;
+  background-color: #3b5c7f;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:last-child:hover {
+  cursor: pointer;
+  background-color: #7f7f7f;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok {
+  width: 100%;
+  height: 36px;
+  margin-top: 32px;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok div {
+  width: 98px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-size: medium;
+  font-weight: 400;
+  border-color: white;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 4px;
+  background-color: #2B81AF;
+}
+.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok div:hover {
+  cursor: pointer;
+  background-color: #25597f;
+}
 
-.igv-ui-1_3_0-panel, .igv-ui-1_3_0-panel-column, .igv-ui-1_3_0-panel-row {
+.igv-ui-1_4_0-panel, .igv-ui-1_4_0-panel-row, .igv-ui-1_4_0-panel-column {
   z-index: 2048;
   background-color: white;
   font-family: "Open Sans", sans-serif;
@@ -8336,33 +8497,58 @@ function embedCSS() {
   font-weight: 400;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start; }
+  align-items: flex-start;
+}
 
-.igv-ui-1_3_0-panel-column {
+.igv-ui-1_4_0-panel-column {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
-.igv-ui-1_3_0-panel-row {
+.igv-ui-1_4_0-panel-row {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+}
 
-.igv-ui-1_3_0-textbox {
+.igv-ui-1_4_0-textbox {
   background-color: white;
   font-family: "Open Sans", sans-serif;
   font-size: medium;
   font-weight: 400;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start; }
+  align-items: flex-start;
+}
 
-/*# sourceMappingURL=igv-ui-1_3_0.css.map */
+.igv-ui-1_4_0-table {
+  background-color: white;
+}
+
+.igv-ui-1_4_0-table thead {
+  position: sticky;
+  top: 0;
+}
+
+.igv-ui-1_4_0-table th {
+  text-align: left;
+}
+
+.igv-ui-1_4_0-table td {
+  padding-right: 20px;
+}
+
+.igv-ui-1_4_0-table tr:hover {
+  background-color: lightblue;
+}
+
+/*# sourceMappingURL=igv-ui-1_4_0.css.map */
 `;
     document.head.insertBefore(style, document.head.childNodes[ document.head.childNodes.length - 1 ]);
 }
 
 if (typeof document !== 'undefined') {
 
-    if (!stylesheetExists("igv-ui-1_3_0.css")) {
+    if (!stylesheetExists("igv-ui-1_4_0.css")) {
         embedCSS();
     }
 
@@ -8377,4 +8563,4 @@ if (typeof document !== 'undefined') {
     }
 }
 
-export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, DataRangeDialog, Dialog, GenericColorPicker, GenericContainer, InputDialog, Panel, Popover, Textbox, createColorSwatchSelector };
+export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, DataRangeDialog, Dialog, GenericColorPicker, GenericContainer, IGVTable, InputDialog, Panel, Popover, Textbox, createColorSwatchSelector };
