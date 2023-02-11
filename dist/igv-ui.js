@@ -78,7 +78,7 @@ class Textbox {
 
     constructor({value, label, onchange}) {
 
-        this.elem = div({class: 'igv-ui-1_4_0-generic-dialog-label-input'});
+        this.elem = div({class: 'igv-ui-1_4_1-generic-dialog-label-input'});
 
         if(label) {
             const div$1 = div();
@@ -114,7 +114,7 @@ class Panel {
     constructor() {
 
         this.elem = create('div', {
-            class: 'igv-ui-1_4_0-panel-column'
+            class: 'igv-ui-1_4_1-panel-column'
         });
     }
 
@@ -297,17 +297,17 @@ class Dialog {
         };
 
         // dialog container
-        this.elem = div({class: 'igv-ui-1_4_0-generic-dialog-container'});
+        this.elem = div({class: 'igv-ui-1_4_1-generic-dialog-container'});
 
         // dialog header
-        const header = div({class: 'igv-ui-1_4_0-generic-dialog-header'});
+        const header = div({class: 'igv-ui-1_4_1-generic-dialog-header'});
         this.elem.appendChild(header);
 
         attachDialogCloseHandlerWithParent(header, cancel);
 
         // dialog label
         if(label) {
-            const labelDiv = div({class: 'igv-ui-1_4_0-dialog-one-liner'});
+            const labelDiv = div({class: 'igv-ui-1_4_1-dialog-one-liner'});
             this.elem.appendChild(labelDiv);
             labelDiv.innerHTML = label;
         }
@@ -317,7 +317,7 @@ class Dialog {
         this.elem.appendChild(content.elem);
 
         // ok | cancel
-        const buttons = div({class: 'igv-ui-1_4_0-generic-dialog-ok-cancel'});
+        const buttons = div({class: 'igv-ui-1_4_1-generic-dialog-ok-cancel'});
         this.elem.appendChild(buttons);
 
         // ok
@@ -439,7 +439,7 @@ class AlertDialog {
         }, alertProps);
 
         // container
-        this.container = div({class: "igv-ui-1_4_0-alert-dialog-container"});
+        this.container = div({class: "igv-ui-1_4_1-alert-dialog-container"});
         parent.appendChild(this.container);
         this.container.setAttribute('tabIndex', '-1');
 
@@ -452,11 +452,11 @@ class AlertDialog {
         this.errorHeadline.textContent = '';
 
         // body container
-        let bodyContainer = div({class: 'igv-ui-1_4_0-alert-dialog-body'});
+        let bodyContainer = div({class: 'igv-ui-1_4_1-alert-dialog-body'});
         this.container.appendChild(bodyContainer);
 
         // body copy
-        this.body = div({class: 'igv-ui-1_4_0-alert-dialog-body-copy'});
+        this.body = div({class: 'igv-ui-1_4_1-alert-dialog-body-copy'});
         bodyContainer.appendChild(this.body);
 
         // ok container
@@ -564,23 +564,23 @@ class InputDialog {
         this.parent = parent;
 
         // dialog container
-        this.container = div({class: 'igv-ui-1_4_0-generic-dialog-container'});
+        this.container = div({class: 'igv-ui-1_4_1-generic-dialog-container'});
         parent.appendChild(this.container);
 
         // const { x, y, width, height } = this.container.getBoundingClientRect();
         // console.log(`InputDialog - x ${ x } y ${ y } width ${ width } height ${ height }`)
 
         // dialog header
-        const header = div({class: 'igv-ui-1_4_0-generic-dialog-header'});
+        const header = div({class: 'igv-ui-1_4_1-generic-dialog-header'});
         this.container.appendChild(header);
 
         // dialog label
-        this.label = div({class: 'igv-ui-1_4_0-generic-dialog-one-liner'});
+        this.label = div({class: 'igv-ui-1_4_1-generic-dialog-one-liner'});
         this.container.appendChild(this.label);
         this.label.text = 'Unlabeled';
 
         // input container
-        this.input_container = div({class: 'igv-ui-1_4_0-generic-dialog-input'});
+        this.input_container = div({class: 'igv-ui-1_4_1-generic-dialog-input'});
         this.container.appendChild(this.input_container);
         //
         this.input = document.createElement("input");
@@ -588,7 +588,7 @@ class InputDialog {
 
 
         // ok | cancel
-        const buttons = div({class: 'igv-ui-1_4_0-generic-dialog-ok-cancel'});
+        const buttons = div({class: 'igv-ui-1_4_1-generic-dialog-ok-cancel'});
         this.container.appendChild(buttons);
 
         // ok
@@ -722,7 +722,7 @@ class GenericContainer {
 
     constructor({parent,  top, left, width, height, border, closeHandler}) {
 
-        let container = div({class: 'igv-ui-1_4_0-generic-container'});
+        let container = div({class: 'igv-ui-1_4_1-generic-container'});
         parent.appendChild(container);
         hide(container);
         this.container = container;
@@ -793,14 +793,14 @@ const createColorSwatchSelector = (container, colorHandler, defaultColors) => {
     const hexColorStrings = Object.values(appleCrayonPalette);
 
     for (let hexColorString of hexColorStrings) {
-        const swatch = div({ class: 'igv-ui-1_4_0-color-swatch' });
+        const swatch = div({ class: 'igv-ui-1_4_1-color-swatch' });
         container.appendChild(swatch);
         decorateSwatch(swatch, hexColorString, colorHandler);
     }
 
     if (defaultColors) {
         for (let hexColorString of defaultColors) {
-            const swatch = div({ class: 'igv-ui-1_4_0-color-swatch' });
+            const swatch = div({ class: 'igv-ui-1_4_1-color-swatch' });
             container.appendChild(swatch);
             decorateSwatch(swatch, hexColorString, colorHandler);
         }
@@ -835,7 +835,7 @@ class Popover {
         this.parent = parent;
 
         // popover
-        this.popover = div({ class: "igv-ui-1_4_0-popover" });
+        this.popover = div({ class: "igv-ui-1_4_1-popover" });
         parent.appendChild(this.popover);
 
         // header
@@ -7761,19 +7761,19 @@ class GenericColorPicker extends GenericContainer {
 
     createSwatches(defaultColors) {
 
-        this.container.querySelectorAll('.igv-ui-1_4_0-color-swatch').forEach(swatch => swatch.remove());
+        this.container.querySelectorAll('.igv-ui-1_4_1-color-swatch').forEach(swatch => swatch.remove());
 
         const hexColorStrings = Object.values(appleCrayonPalette);
 
         for (let hexColorString of hexColorStrings) {
-            const swatch = div({class: 'igv-ui-1_4_0-color-swatch'});
+            const swatch = div({class: 'igv-ui-1_4_1-color-swatch'});
             this.container.appendChild(swatch);
             this.decorateSwatch(swatch, hexColorString);
         }
 
         if (defaultColors) {
             for (let hexColorString of defaultColors) {
-                const swatch = div({class: 'igv-ui-1_4_0-color-swatch'});
+                const swatch = div({class: 'igv-ui-1_4_1-color-swatch'});
                 this.container.appendChild(swatch);
                 this.decorateSwatch(swatch, hexColorString);
             }
@@ -7816,7 +7816,7 @@ class GenericColorPicker extends GenericContainer {
 function createTable(tableConfig) {
 
     const table = document.createElement("table");
-    table.classList.add("igv-ui-1_4_0-table");
+    table.classList.add("igv-ui-1_4_1-table");
     table.id = "variant_table";
 
     const thead = document.createElement('thead');
@@ -7874,7 +7874,7 @@ class IGVTable {
         this.parent = parent;
 
         // popover
-        this.popover = div({class: "igv-ui-1_4_0-popover"});
+        this.popover = div({class: "igv-ui-1_4_1-popover"});
         parent.appendChild(this.popover);
 
         // header
@@ -7924,8 +7924,8 @@ class IGVTable {
 function embedCSS() {
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
-    style.setAttribute('title', 'igv-ui-1_4_0.css');
-    style.innerHTML = `.igv-ui-1_4_0-popover {
+    style.setAttribute('title', 'igv-ui-1_4_1.css');
+    style.innerHTML = `.igv-ui-1_4_1-popover {
   cursor: default;
   position: absolute;
   z-index: 2048;
@@ -7937,7 +7937,7 @@ function embedCSS() {
   font-size: small;
   background-color: white;
 }
-.igv-ui-1_4_0-popover > div:first-child {
+.igv-ui-1_4_1-popover > div:first-child {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -7953,27 +7953,27 @@ function embedCSS() {
   border-bottom-width: thin;
   background-color: #eee;
 }
-.igv-ui-1_4_0-popover > div:first-child > div:first-child {
+.igv-ui-1_4_1-popover > div:first-child > div:first-child {
   margin-left: 4px;
 }
-.igv-ui-1_4_0-popover > div:first-child > div:last-child {
+.igv-ui-1_4_1-popover > div:first-child > div:last-child {
   margin-right: 4px;
   height: 12px;
   width: 12px;
   color: #7F7F7F;
 }
-.igv-ui-1_4_0-popover > div:first-child > div:last-child:hover {
+.igv-ui-1_4_1-popover > div:first-child > div:last-child:hover {
   cursor: pointer;
   color: #444;
 }
-.igv-ui-1_4_0-popover > div:last-child {
+.igv-ui-1_4_1-popover > div:last-child {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 400px;
   max-width: 800px;
   background-color: white;
 }
-.igv-ui-1_4_0-popover > div:last-child > div {
+.igv-ui-1_4_1-popover > div:last-child > div {
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
@@ -7985,14 +7985,14 @@ function embedCSS() {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.igv-ui-1_4_0-popover > div:last-child > div > span {
+.igv-ui-1_4_1-popover > div:last-child > div > span {
   font-weight: bolder;
 }
-.igv-ui-1_4_0-popover > div:last-child hr {
+.igv-ui-1_4_1-popover > div:last-child hr {
   width: 100%;
 }
 
-.igv-ui-1_4_0-alert-dialog-container {
+.igv-ui-1_4_1-alert-dialog-container {
   box-sizing: content-box;
   position: absolute;
   z-index: 2048;
@@ -8015,7 +8015,7 @@ function embedCSS() {
   justify-content: space-between;
   align-items: center;
 }
-.igv-ui-1_4_0-alert-dialog-container > div:first-child {
+.igv-ui-1_4_1-alert-dialog-container > div:first-child {
   display: flex;
   flex-flow: row;
   flex-wrap: nowrap;
@@ -8031,10 +8031,10 @@ function embedCSS() {
   border-bottom-width: thin;
   background-color: #eee;
 }
-.igv-ui-1_4_0-alert-dialog-container > div:first-child div:first-child {
+.igv-ui-1_4_1-alert-dialog-container > div:first-child div:first-child {
   padding-left: 8px;
 }
-.igv-ui-1_4_0-alert-dialog-container .igv-ui-1_4_0-alert-dialog-body {
+.igv-ui-1_4_1-alert-dialog-container .igv-ui-1_4_1-alert-dialog-body {
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
@@ -8044,7 +8044,7 @@ function embedCSS() {
   height: calc(100% - 24px - 64px);
   overflow-y: scroll;
 }
-.igv-ui-1_4_0-alert-dialog-container .igv-ui-1_4_0-alert-dialog-body .igv-ui-1_4_0-alert-dialog-body-copy {
+.igv-ui-1_4_1-alert-dialog-container .igv-ui-1_4_1-alert-dialog-body .igv-ui-1_4_1-alert-dialog-body-copy {
   margin: 16px;
   width: auto;
   height: auto;
@@ -8053,7 +8053,7 @@ function embedCSS() {
   background-color: white;
   border: unset;
 }
-.igv-ui-1_4_0-alert-dialog-container > div:last-child {
+.igv-ui-1_4_1-alert-dialog-container > div:last-child {
   width: 100%;
   margin-bottom: 10px;
   background-color: white;
@@ -8063,7 +8063,7 @@ function embedCSS() {
   justify-content: center;
   align-items: center;
 }
-.igv-ui-1_4_0-alert-dialog-container > div:last-child div {
+.igv-ui-1_4_1-alert-dialog-container > div:last-child div {
   margin: unset;
   width: 40px;
   height: 30px;
@@ -8079,13 +8079,13 @@ function embedCSS() {
   border-radius: 4px;
   background-color: #2B81AF;
 }
-.igv-ui-1_4_0-alert-dialog-container > div:last-child div:hover {
+.igv-ui-1_4_1-alert-dialog-container > div:last-child div:hover {
   cursor: pointer;
   border-color: #25597f;
   background-color: #25597f;
 }
 
-.igv-ui-1_4_0-color-swatch {
+.igv-ui-1_4_1-color-swatch {
   position: relative;
   box-sizing: content-box;
   display: flex;
@@ -8101,11 +8101,11 @@ function embedCSS() {
   border-radius: 4px;
 }
 
-.igv-ui-1_4_0-color-swatch:hover {
+.igv-ui-1_4_1-color-swatch:hover {
   border-color: dimgray;
 }
 
-.igv-ui-1_4_0-colorpicker-menu-close-button {
+.igv-ui-1_4_1-colorpicker-menu-close-button {
   display: flex;
   flex-flow: row;
   flex-wrap: nowrap;
@@ -8117,20 +8117,20 @@ function embedCSS() {
   margin-bottom: 4px;
   padding-right: 8px;
 }
-.igv-ui-1_4_0-colorpicker-menu-close-button i.fa {
+.igv-ui-1_4_1-colorpicker-menu-close-button i.fa {
   display: block;
   margin-left: 4px;
   margin-right: 4px;
   color: #5f5f5f;
 }
-.igv-ui-1_4_0-colorpicker-menu-close-button i.fa:hover,
-.igv-ui-1_4_0-colorpicker-menu-close-button i.fa:focus,
-.igv-ui-1_4_0-colorpicker-menu-close-button i.fa:active {
+.igv-ui-1_4_1-colorpicker-menu-close-button i.fa:hover,
+.igv-ui-1_4_1-colorpicker-menu-close-button i.fa:focus,
+.igv-ui-1_4_1-colorpicker-menu-close-button i.fa:active {
   cursor: pointer;
   color: #0f0f0f;
 }
 
-.igv-ui-1_4_0-generic-dialog-container {
+.igv-ui-1_4_1-generic-dialog-container {
   box-sizing: content-box;
   position: fixed;
   top: 0;
@@ -8152,7 +8152,7 @@ function embedCSS() {
   justify-content: flex-start;
   align-items: center;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-header {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-header {
   display: flex;
   flex-flow: row;
   flex-wrap: nowrap;
@@ -8168,18 +8168,18 @@ function embedCSS() {
   border-bottom-width: thin;
   background-color: #eee;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-header div {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-header div {
   margin-right: 4px;
   margin-bottom: 2px;
   height: 12px;
   width: 12px;
   color: #7F7F7F;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-header div:hover {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-header div:hover {
   cursor: pointer;
   color: #444;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-one-liner {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-one-liner {
   color: #373737;
   width: 95%;
   height: 24px;
@@ -8190,7 +8190,7 @@ function embedCSS() {
   overflow-wrap: break-word;
   background-color: white;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-label-input {
   margin-top: 8px;
   width: 95%;
   height: 24px;
@@ -8204,7 +8204,7 @@ function embedCSS() {
   justify-content: flex-start;
   align-items: center;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input div {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-label-input div {
   width: 30%;
   height: 100%;
   font-size: 16px;
@@ -8212,7 +8212,7 @@ function embedCSS() {
   padding-right: 8px;
   background-color: white;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input input {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-label-input input {
   display: block;
   height: 100%;
   width: 100%;
@@ -8227,11 +8227,11 @@ function embedCSS() {
   border-color: #7F7F7F;
   background-color: white;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-label-input input {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-label-input input {
   width: 50%;
   font-size: 16px;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-input {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-input {
   margin-top: 8px;
   width: calc(100% - 16px);
   height: 24px;
@@ -8243,7 +8243,7 @@ function embedCSS() {
   justify-content: space-around;
   align-items: center;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-input input {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-input input {
   display: block;
   height: 100%;
   width: 100%;
@@ -8258,10 +8258,10 @@ function embedCSS() {
   border-color: #7F7F7F;
   background-color: white;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-input input {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-input input {
   font-size: 16px;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok-cancel {
   width: 100%;
   height: 28px;
   display: flex;
@@ -8270,7 +8270,7 @@ function embedCSS() {
   justify-content: space-around;
   align-items: center;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok-cancel div {
   margin-top: 32px;
   color: white;
   font-family: "Open Sans", sans-serif;
@@ -8285,25 +8285,25 @@ function embedCSS() {
   border-width: thin;
   border-radius: 2px;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:first-child {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok-cancel div:first-child {
   margin-left: 32px;
   margin-right: 0;
   background-color: #5ea4e0;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:last-child {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok-cancel div:last-child {
   margin-left: 0;
   margin-right: 32px;
   background-color: #c4c4c4;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:first-child:hover {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok-cancel div:first-child:hover {
   cursor: pointer;
   background-color: #3b5c7f;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok-cancel div:last-child:hover {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok-cancel div:last-child:hover {
   cursor: pointer;
   background-color: #7f7f7f;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok {
   width: 100%;
   height: 36px;
   margin-top: 32px;
@@ -8313,7 +8313,7 @@ function embedCSS() {
   justify-content: space-around;
   align-items: center;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok div {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok div {
   width: 98px;
   height: 36px;
   line-height: 36px;
@@ -8328,12 +8328,12 @@ function embedCSS() {
   border-radius: 4px;
   background-color: #2B81AF;
 }
-.igv-ui-1_4_0-generic-dialog-container .igv-ui-1_4_0-generic-dialog-ok div:hover {
+.igv-ui-1_4_1-generic-dialog-container .igv-ui-1_4_1-generic-dialog-ok div:hover {
   cursor: pointer;
   background-color: #25597f;
 }
 
-.igv-ui-1_4_0-generic-container {
+.igv-ui-1_4_1-generic-container {
   box-sizing: content-box;
   position: absolute;
   z-index: 2048;
@@ -8345,7 +8345,7 @@ function embedCSS() {
   justify-content: flex-start;
   align-items: center;
 }
-.igv-ui-1_4_0-generic-container > div:first-child {
+.igv-ui-1_4_1-generic-container > div:first-child {
   cursor: move;
   display: flex;
   flex-flow: row;
@@ -8356,7 +8356,7 @@ function embedCSS() {
   width: 100%;
   background-color: #dddddd;
 }
-.igv-ui-1_4_0-generic-container > div:first-child > div {
+.igv-ui-1_4_1-generic-container > div:first-child > div {
   display: block;
   color: #5f5f5f;
   cursor: pointer;
@@ -8366,7 +8366,7 @@ function embedCSS() {
   margin-bottom: 4px;
 }
 
-.igv-ui-1_4_0-dialog {
+.igv-ui-1_4_1-dialog {
   z-index: 2048;
   position: fixed;
   width: fit-content;
@@ -8384,7 +8384,7 @@ function embedCSS() {
   font-size: medium;
   font-weight: 400;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-header {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-header {
   display: flex;
   flex-flow: row;
   flex-wrap: nowrap;
@@ -8400,18 +8400,18 @@ function embedCSS() {
   border-bottom-width: thin;
   background-color: #eee;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-header div {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-header div {
   margin-right: 4px;
   margin-bottom: 2px;
   height: 12px;
   width: 12px;
   color: #7F7F7F;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-header div:hover {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-header div:hover {
   cursor: pointer;
   color: #444;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-one-liner {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-one-liner {
   width: 95%;
   height: 24px;
   line-height: 24px;
@@ -8421,7 +8421,7 @@ function embedCSS() {
   background-color: white;
   font-weight: bold;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok-cancel {
   width: 100%;
   display: flex;
   flex-flow: row;
@@ -8429,7 +8429,7 @@ function embedCSS() {
   justify-content: space-around;
   align-items: center;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok-cancel div {
   margin: 16px;
   margin-top: 32px;
   color: white;
@@ -8445,21 +8445,21 @@ function embedCSS() {
   border-width: thin;
   border-radius: 2px;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:first-child {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok-cancel div:first-child {
   background-color: #5ea4e0;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:last-child {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok-cancel div:last-child {
   background-color: #c4c4c4;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:first-child:hover {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok-cancel div:first-child:hover {
   cursor: pointer;
   background-color: #3b5c7f;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok-cancel div:last-child:hover {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok-cancel div:last-child:hover {
   cursor: pointer;
   background-color: #7f7f7f;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok {
   width: 100%;
   height: 36px;
   margin-top: 32px;
@@ -8469,7 +8469,7 @@ function embedCSS() {
   justify-content: space-around;
   align-items: center;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok div {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok div {
   width: 98px;
   height: 36px;
   line-height: 36px;
@@ -8484,12 +8484,12 @@ function embedCSS() {
   border-radius: 4px;
   background-color: #2B81AF;
 }
-.igv-ui-1_4_0-dialog .igv-ui-1_4_0-dialog-ok div:hover {
+.igv-ui-1_4_1-dialog .igv-ui-1_4_1-dialog-ok div:hover {
   cursor: pointer;
   background-color: #25597f;
 }
 
-.igv-ui-1_4_0-panel, .igv-ui-1_4_0-panel-row, .igv-ui-1_4_0-panel-column {
+.igv-ui-1_4_1-panel, .igv-ui-1_4_1-panel-row, .igv-ui-1_4_1-panel-column {
   z-index: 2048;
   background-color: white;
   font-family: "Open Sans", sans-serif;
@@ -8500,17 +8500,17 @@ function embedCSS() {
   align-items: flex-start;
 }
 
-.igv-ui-1_4_0-panel-column {
+.igv-ui-1_4_1-panel-column {
   display: flex;
   flex-direction: column;
 }
 
-.igv-ui-1_4_0-panel-row {
+.igv-ui-1_4_1-panel-row {
   display: flex;
   flex-direction: row;
 }
 
-.igv-ui-1_4_0-textbox {
+.igv-ui-1_4_1-textbox {
   background-color: white;
   font-family: "Open Sans", sans-serif;
   font-size: medium;
@@ -8520,35 +8520,35 @@ function embedCSS() {
   align-items: flex-start;
 }
 
-.igv-ui-1_4_0-table {
+.igv-ui-1_4_1-table {
   background-color: white;
 }
 
-.igv-ui-1_4_0-table thead {
+.igv-ui-1_4_1-table thead {
   position: sticky;
   top: 0;
 }
 
-.igv-ui-1_4_0-table th {
+.igv-ui-1_4_1-table th {
   text-align: left;
 }
 
-.igv-ui-1_4_0-table td {
+.igv-ui-1_4_1-table td {
   padding-right: 20px;
 }
 
-.igv-ui-1_4_0-table tr:hover {
+.igv-ui-1_4_1-table tr:hover {
   background-color: lightblue;
 }
 
-/*# sourceMappingURL=igv-ui-1_4_0.css.map */
+/*# sourceMappingURL=igv-ui-1_4_1.css.map */
 `;
-    document.head.insertBefore(style, document.head.childNodes[ document.head.childNodes.length - 1 ]);
+    document.head.append(style);
 }
 
 if (typeof document !== 'undefined') {
 
-    if (!stylesheetExists("igv-ui-1_4_0.css")) {
+    if (!stylesheetExists("igv-ui-1_4_1.css")) {
         embedCSS();
     }
 

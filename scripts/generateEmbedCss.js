@@ -23,7 +23,7 @@ function embedCSS() {
     style.setAttribute('type', 'text/css')
     style.setAttribute('title', '${classPrefix}.css')
     style.innerHTML = \`${cssContents}\`
-    document.head.insertBefore(style, document.head.childNodes[ document.head.childNodes.length - 1 ]);
+    document.head.append(style);
 }
 
 export default embedCSS
