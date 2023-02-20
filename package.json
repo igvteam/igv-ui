@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/igvteam/igv-ui#readme",
   "devDependencies": {
-    "igv-utils": "github:igvteam/igv-utils#v1.3.14",
+    "igv-utils": "github:igvteam/igv-utils#v1.3.16",
     "rollup": "^1.31.1",
     "sass": "^1.25.0",
     "fs-extra": "^10.1.0"
