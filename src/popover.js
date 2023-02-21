@@ -1,4 +1,4 @@
-import * as Icon from './utils/src/icons.js'
+import * as Icon from './utils/icons.js'
 import * as UIUtils from "./utils/ui-utils.js"
 import * as DOMUtils from "./utils/dom-utils.js"
 import makeDraggable from "./utils/draggable.js"

@@ -1,4 +1,5 @@
-import {appleCrayonPalette, DOMUtils} from '../utils/index.js'
+import {appleCrayonPalette} from "../utils/colorPalettes.js"
+import {div} from "../utils/dom-utils.js"
 import GenericContainer from '../genericContainer.js'
 
 class GenericColorPicker extends GenericContainer {
@@ -29,14 +30,14 @@ class GenericColorPicker extends GenericContainer {
         const hexColorStrings = Object.values(appleCrayonPalette)
 
         for (let hexColorString of hexColorStrings) {
-            const swatch = DOMUtils.div({class: 'igv-ui-color-swatch'})
+            const swatch = div({class: 'igv-ui-color-swatch'})
             this.container.appendChild(swatch)
             this.decorateSwatch(swatch, hexColorString)
         }
 
         if (defaultColors) {
             for (let hexColorString of defaultColors) {
-                const swatch = DOMUtils.div({class: 'igv-ui-color-swatch'})
+                const swatch = div({class: 'igv-ui-color-swatch'})
                 this.container.appendChild(swatch)
                 this.decorateSwatch(swatch, hexColorString)
             }
