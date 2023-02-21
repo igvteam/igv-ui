@@ -1,4 +1,4 @@
-import {appleCrayonPalette, DOMUtils} from '../../node_modules/igv-utils/src/index.js'
+import {appleCrayonPalette, DOMUtils} from '../utils/index.js'
 import GenericContainer from '../genericContainer.js'
 
 class GenericColorPicker extends GenericContainer {

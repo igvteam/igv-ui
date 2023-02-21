@@ -1,7 +1,6 @@
-//import { DOMUtils, UIUtils, makeDraggable } from '../node_modules/igv-utils/src/index.js'
-import * as UIUtils from "../node_modules/igv-utils/src/ui-utils.js"
-import * as DOMUtils from "../node_modules/igv-utils/src/dom-utils.js"
-import makeDraggable from "../node_modules/igv-utils/src/draggable.js"
+import * as UIUtils from "./utils/ui-utils.js"
+import * as DOMUtils from "./utils/dom-utils.js"
+import makeDraggable from "../utils/draggable.js"
 
 
 class GenericContainer {

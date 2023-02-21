@@ -1,5 +1,5 @@
-import {appleCrayonPalette} from '../../node_modules/igv-utils/src/colorPalettes.js'
-import * as DOMUtils from "../../node_modules/igv-utils/src/dom-utils.js"
+import {appleCrayonPalette} from '../utils/colorPalettes.js'
+import * as DOMUtils from "../utils/dom-utils.js"
 import GenericContainer from "../genericContainer.js"
 
 

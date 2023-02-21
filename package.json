@@ -1,16 +1,16 @@
 {
   "name": "igv-ui",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "UI code for igv.js and related projects",
-  "module": "dist/igv-ui.js",
+  "module": "src/index.js",
   "files": [
-    "dist/**"
+    "src/**"
   ],
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "build": "node scripts/generateEmbedCss.js && npx rollup --config",
+    "build": "node scripts/generateEmbedCss.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,8 +28,6 @@
   },
   "homepage": "https://github.com/igvteam/igv-ui#readme",
   "devDependencies": {
-    "igv-utils": "github:igvteam/igv-utils#v1.3.16",
-    "rollup": "^1.31.1",
     "sass": "^1.25.0",
     "fs-extra": "^10.1.0"
   }

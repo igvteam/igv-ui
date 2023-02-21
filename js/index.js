@@ -14,6 +14,13 @@ import GenericColorPicker from "./components/genericColorPicker.js"
 import IGVTable from "./igvTable.js"
 import embedCSS from "./embedCSS.js"
 
+import * as Icon from './utils/icons.js'
+import * as UIUtils from "./utils/ui-utils.js"
+import * as DOMUtils from "./utils/dom-utils.js"
+import makeDraggable from "./utils/draggable.js"
+import {appleCrayonPalette, nucleotideColorComponents, nucleotideColors, PaletteColorTable} from './utils/colorPalettes.js'
+
+
 if (typeof document !== 'undefined') {
 
     if (!stylesheetExists("igv-ui.css")) {
@@ -47,5 +54,13 @@ export {
     Dialog,
     GenericContainer,
     GenericColorPicker,
-    IGVTable
+    IGVTable,
+    DOMUtils,
+    UIUtils,
+    Icon,
+    makeDraggable,
+    appleCrayonPalette,
+    nucleotideColorComponents,
+    nucleotideColors,
+    PaletteColorTable,
 }

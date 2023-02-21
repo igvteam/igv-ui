@@ -1,4 +1,4 @@
-import * as DOMUtils from "../../node_modules/igv-utils/src/dom-utils.js"
+import * as DOMUtils from "../utils/dom-utils.js"
 
 const rowStyle = {
     zIndex: 2048,
