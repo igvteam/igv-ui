@@ -2,6 +2,7 @@
   "name": "igv-ui",
   "version": "1.5.0",
   "description": "UI code for igv.js and related projects",
+  "type": "module",
   "module": "src/index.js",
   "files": [
     "src/**"
