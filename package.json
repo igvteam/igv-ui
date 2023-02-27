@@ -5,14 +5,15 @@
   "type": "module",
   "module": "src/index.js",
   "files": [
-    "src/**"
+    "src/**",
+    "dist/**"
   ],
   "directories": {
     "example": "examples"
   },
   "scripts": {
     "prepare": "npm run build",
-    "build": "node scripts/generateEmbedCss.cjs",
+    "build": "node scripts/generateEmbedCss.cjs && npx rollup --config",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,7 +31,8 @@
   },
   "homepage": "https://github.com/igvteam/igv-ui#readme",
   "devDependencies": {
-    "sass": "^1.25.0",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "rollup": "^3.17.3",
+    "sass": "^1.25.0"
   }
 }
