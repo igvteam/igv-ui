@@ -2,7 +2,7 @@ const fse = require('fs-extra')
 const fs = require('fs');
 const path = require('path')
 
-const srcDir = path.join(__dirname, '../js')
+const srcDir = path.join(__dirname, '../src')
 const destDir = path.join(__dirname, '../build')
 
 if(fs.existsSync(destDir)) {
