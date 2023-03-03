@@ -4,7 +4,7 @@
 
 export default [
     {
-        input: 'build/index.js',
+        input: 'src/index.js',
         output:
             [
                 {
