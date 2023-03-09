@@ -707,21 +707,21 @@ class InputDialog {
         this.callback = options.callback || options.click;
 
         show(this.container);
-        const { x, y } = pageCoordinates(e);
-        this.clampLocation(x, y);
+        this.clampLocation(e.clientX, e.clientY);
 
     }
 
-    clampLocation(pageX, pageY) {
+    clampLocation(clientX, clientY) {
 
         const { width:w, height:h } = this.container.getBoundingClientRect();
+        const wh = window.innerHeight;
+        const ww = window.innerWidth;
 
-        const { x:px, y:py, width:pw, height:ph } = this.parent.getBoundingClientRect();
-
-        const y = Math.min(Math.max(pageY, py), py + ph - h);
-        const x = Math.min(Math.max(pageX, px), px + pw - w);
+        const y = Math.min(wh - h, clientY);
+        const x = Math.min(ww - w, clientX);
         this.container.style.left = `${ x }px`;
         this.container.style.top  = `${ y }px`;
+
     }
 }
 
