@@ -1558,10 +1558,7 @@ function embedCSS() {
   background-color: white;
 }
 .igv-ui-popover > div:last-child > div {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+  user-select: all;
   margin-left: 4px;
   margin-right: 4px;
   min-width: 220px;
