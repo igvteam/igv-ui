@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/igvteam/igv-ui#readme",
   "devDependencies": {
+    "dompurify": "^3.0.5",
     "fs-extra": "^10.1.0",
     "rollup": "^3.17.3",
     "sass": "^1.25.0"

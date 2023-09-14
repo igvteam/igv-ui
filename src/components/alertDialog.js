@@ -1,5 +1,6 @@
 import * as DOMUtils from "../utils/dom-utils.js"
 import makeDraggable from "../utils/draggable.js"
+import DOMPurify from "../../node_modules/dompurify/dist/purify.es"
 
 const httpMessages =
     {
@@ -93,7 +94,9 @@ class AlertDialog {
             string = httpMessages[string];
         }
 
-        this.body.innerHTML = string
+        const clean = DOMPurify.sanitize('string')
+
+        this.body.innerHTML = clean
         this.callback = callback
         DOMUtils.show(this.container, "flex")
         if (this.alertProps.shouldFocus) {
