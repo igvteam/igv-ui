@@ -94,7 +94,7 @@ class AlertDialog {
             string = httpMessages[string];
         }
 
-        const clean = DOMPurify.sanitize('string')
+        const clean = DOMPurify.sanitize(string)
 
         this.body.innerHTML = clean
         this.callback = callback

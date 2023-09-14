@@ -2104,6 +2104,14 @@ function createDOMPurify() {
 
 var purify = createDOMPurify();
 
+const httpMessages =
+    {
+        "401": "Access unauthorized",
+        "403": "Access forbidden",
+        "404": "Not found"
+    };
+
+
 class AlertDialog {
     /**
      * Initialize a new alert dialog
@@ -2182,9 +2190,13 @@ class AlertDialog {
     present(alert, callback) {
 
         this.errorHeadline.textContent = alert.message ? 'ERROR' : '';
-        alert.message || alert;
+        let string = alert.message || alert;
 
-        const clean = purify.sanitize(alert);
+        if (httpMessages.hasOwnProperty(string)) {
+            string = httpMessages[string];
+        }
+
+        const clean = purify.sanitize(string);
 
         this.body.innerHTML = clean;
         this.callback = callback;
