@@ -31,7 +31,7 @@ class IGVTable {
         const titleElement = DOMUtils.div()
         popoverHeader.appendChild(titleElement)
         if (tableConfig.title) {
-             titleElement.innerHTML = tableConfig.title;
+            titleElement.innerHTML = tableConfig.title
         }
 
         UIUtils.attachDialogCloseHandlerWithParent(popoverHeader, () => this.hide())

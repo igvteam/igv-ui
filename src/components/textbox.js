@@ -1,4 +1,5 @@
 import * as DOMUtils from "../utils/dom-utils.js"
+import DOMPurify from "../../node_modules/dompurify/dist/purify.es"
 
 class Textbox {
 
@@ -14,7 +15,7 @@ class Textbox {
 
         this.textBox = DOMUtils.create('input');
         if(value) {
-            this.textBox.value = value;
+            this.textBox.value = DOMPurify.sanitize(value);
         }
         this.elem.appendChild(this.textBox);
 
