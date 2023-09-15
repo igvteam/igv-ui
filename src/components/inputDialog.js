@@ -28,9 +28,10 @@ class InputDialog {
         // input container
         this.input_container = DOMUtils.div({class: 'igv-ui-generic-dialog-input'})
         this.container.appendChild(this.input_container)
-        //
-        this.input = document.createElement("input")
-        this.input_container.appendChild(this.input)
+
+        // input element.  DO NOT ACCESS THIS OUTSIDE OF THIS CLASS
+        this._input = document.createElement("input")
+        this.input_container.appendChild(this._input)
 
 
         // ok | cancel
@@ -49,28 +50,28 @@ class InputDialog {
 
         DOMUtils.hide(this.container)
 
-        this.input.addEventListener('keyup', e => {
+        this._input.addEventListener('keyup', e => {
             if (13 === e.keyCode) {
                 if (typeof this.callback === 'function') {
-                    this.callback(this.input.value)
+                    this.callback(this._input.value)
                     this.callback = undefined
                 }
-                this.input.value = undefined
+                this._input.value = undefined
                 DOMUtils.hide(this.container)
             }
         })
 
         this.ok.addEventListener('click', () => {
             if (typeof this.callback === 'function') {
-                this.callback(this.input.value)
+                this.callback(this._input.value)
                 this.callback = undefined
             }
-            this.input.value = undefined
+            this._input.value = undefined
             DOMUtils.hide(this.container)
         })
 
         const cancel = () => {
-            this.input.value = ''
+            this._input.value = ''
             DOMUtils.hide(this.container)
         }
 
@@ -82,13 +83,13 @@ class InputDialog {
     }
 
     get value() {
-        return DOMPurify.sanitize(this.input.value)
+        return DOMPurify.sanitize(this._input.value)
     }
 
     present(options, e) {
 
         this.label.textContent = options.label
-        this.input.value = options.value
+        this._input.value = options.value
         this.callback = options.callback || options.click
 
         DOMUtils.show(this.container)
