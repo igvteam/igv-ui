@@ -54,14 +54,14 @@ class SliderDialog {
         DOMUtils.hide(this.container)
 
         this._input.addEventListener('input', () => {
-            const number = parseFloat(this._input.value/this._scaleFactor)
+            const number = parseFloat(this._input.value)/this._scaleFactor
             this.callback(number)
             this._output.value = `${number.toFixed(2)}`
         }, false)
 
         this.ok.addEventListener('click', () => {
             if (typeof this.callback === 'function') {
-                const number = parseFloat(this._input.value/this._scaleFactor)
+                const number = parseFloat(this._input.value)/this._scaleFactor
                 this.callback(number)
                 this.callback = undefined
             }
@@ -96,7 +96,7 @@ class SliderDialog {
         this._input.value = valueS
         this._input.max = maxS
 
-        const number = parseFloat(this._input.value/this._scaleFactor)
+        const number = parseFloat(this._input.value)/this._scaleFactor
         this._output.value = `${number.toFixed(2)}`
 
         this.callback = options.callback || options.click
