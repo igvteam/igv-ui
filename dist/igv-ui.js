@@ -2489,7 +2489,7 @@ class SliderDialog {
         this._input.max = maxS;
 
         const number = parseFloat(this._input.value)/this._scaleFactor;
-        this._output.value = `${number.toFixed(2)}`;
+        this._output.value = `${number.toFixed(4)}`;
 
         this.callback = options.callback || options.click;
 
