@@ -90,14 +90,16 @@ class SliderDialog {
         this.label.textContent = options.label
 
         this._scaleFactor = options.scaleFactor
-        const [ minS, valueS, maxS ] = [ options.min, options.value, options.max ].map(number => (Math.floor(this._scaleFactor * number)).toString())
+        const [ minS, maxS, valueS ] = [ options.min, options.max, options.value ].map(number => (Math.floor(this._scaleFactor * number)).toString())
 
         this._input.min = minS
-        this._input.value = valueS
         this._input.max = maxS
+        this._input.value = valueS
 
-        const number = parseFloat(this._input.value)/this._scaleFactor
-        this._output.value = `${number.toFixed(4)}`
+        const numer = parseFloat(valueS)
+        const denom = this._scaleFactor
+        const number = numer/denom
+        this._output.value = `${number.toFixed(2)}`
 
         this.callback = options.callback || options.click
 
