@@ -3,7 +3,7 @@ import * as DOMUtils from "../utils/dom-utils.js"
 import makeDraggable from "../utils/draggable.js"
 import DOMPurify from "../../node_modules/dompurify/dist/purify.es.js"
 
-class InputDialog {
+class SliderDialog {
 
     constructor(parent) {
 
@@ -12,9 +12,6 @@ class InputDialog {
         // dialog container
         this.container = DOMUtils.div({class: 'igv-ui-generic-dialog-container'})
         parent.appendChild(this.container)
-
-        // const { x, y, width, height } = this.container.getBoundingClientRect();
-        // console.log(`InputDialog - x ${ x } y ${ y } width ${ width } height ${ height }`)
 
         // dialog header
         const header = DOMUtils.div({class: 'igv-ui-generic-dialog-header'})
@@ -29,9 +26,15 @@ class InputDialog {
         this.input_container = DOMUtils.div({class: 'igv-ui-generic-dialog-input'})
         this.container.appendChild(this.input_container)
 
-        // input element.  DO NOT ACCESS THIS OUTSIDE OF THIS CLASS
-        this._input = document.createElement("input")
+        // input element
+        let html = `<input type="range" id="igv-slider-dialog-input" name="igv-slider-dialog-input" />`
+        this._input = document.createRange().createContextualFragment(html).firstChild
         this.input_container.appendChild(this._input)
+
+        // output element
+        html = `<output id="igv-slider-dialog-output" name="igv-slider-dialog-output" for="igv-slider-dialog-input"></output>`
+        this._output = document.createRange().createContextualFragment(html).firstChild
+        this.input_container.appendChild(this._output)
 
 
         // ok | cancel
@@ -50,20 +53,16 @@ class InputDialog {
 
         DOMUtils.hide(this.container)
 
-        this._input.addEventListener('keyup', e => {
-            if (13 === e.keyCode) {
-                if (typeof this.callback === 'function') {
-                    this.callback(this._input.value)
-                    this.callback = undefined
-                }
-                this._input.value = undefined
-                DOMUtils.hide(this.container)
-            }
-        })
+        this._input.addEventListener('input', () => {
+            const number = parseFloat(this._input.value)/this._scaleFactor
+            this.callback(number)
+            this._output.value = `${number.toFixed(2)}`
+        }, false)
 
         this.ok.addEventListener('click', () => {
             if (typeof this.callback === 'function') {
-                this.callback(this._input.value)
+                const number = parseFloat(this._input.value)/this._scaleFactor
+                this.callback(number)
                 this.callback = undefined
             }
             this._input.value = undefined
@@ -71,7 +70,7 @@ class InputDialog {
         })
 
         const cancel = () => {
-            this._input.value = ''
+            this._input.value = undefined
             DOMUtils.hide(this.container)
         }
 
@@ -89,7 +88,19 @@ class InputDialog {
     present(options, e) {
 
         this.label.textContent = options.label
-        this._input.value = options.value
+
+        this._scaleFactor = options.scaleFactor
+        const [ minS, maxS, valueS ] = [ options.min, options.max, options.value ].map(number => (Math.floor(this._scaleFactor * number)).toString())
+
+        this._input.min = minS
+        this._input.max = maxS
+        this._input.value = valueS
+
+        const numer = parseFloat(valueS)
+        const denom = this._scaleFactor
+        const number = numer/denom
+        this._output.value = `${number.toFixed(2)}`
+
         this.callback = options.callback || options.click
 
         DOMUtils.show(this.container)
@@ -111,4 +122,4 @@ class InputDialog {
     }
 }
 
-export default InputDialog
+export default SliderDialog

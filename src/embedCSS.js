@@ -336,6 +336,19 @@ function embedCSS() {
 .igv-ui-generic-dialog-container .igv-ui-generic-dialog-input input {
   font-size: 16px;
 }
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-input input[type=range] {
+  width: 70%;
+  -webkit-appearance: none;
+  background: linear-gradient(90deg, white, black);
+  outline: none;
+  margin: 0;
+}
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-input output {
+  display: block;
+  height: 100%;
+  width: 20%;
+  font-size: 16px;
+}
 .igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel {
   width: 100%;
   height: 28px;

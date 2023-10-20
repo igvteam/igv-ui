@@ -128,7 +128,7 @@ var domUtils = /*#__PURE__*/Object.freeze({
     translateMouseCoordinates: translateMouseCoordinates
 });
 
-/*! @license DOMPurify 3.0.5 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.0.5/LICENSE */
+/*! @license DOMPurify 3.0.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.0.6/LICENSE */
 
 const {
   entries,
@@ -148,12 +148,6 @@ let {
   construct
 } = typeof Reflect !== 'undefined' && Reflect;
 
-if (!apply) {
-  apply = function apply(fun, thisValue, args) {
-    return fun.apply(thisValue, args);
-  };
-}
-
 if (!freeze) {
   freeze = function freeze(x) {
     return x;
@@ -163,6 +157,12 @@ if (!freeze) {
 if (!seal) {
   seal = function seal(x) {
     return x;
+  };
+}
+
+if (!apply) {
+  apply = function apply(fun, thisValue, args) {
+    return fun.apply(thisValue, args);
   };
 }
 
@@ -183,6 +183,13 @@ const stringIndexOf = unapply(String.prototype.indexOf);
 const stringTrim = unapply(String.prototype.trim);
 const regExpTest = unapply(RegExp.prototype.test);
 const typeErrorCreate = unconstruct(TypeError);
+/**
+ * Creates a new function that calls the given function with a specified thisArg and arguments.
+ *
+ * @param {Function} func - The function to be wrapped and called.
+ * @returns {Function} A new function that calls the given function with a specified thisArg and arguments.
+ */
+
 function unapply(func) {
   return function (thisArg) {
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -192,6 +199,14 @@ function unapply(func) {
     return apply(func, thisArg, args);
   };
 }
+/**
+ * Creates a new function that constructs an instance of the given constructor function with the provided arguments.
+ *
+ * @param {Function} func - The constructor function to be wrapped and called.
+ * @returns {Function} A new function that constructs an instance of the given constructor function with the provided arguments.
+ */
+
+
 function unconstruct(func) {
   return function () {
     for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
@@ -201,12 +216,18 @@ function unconstruct(func) {
     return construct(func, args);
   };
 }
-/* Add properties to a lookup table */
+/**
+ * Add properties to a lookup table
+ *
+ * @param {Object} set - The set to which elements will be added.
+ * @param {Array} array - The array containing elements to be added to the set.
+ * @param {Function} transformCaseFunc - An optional function to transform the case of each element before adding to the set.
+ * @returns {Object} The modified set with added elements.
+ */
 
-function addToSet(set, array, transformCaseFunc) {
-  var _transformCaseFunc;
 
-  transformCaseFunc = (_transformCaseFunc = transformCaseFunc) !== null && _transformCaseFunc !== void 0 ? _transformCaseFunc : stringToLowerCase;
+function addToSet(set, array) {
+  let transformCaseFunc = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : stringToLowerCase;
 
   if (setPrototypeOf) {
     // Make 'in' and truthy checks like Boolean(set.constructor)
@@ -238,19 +259,32 @@ function addToSet(set, array, transformCaseFunc) {
 
   return set;
 }
-/* Shallow clone an object */
+/**
+ * Shallow clone an object
+ *
+ * @param {Object} object - The object to be cloned.
+ * @returns {Object} A new object that copies the original.
+ */
+
 
 function clone(object) {
   const newObject = create(null);
 
   for (const [property, value] of entries(object)) {
-    newObject[property] = value;
+    if (getOwnPropertyDescriptor(object, property) !== undefined) {
+      newObject[property] = value;
+    }
   }
 
   return newObject;
 }
-/* This method automatically checks if the prop is function
- * or getter and behaves accordingly. */
+/**
+ * This method automatically checks if the prop is function or getter and behaves accordingly.
+ *
+ * @param {Object} object - The object to look up the getter function in its prototype chain.
+ * @param {String} prop - The property name for which to find the getter function.
+ * @returns {Function} The getter function found in the prototype chain or a fallback function.
+ */
 
 function lookupGetter(object, prop) {
   while (object !== null) {
@@ -325,7 +359,9 @@ var EXPRESSIONS = /*#__PURE__*/Object.freeze({
   DOCTYPE_NAME: DOCTYPE_NAME
 });
 
-const getGlobal = () => typeof window === 'undefined' ? null : window;
+const getGlobal = function getGlobal() {
+  return typeof window === 'undefined' ? null : window;
+};
 /**
  * Creates a no-op policy for internal use only.
  * Don't export this function outside this module!
@@ -383,7 +419,7 @@ function createDOMPurify() {
    */
 
 
-  DOMPurify.version = '3.0.5';
+  DOMPurify.version = '3.0.6';
   /**
    * Array of elements that DOMPurify removed during sanitation.
    * Empty if nothing was removed.
@@ -398,11 +434,11 @@ function createDOMPurify() {
     return DOMPurify;
   }
 
-  const originalDocument = window.document;
-  const currentScript = originalDocument.currentScript;
   let {
     document
   } = window;
+  const originalDocument = document;
+  const currentScript = originalDocument.currentScript;
   const {
     DocumentFragment,
     HTMLTemplateElement,
@@ -482,7 +518,7 @@ function createDOMPurify() {
    * @property {boolean} allowCustomizedBuiltInElements allow custom elements derived from built-ins if they pass CUSTOM_ELEMENT_HANDLING.tagNameCheck. Default: `false`.
    */
 
-  let CUSTOM_ELEMENT_HANDLING = Object.seal(Object.create(null, {
+  let CUSTOM_ELEMENT_HANDLING = Object.seal(create(null, {
     tagNameCheck: {
       writable: true,
       configurable: false,
@@ -606,10 +642,10 @@ function createDOMPurify() {
   const DEFAULT_ALLOWED_NAMESPACES = addToSet({}, [MATHML_NAMESPACE, SVG_NAMESPACE, HTML_NAMESPACE], stringToString);
   /* Parsing of strict XHTML documents */
 
-  let PARSER_MEDIA_TYPE;
+  let PARSER_MEDIA_TYPE = null;
   const SUPPORTED_PARSER_MEDIA_TYPES = ['application/xhtml+xml', 'text/html'];
   const DEFAULT_PARSER_MEDIA_TYPE = 'text/html';
-  let transformCaseFunc;
+  let transformCaseFunc = null;
   /* Keep a reference to config to pass to hooks */
 
   let CONFIG = null;
@@ -630,7 +666,9 @@ function createDOMPurify() {
   // eslint-disable-next-line complexity
 
 
-  const _parseConfig = function _parseConfig(cfg) {
+  const _parseConfig = function _parseConfig() {
+    let cfg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
     if (CONFIG && CONFIG === cfg) {
       return;
     }
@@ -849,8 +887,6 @@ function createDOMPurify() {
   const ALL_MATHML_TAGS = addToSet({}, mathMl$1);
   addToSet(ALL_MATHML_TAGS, mathMlDisallowed);
   /**
-   *
-   *
    * @param  {Element} element a DOM element whose namespace is being checked
    * @returns {boolean} Return false if the element has a
    *  namespace that a spec-compliant parser would never
@@ -1006,8 +1042,8 @@ function createDOMPurify() {
 
   const _initDocument = function _initDocument(dirty) {
     /* Create a HTML document */
-    let doc;
-    let leadingWhitespace;
+    let doc = null;
+    let leadingWhitespace = null;
 
     if (FORCE_BODY) {
       dirty = '<remove></remove>' + dirty;
@@ -1060,16 +1096,16 @@ function createDOMPurify() {
     return WHOLE_DOCUMENT ? doc.documentElement : body;
   };
   /**
-   * _createIterator
+   * Creates a NodeIterator object that you can use to traverse filtered lists of nodes or elements in a document.
    *
-   * @param  {Document} root document/fragment to create iterator for
-   * @return {Iterator} iterator instance
+   * @param  {Node} root The root element or node to start traversing on.
+   * @return {NodeIterator} The created NodeIterator
    */
 
 
-  const _createIterator = function _createIterator(root) {
+  const _createNodeIterator = function _createNodeIterator(root) {
     return createNodeIterator.call(root.ownerDocument || root, root, // eslint-disable-next-line no-bitwise
-    NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT, null, false);
+    NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT, null);
   };
   /**
    * _isClobbered
@@ -1083,15 +1119,15 @@ function createDOMPurify() {
     return elm instanceof HTMLFormElement && (typeof elm.nodeName !== 'string' || typeof elm.textContent !== 'string' || typeof elm.removeChild !== 'function' || !(elm.attributes instanceof NamedNodeMap) || typeof elm.removeAttribute !== 'function' || typeof elm.setAttribute !== 'function' || typeof elm.namespaceURI !== 'string' || typeof elm.insertBefore !== 'function' || typeof elm.hasChildNodes !== 'function');
   };
   /**
-   * _isNode
+   * Checks whether the given object is a DOM node.
    *
-   * @param  {Node} obj object to check whether it's a DOM node
+   * @param  {Node} object object to check whether it's a DOM node
    * @return {Boolean} true is object is a DOM node
    */
 
 
   const _isNode = function _isNode(object) {
-    return typeof Node === 'object' ? object instanceof Node : object && typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string';
+    return typeof Node === 'function' && object instanceof Node;
   };
   /**
    * _executeHook
@@ -1125,7 +1161,7 @@ function createDOMPurify() {
 
 
   const _sanitizeElements = function _sanitizeElements(currentNode) {
-    let content;
+    let content = null;
     /* Execute a hook if present */
 
     _executeHook('beforeSanitizeElements', currentNode, null);
@@ -1150,7 +1186,7 @@ function createDOMPurify() {
     /* Detect mXSS attempts abusing namespace confusion */
 
 
-    if (currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && (!_isNode(currentNode.content) || !_isNode(currentNode.content.firstElementChild)) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
+    if (currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
       _forceRemove(currentNode);
 
       return true;
@@ -1160,9 +1196,14 @@ function createDOMPurify() {
 
     if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
       /* Check if we have a custom element to handle */
-      if (!FORBID_TAGS[tagName] && _basicCustomElementTest(tagName)) {
-        if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) return false;
-        if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(tagName)) return false;
+      if (!FORBID_TAGS[tagName] && _isBasicCustomElement(tagName)) {
+        if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) {
+          return false;
+        }
+
+        if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(tagName)) {
+          return false;
+        }
       }
       /* Keep content except for bad-listed elements */
 
@@ -1206,9 +1247,9 @@ function createDOMPurify() {
     if (SAFE_FOR_TEMPLATES && currentNode.nodeType === 3) {
       /* Get the element's text content */
       content = currentNode.textContent;
-      content = stringReplace(content, MUSTACHE_EXPR, ' ');
-      content = stringReplace(content, ERB_EXPR, ' ');
-      content = stringReplace(content, TMPLIT_EXPR, ' ');
+      arrayForEach([MUSTACHE_EXPR, ERB_EXPR, TMPLIT_EXPR], expr => {
+        content = stringReplace(content, expr, ' ');
+      });
 
       if (currentNode.textContent !== content) {
         arrayPush(DOMPurify.removed, {
@@ -1250,7 +1291,7 @@ function createDOMPurify() {
       if ( // First condition does a very basic check if a) it's basically a valid custom element tagname AND
       // b) if the tagName passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.tagNameCheck
       // and c) if the attribute name passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.attributeNameCheck
-      _basicCustomElementTest(lcTag) && (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, lcTag) || CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(lcTag)) && (CUSTOM_ELEMENT_HANDLING.attributeNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.attributeNameCheck, lcName) || CUSTOM_ELEMENT_HANDLING.attributeNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.attributeNameCheck(lcName)) || // Alternative, second condition checks if it's an `is`-attribute, AND
+      _isBasicCustomElement(lcTag) && (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, lcTag) || CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(lcTag)) && (CUSTOM_ELEMENT_HANDLING.attributeNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.attributeNameCheck, lcName) || CUSTOM_ELEMENT_HANDLING.attributeNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.attributeNameCheck(lcName)) || // Alternative, second condition checks if it's an `is`-attribute, AND
       // the value passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.tagNameCheck
       lcName === 'is' && CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements && (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, value) || CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(value))) ; else {
         return false;
@@ -1264,14 +1305,16 @@ function createDOMPurify() {
     return true;
   };
   /**
-   * _basicCustomElementCheck
+   * _isBasicCustomElement
    * checks if at least one dash is included in tagName, and it's not the first char
    * for more sophisticated checking see https://github.com/sindresorhus/validate-element-name
+   *
    * @param {string} tagName name of the tag of the node to sanitize
+   * @returns {boolean} Returns true if the tag name meets the basic criteria for a custom element, otherwise false.
    */
 
 
-  const _basicCustomElementTest = function _basicCustomElementTest(tagName) {
+  const _isBasicCustomElement = function _isBasicCustomElement(tagName) {
     return tagName.indexOf('-') > 0;
   };
   /**
@@ -1287,12 +1330,7 @@ function createDOMPurify() {
 
 
   const _sanitizeAttributes = function _sanitizeAttributes(currentNode) {
-    let attr;
-    let value;
-    let lcName;
-    let l;
     /* Execute a hook if present */
-
     _executeHook('beforeSanitizeAttributes', currentNode, null);
 
     const {
@@ -1310,17 +1348,18 @@ function createDOMPurify() {
       keepAttr: true,
       allowedAttributes: ALLOWED_ATTR
     };
-    l = attributes.length;
+    let l = attributes.length;
     /* Go backwards over all attributes; safely remove bad ones */
 
     while (l--) {
-      attr = attributes[l];
+      const attr = attributes[l];
       const {
         name,
-        namespaceURI
+        namespaceURI,
+        value: attrValue
       } = attr;
-      value = name === 'value' ? attr.value : stringTrim(attr.value);
-      lcName = transformCaseFunc(name);
+      const lcName = transformCaseFunc(name);
+      let value = name === 'value' ? attrValue : stringTrim(attrValue);
       /* Execute a hook if present */
 
       hookEvent.attrName = lcName;
@@ -1358,9 +1397,9 @@ function createDOMPurify() {
 
 
       if (SAFE_FOR_TEMPLATES) {
-        value = stringReplace(value, MUSTACHE_EXPR, ' ');
-        value = stringReplace(value, ERB_EXPR, ' ');
-        value = stringReplace(value, TMPLIT_EXPR, ' ');
+        arrayForEach([MUSTACHE_EXPR, ERB_EXPR, TMPLIT_EXPR], expr => {
+          value = stringReplace(value, expr, ' ');
+        });
       }
       /* Is `value` valid for this attribute? */
 
@@ -1429,9 +1468,9 @@ function createDOMPurify() {
 
 
   const _sanitizeShadowDOM = function _sanitizeShadowDOM(fragment) {
-    let shadowNode;
+    let shadowNode = null;
 
-    const shadowIterator = _createIterator(fragment);
+    const shadowIterator = _createNodeIterator(fragment);
     /* Execute a hook if present */
 
 
@@ -1467,17 +1506,17 @@ function createDOMPurify() {
    * Public method providing core sanitation functionality
    *
    * @param {String|Node} dirty string or DOM node
-   * @param {Object} configuration object
+   * @param {Object} cfg object
    */
   // eslint-disable-next-line complexity
 
 
   DOMPurify.sanitize = function (dirty) {
     let cfg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    let body;
-    let importedNode;
-    let currentNode;
-    let returnNode;
+    let body = null;
+    let importedNode = null;
+    let currentNode = null;
+    let returnNode = null;
     /* Make sure we have a string to sanitize.
       DO NOT return early, as this will return the wrong type if
       the user has requested a DOM object rather than a string */
@@ -1572,7 +1611,7 @@ function createDOMPurify() {
     /* Get node iterator */
 
 
-    const nodeIterator = _createIterator(IN_PLACE ? dirty : body);
+    const nodeIterator = _createNodeIterator(IN_PLACE ? dirty : body);
     /* Now start iterating over the created document */
 
 
@@ -1637,9 +1676,9 @@ function createDOMPurify() {
 
 
     if (SAFE_FOR_TEMPLATES) {
-      serializedHTML = stringReplace(serializedHTML, MUSTACHE_EXPR, ' ');
-      serializedHTML = stringReplace(serializedHTML, ERB_EXPR, ' ');
-      serializedHTML = stringReplace(serializedHTML, TMPLIT_EXPR, ' ');
+      arrayForEach([MUSTACHE_EXPR, ERB_EXPR, TMPLIT_EXPR], expr => {
+        serializedHTML = stringReplace(serializedHTML, expr, ' ');
+      });
     }
 
     return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? trustedTypesPolicy.createHTML(serializedHTML) : serializedHTML;
@@ -1652,7 +1691,9 @@ function createDOMPurify() {
    */
 
 
-  DOMPurify.setConfig = function (cfg) {
+  DOMPurify.setConfig = function () {
+    let cfg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
     _parseConfig(cfg);
 
     SET_CONFIG = true;
@@ -1673,9 +1714,9 @@ function createDOMPurify() {
    * Uses last set config, if any. Otherwise, uses config defaults.
    * isValidAttribute
    *
-   * @param  {string} tag Tag name of containing element.
-   * @param  {string} attr Attribute name.
-   * @param  {string} value Attribute value.
+   * @param  {String} tag Tag name of containing element.
+   * @param  {String} attr Attribute name.
+   * @param  {String} value Attribute value.
    * @return {Boolean} Returns true if `value` is valid. Otherwise, returns false.
    */
 
@@ -1738,7 +1779,6 @@ function createDOMPurify() {
   /**
    * RemoveAllHooks
    * Public method to remove all DOMPurify hooks
-   *
    */
 
 
@@ -2334,6 +2374,125 @@ class InputDialog {
 
         this.label.textContent = options.label;
         this._input.value = options.value;
+        this.callback = options.callback || options.click;
+
+        show(this.container);
+        this.clampLocation(e.clientX, e.clientY);
+
+    }
+
+    clampLocation(clientX, clientY) {
+
+        const {width: w, height: h} = this.container.getBoundingClientRect();
+        const wh = window.innerHeight;
+        const ww = window.innerWidth;
+
+        const y = Math.min(wh - h, clientY);
+        const x = Math.min(ww - w, clientX);
+        this.container.style.left = `${x}px`;
+        this.container.style.top = `${y}px`;
+
+    }
+}
+
+class SliderDialog {
+
+    constructor(parent) {
+
+        this.parent = parent;
+
+        // dialog container
+        this.container = div({class: 'igv-ui-generic-dialog-container'});
+        parent.appendChild(this.container);
+
+        // dialog header
+        const header = div({class: 'igv-ui-generic-dialog-header'});
+        this.container.appendChild(header);
+
+        // dialog label
+        this.label = div({class: 'igv-ui-generic-dialog-one-liner'});
+        this.container.appendChild(this.label);
+        this.label.text = 'Unlabeled';
+
+        // input container
+        this.input_container = div({class: 'igv-ui-generic-dialog-input'});
+        this.container.appendChild(this.input_container);
+
+        // input element
+        let html = `<input type="range" id="igv-slider-dialog-input" name="igv-slider-dialog-input" />`;
+        this._input = document.createRange().createContextualFragment(html).firstChild;
+        this.input_container.appendChild(this._input);
+
+        // output element
+        html = `<output id="igv-slider-dialog-output" name="igv-slider-dialog-output" for="igv-slider-dialog-input"></output>`;
+        this._output = document.createRange().createContextualFragment(html).firstChild;
+        this.input_container.appendChild(this._output);
+
+
+        // ok | cancel
+        const buttons = div({class: 'igv-ui-generic-dialog-ok-cancel'});
+        this.container.appendChild(buttons);
+
+        // ok
+        this.ok = div();
+        buttons.appendChild(this.ok);
+        this.ok.textContent = 'OK';
+
+        // cancel
+        this.cancel = div();
+        buttons.appendChild(this.cancel);
+        this.cancel.textContent = 'Cancel';
+
+        hide(this.container);
+
+        this._input.addEventListener('input', () => {
+            const number = parseFloat(this._input.value)/this._scaleFactor;
+            this.callback(number);
+            this._output.value = `${number.toFixed(2)}`;
+        }, false);
+
+        this.ok.addEventListener('click', () => {
+            if (typeof this.callback === 'function') {
+                const number = parseFloat(this._input.value)/this._scaleFactor;
+                this.callback(number);
+                this.callback = undefined;
+            }
+            this._input.value = undefined;
+            hide(this.container);
+        });
+
+        const cancel = () => {
+            this._input.value = undefined;
+            hide(this.container);
+        };
+
+        this.cancel.addEventListener('click', cancel);
+
+        attachDialogCloseHandlerWithParent(header, cancel);
+        makeDraggable(this.container, header);
+
+    }
+
+    get value() {
+        return purify.sanitize(this._input.value)
+    }
+
+    present(options, e) {
+
+        this.label.textContent = options.label;
+
+        this._scaleFactor = options.scaleFactor;
+        const [ minS, maxS, valueS ] = [ options.min, options.max, options.value ].map(number => (Math.floor(this._scaleFactor * number)).toString());
+
+        this._input.min = minS;
+        this._input.max = maxS;
+        this._input.value = valueS;
+
+        const numer = parseFloat(valueS);
+        const denom = this._scaleFactor;
+        const number = numer/denom;
+        this._output.value = `${number.toFixed(2)}`;
+
         this.callback = options.callback || options.click;
 
         show(this.container);
@@ -3472,6 +3631,19 @@ function embedCSS() {
 .igv-ui-generic-dialog-container .igv-ui-generic-dialog-input input {
   font-size: 16px;
 }
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-input input[type=range] {
+  width: 70%;
+  -webkit-appearance: none;
+  background: linear-gradient(90deg, white, black);
+  outline: none;
+  margin: 0;
+}
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-input output {
+  display: block;
+  height: 100%;
+  width: 20%;
+  font-size: 16px;
+}
 .igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel {
   width: 100%;
   height: 28px;
@@ -3774,4 +3946,4 @@ if (typeof document !== 'undefined') {
     }
 }
 
-export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, domUtils as DOMUtils, DataRangeDialog, Dialog, GenericColorPicker, GenericContainer, IGVTable, icons$1 as Icon, InputDialog, PaletteColorTable, Panel, Popover, Textbox, uiUtils as UIUtils, appleCrayonPalette, createColorSwatchSelector, makeDraggable, nucleotideColorComponents, nucleotideColors };
+export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, domUtils as DOMUtils, DataRangeDialog, Dialog, GenericColorPicker, GenericContainer, IGVTable, icons$1 as Icon, InputDialog, PaletteColorTable, Panel, Popover, SliderDialog, Textbox, uiUtils as UIUtils, appleCrayonPalette, createColorSwatchSelector, makeDraggable, nucleotideColorComponents, nucleotideColors };

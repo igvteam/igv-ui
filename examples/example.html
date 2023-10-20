@@ -11,6 +11,7 @@
 <h1>UI classes demo</h1>
 <p>
     <button id="alert-id"><h2>Alert</h2></button>
+    <button id="slider-id"><h2>Slider</h2></button>
     <button id="input-id"><h2>Input</h2></button>
     <button id="menu-id"><h2>Menu</h2></button>
     <button id="color-id"><h2>Color picker</h2></button>
@@ -21,13 +22,14 @@
 <div id="test" style="width:500px;height:100px;"></div>
 <script type="module">
 
-    import { DataRangeDialog, AlertDialog, InputDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog, DOMUtils } from "../dist/igv-ui.js";
+    import { DataRangeDialog, AlertDialog, InputDialog, SliderDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog, DOMUtils } from "../src/index.js";
 
     const parent = document.getElementById("test");
 
     // Legacy style components
     const alertDialog = new AlertDialog(parent);
     const inputDialog = new InputDialog(parent);
+    const sliderDialog = new SliderDialog(parent);
     const popover = new Popover(parent);
 
     // New style custom component
@@ -47,6 +49,26 @@
     })
 
     document.getElementById("alert-id").addEventListener("click", (ev => alertDialog.present("Alert")));
+
+    document.getElementById("slider-id").addEventListener("click", (ev => {
+
+        const callback = value => {
+            console.log(`slider value ${ value }`)
+        };
+
+        const config =
+            {
+                label: "Slider Label",
+                value: 0.125,
+                min: 0,
+                max: 1,
+                scaleFactor: 1000,
+                callback
+            };
+
+        sliderDialog.present(config, ev)
+    }));
+
     document.getElementById("input-id").addEventListener("click", (ev => {
         inputDialog.present({
             label: "Enter a value",
@@ -68,13 +90,6 @@
                 label: "bar",
                 click: ((e) => alertDialog.present("Clicked: " + "bar"))
             },
-            // '<hr/>',
-            // {
-            //     type: "checkbox",
-            //     label: "toggle",
-            //     value: toggle,
-            //     click: ((e) => toggle = !toggle)
-            // },
             '<hr/>',
             {
                 type: "color",

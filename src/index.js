@@ -3,6 +3,7 @@ import AlertDialog from "./components/alertDialog.js"
 import AlertSingleton from './alertSingleton.js'
 import Alert from "./alert.js"
 import InputDialog from "./components/inputDialog.js"
+import SliderDialog from "./components/sliderDialog.js"
 import Popover from "./popover.js"
 import ColorPicker, {createColorSwatchSelector} from "./components/colorPicker.js"
 import Checkbox from "./components/checkbox.js"
@@ -45,6 +46,7 @@ export {
     AlertSingleton,
     Alert,
     InputDialog,
+    SliderDialog,
     Popover,
     ColorPicker,
     createColorSwatchSelector,
