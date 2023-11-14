@@ -25,7 +25,7 @@ class Popover {
             titleElement.textContent = title;
         }
 
-        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.hide())
+        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.dismiss())
         makeDraggable(this.popover, popoverHeader);
 
         // content
@@ -35,6 +35,36 @@ class Popover {
         this.popover.style.display = 'none'
 
 
+    }
+
+    configure(menuItems) {
+
+        if (0 === menuItems.length) {
+            return
+        }
+
+        const menuElements = createMenuElements(menuItems, this.popover)
+
+        for (const { object } of menuElements) {
+            this.popoverContent.appendChild(object)
+        }
+
+    }
+
+    present(event) {
+
+        this.popover.style.display = 'block'
+
+        const { x, y, width } = DOMUtils.translateMouseCoordinates(event, this.popover.parentNode)
+        this.popover.style.top  = `${ y }px`
+
+        const { width: w } = this.popover.getBoundingClientRect()
+
+        const xmax = x + w
+        const delta = xmax - width
+
+        this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`
+        this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
     }
 
     presentContentWithEvent(e, content) {
@@ -61,6 +91,10 @@ class Popover {
         }
 
         present(e, this.popover, this.popoverContent)
+    }
+
+    dismiss() {
+        this.popover.style.display = 'none'
     }
 
     hide() {
