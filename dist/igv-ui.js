@@ -2880,7 +2880,7 @@ const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
 class Popover {
 
-    constructor(parent, title) {
+    constructor(parent, isDraggable, title) {
 
         this.parent = parent;
 
@@ -2889,17 +2889,20 @@ class Popover {
         parent.appendChild(this.popover);
 
         // header
-        const popoverHeader = div();
-        this.popover.appendChild(popoverHeader);
+        this.popoverHeader = div();
+        this.popover.appendChild(this.popoverHeader);
 
         const titleElement = div();
-        popoverHeader.appendChild(titleElement);
+        this.popoverHeader.appendChild(titleElement);
         if (title) {
             titleElement.textContent = title;
         }
 
-        attachDialogCloseHandlerWithParent(popoverHeader,  () => this.hide());
-        makeDraggable(this.popover, popoverHeader);
+        attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss());
+
+        if (true === isDraggable) {
+            makeDraggable(this.popover, this.popoverHeader);
+        }
 
         // content
         this.popoverContent = div();
@@ -2908,6 +2911,37 @@ class Popover {
         this.popover.style.display = 'none';
 
 
+    }
+
+    configure(menuItems) {
+
+        if (0 === menuItems.length) {
+            return
+        }
+
+        const menuElements = createMenuElements(menuItems, this.popover);
+
+        for (const { object } of menuElements) {
+            this.popoverContent.appendChild(object);
+        }
+
+    }
+
+    present(event) {
+
+        this.popover.style.display = 'block';
+
+        const parent = this.popover.parentNode;
+        const { x, y, width } = translateMouseCoordinates(event, parent);
+        this.popover.style.top  = `${ y }px`;
+
+        const { width: w } = this.popover.getBoundingClientRect();
+
+        const xmax = x + w;
+        const delta = xmax - width;
+
+        this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`;
+        this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`;
     }
 
     presentContentWithEvent(e, content) {
@@ -2934,6 +2968,10 @@ class Popover {
         }
 
         present(e, this.popover, this.popoverContent);
+    }
+
+    dismiss() {
+        this.popover.style.display = 'none';
     }
 
     hide() {
@@ -3043,6 +3081,42 @@ function createMenuElements(itemList, popover) {
     });
 
     return list;
+}
+
+class Dropdown {
+    constructor(parent, shim) {
+        this.dropdown = new Popover(parent, false, undefined);
+        this.shim = shim;
+    }
+
+    configure(dropdownItems) {
+        this.dropdown.configure(dropdownItems);
+    }
+
+    present(event) {
+
+        this.dropdown.popover.style.display = 'block';
+
+        const parent = this.dropdown.popover.parentNode;
+        let { x, y, width } = translateMouseCoordinates(event, parent);
+
+        x += this.shim.left;
+        y += this.shim.top;
+
+        this.dropdown.popover.style.top  = `${ y }px`;
+
+        const { width: w } = this.dropdown.popover.getBoundingClientRect();
+
+        const xmax = x + w;
+        const delta = xmax - width;
+
+        this.dropdown.popover.style.left = `${ xmax > width ? (x - delta) : x }px`;
+        this.dropdown.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`;
+    }
+
+    dismiss() {
+        this.dropdown.dismiss();
+    }
 }
 
 const style = {
@@ -3946,4 +4020,4 @@ if (typeof document !== 'undefined') {
     }
 }
 
-export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, domUtils as DOMUtils, DataRangeDialog, Dialog, GenericColorPicker, GenericContainer, IGVTable, icons$1 as Icon, InputDialog, PaletteColorTable, Panel, Popover, SliderDialog, Textbox, uiUtils as UIUtils, appleCrayonPalette, createColorSwatchSelector, makeDraggable, nucleotideColorComponents, nucleotideColors };
+export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, domUtils as DOMUtils, DataRangeDialog, Dialog, Dropdown, GenericColorPicker, GenericContainer, IGVTable, icons$1 as Icon, InputDialog, PaletteColorTable, Panel, Popover, SliderDialog, Textbox, uiUtils as UIUtils, appleCrayonPalette, createColorSwatchSelector, makeDraggable, nucleotideColorComponents, nucleotideColors };

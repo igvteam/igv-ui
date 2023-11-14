@@ -7,7 +7,7 @@ import ColorPicker from "./components/colorPicker.js"
 
 class Popover {
 
-    constructor(parent, title) {
+    constructor(parent, isDraggable, title) {
 
         this.parent = parent;
 
@@ -16,17 +16,20 @@ class Popover {
         parent.appendChild(this.popover)
 
         // header
-        const popoverHeader = DOMUtils.div();
-        this.popover.appendChild(popoverHeader);
+        this.popoverHeader = DOMUtils.div();
+        this.popover.appendChild(this.popoverHeader);
 
         const titleElement = DOMUtils.div();
-        popoverHeader.appendChild(titleElement);
+        this.popoverHeader.appendChild(titleElement);
         if (title) {
             titleElement.textContent = title;
         }
 
-        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.dismiss())
-        makeDraggable(this.popover, popoverHeader);
+        UIUtils.attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss())
+
+        if (true === isDraggable) {
+            makeDraggable(this.popover, this.popoverHeader);
+        }
 
         // content
         this.popoverContent = DOMUtils.div();
@@ -55,7 +58,8 @@ class Popover {
 
         this.popover.style.display = 'block'
 
-        const { x, y, width } = DOMUtils.translateMouseCoordinates(event, this.popover.parentNode)
+        const parent = this.popover.parentNode
+        const { x, y, width } = DOMUtils.translateMouseCoordinates(event, parent)
         this.popover.style.top  = `${ y }px`
 
         const { width: w } = this.popover.getBoundingClientRect()
