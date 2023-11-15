@@ -22,7 +22,6 @@ function embedCSS() {
   background-color: white;
 }
 .igv-ui-dropdown > div > div {
-  user-select: all;
   padding: 4px;
   min-width: 128px;
   overflow-x: hidden;
