@@ -46,7 +46,6 @@
             label: "bar",
             click: e => alertDialog.present("Clicked: " + "bar")
         },
-        '<hr/>',
         {
             type: "color",
             label: "Pick a color",
@@ -56,7 +55,7 @@
 
     popover.configure(menuItems)
 
-    const dropdown = new Dropdown(parent, { top: 0, left: 0 })
+    const dropdown = new Dropdown(parent, { top: 128, left: 0 })
     dropdown.configure(menuItems)
 
     // New style custom component

@@ -210,5 +210,6 @@ function createMenuElements(itemList, popover) {
     return list;
 }
 
+export { createMenuElements }
 export default Popover;
 

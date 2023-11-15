@@ -3085,37 +3085,58 @@ function createMenuElements(itemList, popover) {
 
 class Dropdown {
     constructor(parent, shim) {
-        this.dropdown = new Popover(parent, false, undefined);
+
+        this.parent = parent;
+
+        // popover
+        this.popover = div({ class: "igv-ui-dropdown" });
+        parent.appendChild(this.popover);
+
+        // content
+        this.popoverContent = div();
+        this.popover.appendChild(this.popoverContent);
+
+        this.popover.style.display = 'none';
+
         this.shim = shim;
     }
 
     configure(dropdownItems) {
-        this.dropdown.configure(dropdownItems);
+
+        if (0 === dropdownItems.length) {
+            return
+        }
+
+        const menuElements = createMenuElements(dropdownItems, this.popover);
+
+        for (const { object } of menuElements) {
+            this.popoverContent.appendChild(object);
+        }
+
     }
 
     present(event) {
 
-        this.dropdown.popover.style.display = 'block';
+        this.popover.style.display = 'block';
 
-        const parent = this.dropdown.popover.parentNode;
-        let { x, y, width } = translateMouseCoordinates(event, parent);
+        let { x, y, width } = translateMouseCoordinates(event, this.parent);
 
         x += this.shim.left;
         y += this.shim.top;
 
-        this.dropdown.popover.style.top  = `${ y }px`;
+        this.popover.style.top  = `${ y }px`;
 
-        const { width: w } = this.dropdown.popover.getBoundingClientRect();
+        const { width: w } = this.popover.getBoundingClientRect();
 
         const xmax = x + w;
         const delta = xmax - width;
 
-        this.dropdown.popover.style.left = `${ xmax > width ? (x - delta) : x }px`;
-        this.dropdown.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`;
+        this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`;
+        this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`;
     }
 
     dismiss() {
-        this.dropdown.dismiss();
+        this.popover.style.display = 'none';
     }
 }
 
@@ -3372,7 +3393,46 @@ function embedCSS() {
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
     style.setAttribute('title', 'igv-ui.css');
-    style.innerHTML = `.igv-ui-popover {
+    style.innerHTML = `.igv-ui-dropdown {
+  cursor: default;
+  position: absolute;
+  z-index: 2048;
+  border-color: #7F7F7F;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Open Sans", sans-serif;
+  font-size: medium;
+  background-color: white;
+}
+.igv-ui-dropdown > div {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 400px;
+  max-width: 800px;
+  background-color: white;
+}
+.igv-ui-dropdown > div > div {
+  user-select: all;
+  padding: 4px;
+  min-width: 128px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom-color: #7F7F7F;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  background-color: white;
+}
+.igv-ui-dropdown > div > div:last-child {
+  border-bottom-color: transparent;
+  border-bottom-width: 0;
+}
+.igv-ui-dropdown > div > div:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.igv-ui-popover {
   cursor: default;
   position: absolute;
   z-index: 2048;

@@ -1,39 +1,60 @@
-import Popover from "./popover.js"
+import {createMenuElements} from "./popover.js"
 import * as DOMUtils from "./utils/dom-utils.js"
 
 class Dropdown {
     constructor(parent, shim) {
-        this.dropdown = new Popover(parent, false, undefined)
+
+        this.parent = parent;
+
+        // popover
+        this.popover = DOMUtils.div({ class: "igv-ui-dropdown" })
+        parent.appendChild(this.popover)
+
+        // content
+        this.popoverContent = DOMUtils.div();
+        this.popover.appendChild(this.popoverContent);
+
+        this.popover.style.display = 'none'
+
         this.shim = shim
     }
 
     configure(dropdownItems) {
-        this.dropdown.configure(dropdownItems)
+
+        if (0 === dropdownItems.length) {
+            return
+        }
+
+        const menuElements = createMenuElements(dropdownItems, this.popover)
+
+        for (const { object } of menuElements) {
+            this.popoverContent.appendChild(object)
+        }
+
     }
 
     present(event) {
 
-        this.dropdown.popover.style.display = 'block'
+        this.popover.style.display = 'block'
 
-        const parent = this.dropdown.popover.parentNode
-        let { x, y, width } = DOMUtils.translateMouseCoordinates(event, parent)
+        let { x, y, width } = DOMUtils.translateMouseCoordinates(event, this.parent)
 
         x += this.shim.left
         y += this.shim.top
 
-        this.dropdown.popover.style.top  = `${ y }px`
+        this.popover.style.top  = `${ y }px`
 
-        const { width: w } = this.dropdown.popover.getBoundingClientRect()
+        const { width: w } = this.popover.getBoundingClientRect()
 
         const xmax = x + w
         const delta = xmax - width
 
-        this.dropdown.popover.style.left = `${ xmax > width ? (x - delta) : x }px`
-        this.dropdown.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
+        this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`
+        this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
     }
 
     dismiss() {
-        this.dropdown.dismiss()
+        this.popover.style.display = 'none'
     }
 }
 
