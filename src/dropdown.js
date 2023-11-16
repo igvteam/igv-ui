@@ -35,8 +35,14 @@ class Dropdown {
 
     present(event) {
         this.popover.style.display = 'block'
-        this.popover.style.left  = `${ this.popover.clientLeft + this.shim.left }px`
-        this.popover.style.top  = `${ this.popover.clientTop + this.shim.top }px`
+
+        let { x, y } = DOMUtils.translateMouseCoordinates(event, this.parent)
+
+        // this.popover.style.left  = `${ x }px`
+        // this.popover.style.top  = `${ y }px`
+
+        this.popover.style.left  = `${ x + this.shim.left }px`
+        this.popover.style.top  = `${ y + this.shim.top }px`
     }
 
     _present(event) {
