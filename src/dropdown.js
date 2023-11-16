@@ -34,6 +34,12 @@ class Dropdown {
     }
 
     present(event) {
+        this.popover.style.display = 'block'
+        this.popover.style.left  = `${ this.popover.clientLeft + this.shim.left }px`
+        this.popover.style.top  = `${ this.popover.clientTop + this.shim.top }px`
+    }
+
+    _present(event) {
 
         this.popover.style.display = 'block'
 
@@ -50,7 +56,8 @@ class Dropdown {
         const delta = xmax - width
 
         this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`
-        this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
+
+        // this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
     }
 
     dismiss() {

@@ -6,6 +6,8 @@ function embedCSS() {
     style.innerHTML = `.igv-ui-dropdown {
   cursor: default;
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 2048;
   border-color: #7F7F7F;
   border-style: solid;

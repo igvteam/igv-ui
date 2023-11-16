@@ -9,6 +9,9 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
     cursor: default;
 
     position: absolute;
+    top: 0;
+    left: 0;
+
     z-index: 2048;
 
     border-color: $igv-trackgear-grey-color;
