@@ -3407,13 +3407,11 @@ function embedCSS() {
 .igv-ui-dropdown > div {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 400px;
-  max-width: 800px;
   background-color: white;
 }
 .igv-ui-dropdown > div > div {
   padding: 4px;
-  min-width: 128px;
+  width: 100%;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
