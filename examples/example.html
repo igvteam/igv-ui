@@ -14,15 +14,19 @@
     <button id="slider-id"><h2>Slider</h2></button>
     <button id="input-id"><h2>Input</h2></button>
     <button id="menu-id"><h2>Menu</h2></button>
+    <button id="dropdown-id"><h2>Dropdown</h2></button>
     <button id="color-id"><h2>Color picker</h2></button>
     <button id="form-id"><h2>Form</h2></button>
     <button id="dr-id"><h2>Data Range</h2></button>
 </p>
 
-<div id="test" style="width:500px;height:100px;"></div>
+<div id="test" style="position: relative;width:500px;height:100px;background-color: rgba(135,206,235,0.36)">
+
+</div>
+
 <script type="module">
 
-    import { DataRangeDialog, AlertDialog, InputDialog, SliderDialog, Popover, ColorPicker, Checkbox, Panel, Textbox, Dialog, DOMUtils } from "../src/index.js";
+    import { DataRangeDialog, AlertDialog, InputDialog, SliderDialog, Popover, Dropdown, ColorPicker, Checkbox, Panel, Textbox, Dialog, DOMUtils } from "../src/index.js";
 
     const parent = document.getElementById("test");
 
@@ -30,7 +34,29 @@
     const alertDialog = new AlertDialog(parent);
     const inputDialog = new InputDialog(parent);
     const sliderDialog = new SliderDialog(parent);
-    const popover = new Popover(parent);
+
+    const popover = new Popover(parent, false, undefined);
+
+    const menuItems = [
+        {
+            label: "foo",
+            click: e => alertDialog.present("Clicked: " + "foo")
+        },
+        {
+            label: "bar",
+            click: e => alertDialog.present("Clicked: " + "bar")
+        },
+        {
+            type: "color",
+            label: "Pick a color",
+            click: color => alertDialog.present("Color selected: " + color)
+        }
+    ];
+
+    popover.configure(menuItems)
+
+    const dropdown = new Dropdown(parent, { top: 48, left: -48 })
+    dropdown.configure(menuItems)
 
     // New style custom component
     const dialog = createDialog();
@@ -39,7 +65,6 @@
 
     // Data range
     const drDialog = new DataRangeDialog(parent)
-
 
     const colorPicker = new ColorPicker({
         parent: parent,
@@ -79,26 +104,13 @@
         }, ev)
     }));
 
-    let toggle = false;
-    document.getElementById("menu-id").addEventListener("click", (ev => {
-        const items = [
-            {
-                label: "foo",
-                click: ((e) => alertDialog.present("Clicked: " + "foo"))
-            },
-            {
-                label: "bar",
-                click: ((e) => alertDialog.present("Clicked: " + "bar"))
-            },
-            '<hr/>',
-            {
-                type: "color",
-                label: "Pick a color",
-                click: (color) => alertDialog.present("Color selected: " + color)
-            }
-        ]
-        popover.presentMenu(ev, items);
-    }))
+    document.getElementById("menu-id").addEventListener("click", event => {
+        popover.present(event)
+    })
+
+    document.getElementById("dropdown-id").addEventListener("click", event => {
+        dropdown.present(event)
+    })
 
     document.getElementById("color-id").addEventListener("click", (ev) => colorPicker.show());
 

@@ -1,3 +1,42 @@
+.igv-ui-dropdown {
+  cursor: default;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2048;
+  border-color: #7F7F7F;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Open Sans", sans-serif;
+  font-size: small;
+  font-weight: 400;
+  background-color: white;
+}
+.igv-ui-dropdown > div {
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: white;
+}
+.igv-ui-dropdown > div > div {
+  padding: 4px;
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom-color: #7F7F7F;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  background-color: white;
+}
+.igv-ui-dropdown > div > div:last-child {
+  border-bottom-color: transparent;
+  border-bottom-width: 0;
+}
+.igv-ui-dropdown > div > div:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 .igv-ui-popover {
   cursor: default;
   position: absolute;

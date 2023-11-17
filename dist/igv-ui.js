@@ -2880,7 +2880,7 @@ const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
 class Popover {
 
-    constructor(parent, title) {
+    constructor(parent, isDraggable, title) {
 
         this.parent = parent;
 
@@ -2889,17 +2889,20 @@ class Popover {
         parent.appendChild(this.popover);
 
         // header
-        const popoverHeader = div();
-        this.popover.appendChild(popoverHeader);
+        this.popoverHeader = div();
+        this.popover.appendChild(this.popoverHeader);
 
         const titleElement = div();
-        popoverHeader.appendChild(titleElement);
+        this.popoverHeader.appendChild(titleElement);
         if (title) {
             titleElement.textContent = title;
         }
 
-        attachDialogCloseHandlerWithParent(popoverHeader,  () => this.hide());
-        makeDraggable(this.popover, popoverHeader);
+        attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss());
+
+        if (true === isDraggable) {
+            makeDraggable(this.popover, this.popoverHeader);
+        }
 
         // content
         this.popoverContent = div();
@@ -2908,6 +2911,37 @@ class Popover {
         this.popover.style.display = 'none';
 
 
+    }
+
+    configure(menuItems) {
+
+        if (0 === menuItems.length) {
+            return
+        }
+
+        const menuElements = createMenuElements(menuItems, this.popover);
+
+        for (const { object } of menuElements) {
+            this.popoverContent.appendChild(object);
+        }
+
+    }
+
+    present(event) {
+
+        this.popover.style.display = 'block';
+
+        const parent = this.popover.parentNode;
+        const { x, y, width } = translateMouseCoordinates(event, parent);
+        this.popover.style.top  = `${ y }px`;
+
+        const { width: w } = this.popover.getBoundingClientRect();
+
+        const xmax = x + w;
+        const delta = xmax - width;
+
+        this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`;
+        this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`;
     }
 
     presentContentWithEvent(e, content) {
@@ -2934,6 +2968,10 @@ class Popover {
         }
 
         present(e, this.popover, this.popoverContent);
+    }
+
+    dismiss() {
+        this.popover.style.display = 'none';
     }
 
     hide() {
@@ -3043,6 +3081,76 @@ function createMenuElements(itemList, popover) {
     });
 
     return list;
+}
+
+class Dropdown {
+    constructor(parent, shim) {
+
+        this.parent = parent;
+
+        // popover
+        this.popover = div({ class: "igv-ui-dropdown" });
+        parent.appendChild(this.popover);
+
+        // content
+        this.popoverContent = div();
+        this.popover.appendChild(this.popoverContent);
+
+        this.popover.style.display = 'none';
+
+        this.shim = shim;
+    }
+
+    configure(dropdownItems) {
+
+        if (0 === dropdownItems.length) {
+            return
+        }
+
+        const menuElements = createMenuElements(dropdownItems, this.popover);
+
+        for (const { object } of menuElements) {
+            this.popoverContent.appendChild(object);
+        }
+
+    }
+
+    present(event) {
+        this.popover.style.display = 'block';
+
+        let { x, y } = translateMouseCoordinates(event, this.parent);
+
+        // this.popover.style.left  = `${ x }px`
+        // this.popover.style.top  = `${ y }px`
+
+        this.popover.style.left  = `${ x + this.shim.left }px`;
+        this.popover.style.top  = `${ y + this.shim.top }px`;
+    }
+
+    _present(event) {
+
+        this.popover.style.display = 'block';
+
+        let { x, y, width } = translateMouseCoordinates(event, this.parent);
+
+        x += this.shim.left;
+        y += this.shim.top;
+
+        this.popover.style.top  = `${ y }px`;
+
+        const { width: w } = this.popover.getBoundingClientRect();
+
+        const xmax = x + w;
+        const delta = xmax - width;
+
+        this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`;
+
+        // this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
+    }
+
+    dismiss() {
+        this.popover.style.display = 'none';
+    }
 }
 
 const style = {
@@ -3298,7 +3406,46 @@ function embedCSS() {
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
     style.setAttribute('title', 'igv-ui.css');
-    style.innerHTML = `.igv-ui-popover {
+    style.innerHTML = `.igv-ui-dropdown {
+  cursor: default;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2048;
+  border-color: #7F7F7F;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Open Sans", sans-serif;
+  font-size: small;
+  font-weight: 400;
+  background-color: white;
+}
+.igv-ui-dropdown > div {
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: white;
+}
+.igv-ui-dropdown > div > div {
+  padding: 4px;
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom-color: #7F7F7F;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  background-color: white;
+}
+.igv-ui-dropdown > div > div:last-child {
+  border-bottom-color: transparent;
+  border-bottom-width: 0;
+}
+.igv-ui-dropdown > div > div:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.igv-ui-popover {
   cursor: default;
   position: absolute;
   z-index: 2048;
@@ -3946,4 +4093,4 @@ if (typeof document !== 'undefined') {
     }
 }
 
-export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, domUtils as DOMUtils, DataRangeDialog, Dialog, GenericColorPicker, GenericContainer, IGVTable, icons$1 as Icon, InputDialog, PaletteColorTable, Panel, Popover, SliderDialog, Textbox, uiUtils as UIUtils, appleCrayonPalette, createColorSwatchSelector, makeDraggable, nucleotideColorComponents, nucleotideColors };
+export { Alert, AlertDialog, alertSingleton as AlertSingleton, Checkbox, ColorPicker, domUtils as DOMUtils, DataRangeDialog, Dialog, Dropdown, GenericColorPicker, GenericContainer, IGVTable, icons$1 as Icon, InputDialog, PaletteColorTable, Panel, Popover, SliderDialog, Textbox, uiUtils as UIUtils, appleCrayonPalette, createColorSwatchSelector, makeDraggable, nucleotideColorComponents, nucleotideColors };

@@ -5,6 +5,7 @@ import Alert from "./alert.js"
 import InputDialog from "./components/inputDialog.js"
 import SliderDialog from "./components/sliderDialog.js"
 import Popover from "./popover.js"
+import Dropdown from "./dropdown.js"
 import ColorPicker, {createColorSwatchSelector} from "./components/colorPicker.js"
 import Checkbox from "./components/checkbox.js"
 import Panel from "./components/panel.js"
@@ -48,6 +49,7 @@ export {
     InputDialog,
     SliderDialog,
     Popover,
+    Dropdown,
     ColorPicker,
     createColorSwatchSelector,
     Checkbox,

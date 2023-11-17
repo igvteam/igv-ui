@@ -7,7 +7,7 @@ import ColorPicker from "./components/colorPicker.js"
 
 class Popover {
 
-    constructor(parent, title) {
+    constructor(parent, isDraggable, title) {
 
         this.parent = parent;
 
@@ -16,17 +16,20 @@ class Popover {
         parent.appendChild(this.popover)
 
         // header
-        const popoverHeader = DOMUtils.div();
-        this.popover.appendChild(popoverHeader);
+        this.popoverHeader = DOMUtils.div();
+        this.popover.appendChild(this.popoverHeader);
 
         const titleElement = DOMUtils.div();
-        popoverHeader.appendChild(titleElement);
+        this.popoverHeader.appendChild(titleElement);
         if (title) {
             titleElement.textContent = title;
         }
 
-        UIUtils.attachDialogCloseHandlerWithParent(popoverHeader,  () => this.hide())
-        makeDraggable(this.popover, popoverHeader);
+        UIUtils.attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss())
+
+        if (true === isDraggable) {
+            makeDraggable(this.popover, this.popoverHeader);
+        }
 
         // content
         this.popoverContent = DOMUtils.div();
@@ -35,6 +38,37 @@ class Popover {
         this.popover.style.display = 'none'
 
 
+    }
+
+    configure(menuItems) {
+
+        if (0 === menuItems.length) {
+            return
+        }
+
+        const menuElements = createMenuElements(menuItems, this.popover)
+
+        for (const { object } of menuElements) {
+            this.popoverContent.appendChild(object)
+        }
+
+    }
+
+    present(event) {
+
+        this.popover.style.display = 'block'
+
+        const parent = this.popover.parentNode
+        const { x, y, width } = DOMUtils.translateMouseCoordinates(event, parent)
+        this.popover.style.top  = `${ y }px`
+
+        const { width: w } = this.popover.getBoundingClientRect()
+
+        const xmax = x + w
+        const delta = xmax - width
+
+        this.popover.style.left = `${ xmax > width ? (x - delta) : x }px`
+        this.popoverContent.style.maxWidth = `${ Math.min(w, width) }px`
     }
 
     presentContentWithEvent(e, content) {
@@ -61,6 +95,10 @@ class Popover {
         }
 
         present(e, this.popover, this.popoverContent)
+    }
+
+    dismiss() {
+        this.popover.style.display = 'none'
     }
 
     hide() {
@@ -172,5 +210,6 @@ function createMenuElements(itemList, popover) {
     return list;
 }
 
+export { createMenuElements }
 export default Popover;
 
