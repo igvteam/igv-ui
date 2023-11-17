@@ -19,7 +19,8 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
     border-width: $igv-ui-popover-border-width;
 
     font-family: $igv-default-font-face;
-    font-size: medium;
+    font-size: small;
+    font-weight: 400;
 
     background-color: white;
 

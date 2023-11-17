@@ -3416,7 +3416,8 @@ function embedCSS() {
   border-style: solid;
   border-width: 1px;
   font-family: "Open Sans", sans-serif;
-  font-size: medium;
+  font-size: small;
+  font-weight: 400;
   background-color: white;
 }
 .igv-ui-dropdown > div {
