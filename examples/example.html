@@ -35,7 +35,7 @@
     const inputDialog = new InputDialog(parent);
     const sliderDialog = new SliderDialog(parent);
 
-    const popover = new Popover(parent, false, undefined);
+    let popover
 
     const menuItems = [
         {
@@ -51,9 +51,7 @@
             label: "Pick a color",
             click: color => alertDialog.present("Color selected: " + color)
         }
-    ];
-
-    popover.configure(menuItems)
+    ]
 
     const dropdown = new Dropdown(parent, { top: 48, left: -48 })
     dropdown.configure(menuItems)
@@ -105,6 +103,28 @@
     }));
 
     document.getElementById("menu-id").addEventListener("click", event => {
+
+        if (undefined === popover) {
+            popover = new Popover(parent, false, undefined, () => {
+                popover.dispose()
+                popover = undefined
+            })
+
+            const popoverMenuItems =
+                [
+                    {
+                        label: "foo",
+                        click: e => alertDialog.present("Clicked: " + "foo")
+                    },
+                    {
+                        label: "bar",
+                        click: e => alertDialog.present("Clicked: " + "bar")
+                    },
+                ]
+
+            popover.configure(popoverMenuItems)
+
+        }
         popover.present(event)
     })
 

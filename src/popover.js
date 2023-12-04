@@ -7,7 +7,7 @@ import ColorPicker from "./components/colorPicker.js"
 
 class Popover {
 
-    constructor(parent, isDraggable, title) {
+    constructor(parent, isDraggable, title, closeHandler) {
 
         this.parent = parent;
 
@@ -25,7 +25,12 @@ class Popover {
             titleElement.textContent = title;
         }
 
-        UIUtils.attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss())
+        if (closeHandler) {
+            UIUtils.attachDialogCloseHandlerWithParent(this.popoverHeader,  closeHandler)
+        } else {
+            UIUtils.attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss())
+        }
+
 
         if (true === isDraggable) {
             makeDraggable(this.popover, this.popoverHeader);

@@ -2880,7 +2880,7 @@ const decorateSwatch = (swatch, hexColorString, colorHandler) => {
 
 class Popover {
 
-    constructor(parent, isDraggable, title) {
+    constructor(parent, isDraggable, title, closeHandler) {
 
         this.parent = parent;
 
@@ -2898,7 +2898,12 @@ class Popover {
             titleElement.textContent = title;
         }
 
-        attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss());
+        if (closeHandler) {
+            attachDialogCloseHandlerWithParent(this.popoverHeader,  closeHandler);
+        } else {
+            attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss());
+        }
+
 
         if (true === isDraggable) {
             makeDraggable(this.popover, this.popoverHeader);
