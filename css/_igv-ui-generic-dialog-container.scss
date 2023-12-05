@@ -8,7 +8,8 @@
   top: 0;
   left:0;
   width:300px;
-  height:200px;
+  height:fit-content;
+  padding-bottom: 16px;
 
   border-color: $igv-trackgear-grey-color;
   border-radius: $igv-trackgear-popover-border-radius;
@@ -103,8 +104,8 @@
     justify-content: flex-start;
     align-items: center;
 
-    div {
-      width: 30%;
+    >div {
+      width: fit-content;
       height: 100%;
 
       font-size: 16px;
@@ -167,6 +168,7 @@
 
     width: 100%;
     height: $igv-button-height;
+    padding-top: 16px;
 
     display: flex;
     flex-flow: row;
@@ -174,9 +176,7 @@
     justify-content: space-around;
     align-items: center;
 
-    div {
-      margin-top: 32px;
-
+    >div {
       color: white;
       font-family: $igv-default-font-face;
       font-size: 14px;
@@ -195,65 +195,26 @@
 
     }
 
-    div:first-child {
+    >div:first-child {
       margin-left: 32px;
       margin-right: 0;
       background-color: $igv-button-ok-color;
     }
 
-    div:last-child {
+    >div:last-child {
       margin-left: 0;
       margin-right: 32px;
       background-color: $igv-button-cancel-color;
     }
 
-    div:first-child:hover {
+    >div:first-child:hover {
       cursor: pointer;
       background-color: $igv-button-ok-hover-color;
     }
 
-    div:last-child:hover {
+    >div:last-child:hover {
       cursor: pointer;
       background-color: $igv-button-cancel-hover-color;
-    }
-
-  }
-
-  // ok - container
-  .igv-ui-generic-dialog-ok {
-
-    width: 100%;
-    height: 36px;
-
-    margin-top: 32px;
-
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center;
-
-    div {
-      width: 98px;
-      height: 36px;
-
-      line-height: 36px;
-      text-align: center;
-      color: white;
-      font-family: $igv-default-font-face;
-      font-size: medium;
-      font-weight: 400;
-
-      border-color: white;
-      border-style: solid;
-      border-width: thin;
-      border-radius: 4px;
-      background-color: #2B81AF;
-    }
-
-    div:hover {
-      cursor: pointer;
-      background-color: #25597f;
     }
 
   }

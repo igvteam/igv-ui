@@ -3653,7 +3653,8 @@ function embedCSS() {
   top: 0;
   left: 0;
   width: 300px;
-  height: 200px;
+  height: fit-content;
+  padding-bottom: 16px;
   border-color: #7F7F7F;
   border-radius: 4px;
   border-style: solid;
@@ -3721,8 +3722,8 @@ function embedCSS() {
   justify-content: flex-start;
   align-items: center;
 }
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-label-input div {
-  width: 30%;
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-label-input > div {
+  width: fit-content;
   height: 100%;
   font-size: 16px;
   text-align: right;
@@ -3794,14 +3795,14 @@ function embedCSS() {
 .igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel {
   width: 100%;
   height: 28px;
+  padding-top: 16px;
   display: flex;
   flex-flow: row;
   flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
 }
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel div {
-  margin-top: 32px;
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel > div {
   color: white;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -3815,52 +3816,23 @@ function embedCSS() {
   border-width: thin;
   border-radius: 2px;
 }
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel div:first-child {
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel > div:first-child {
   margin-left: 32px;
   margin-right: 0;
   background-color: #5ea4e0;
 }
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel div:last-child {
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel > div:last-child {
   margin-left: 0;
   margin-right: 32px;
   background-color: #c4c4c4;
 }
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel div:first-child:hover {
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel > div:first-child:hover {
   cursor: pointer;
   background-color: #3b5c7f;
 }
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel div:last-child:hover {
+.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok-cancel > div:last-child:hover {
   cursor: pointer;
   background-color: #7f7f7f;
-}
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok {
-  width: 100%;
-  height: 36px;
-  margin-top: 32px;
-  display: flex;
-  flex-flow: row;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-  align-items: center;
-}
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok div {
-  width: 98px;
-  height: 36px;
-  line-height: 36px;
-  text-align: center;
-  color: white;
-  font-family: "Open Sans", sans-serif;
-  font-size: medium;
-  font-weight: 400;
-  border-color: white;
-  border-style: solid;
-  border-width: thin;
-  border-radius: 4px;
-  background-color: #2B81AF;
-}
-.igv-ui-generic-dialog-container .igv-ui-generic-dialog-ok div:hover {
-  cursor: pointer;
-  background-color: #25597f;
 }
 
 .igv-ui-generic-container {
