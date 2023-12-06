@@ -2883,12 +2883,10 @@ class Popover {
     constructor(parent, isDraggable, title, closeHandler) {
 
         this.parent = parent;
-
-        // popover
+        
         this.popover = div({ class: "igv-ui-popover" });
         parent.appendChild(this.popover);
 
-        // header
         this.popoverHeader = div();
         this.popover.appendChild(this.popoverHeader);
 
@@ -2898,18 +2896,21 @@ class Popover {
             titleElement.textContent = title;
         }
 
-        if (closeHandler) {
-            attachDialogCloseHandlerWithParent(this.popoverHeader,  closeHandler);
-        } else {
-            attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss());
-        }
+        // attach close handler
+        const el = div();
+        this.popoverHeader.appendChild(el);
+        el.appendChild(createIcon('times'));
+        el.addEventListener('click', e => {
+            e.stopPropagation();
+            e.preventDefault();
+            closeHandler ? closeHandler() : this.dismiss();
+        });
 
-
+        // Optionally make draggable
         if (true === isDraggable) {
             makeDraggable(this.popover, this.popoverHeader);
         }
 
-        // content
         this.popoverContent = div();
         this.popover.appendChild(this.popoverContent);
 
