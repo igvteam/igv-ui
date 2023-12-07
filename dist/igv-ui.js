@@ -3472,6 +3472,7 @@ function embedCSS() {
   width: 100%;
   height: 24px;
   cursor: move;
+  border-top-width: 0;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   border-bottom-color: #7F7F7F;
@@ -3498,6 +3499,9 @@ function embedCSS() {
   max-height: 400px;
   max-width: 800px;
   background-color: white;
+  border-bottom-width: 0;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 .igv-ui-popover > div:last-child > div {
   user-select: all;
