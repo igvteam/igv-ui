@@ -1,21 +1,19 @@
 import * as Icon from './utils/icons.js'
-import * as UIUtils from "./utils/ui-utils.js"
 import * as DOMUtils from "./utils/dom-utils.js"
 import makeDraggable from "./utils/draggable.js"
 
 import ColorPicker from "./components/colorPicker.js"
+import {createIcon} from "./utils/icons.js"
 
 class Popover {
 
-    constructor(parent, isDraggable, title) {
+    constructor(parent, isDraggable, title, closeHandler) {
 
         this.parent = parent;
-
-        // popover
+        
         this.popover = DOMUtils.div({ class: "igv-ui-popover" })
         parent.appendChild(this.popover)
 
-        // header
         this.popoverHeader = DOMUtils.div();
         this.popover.appendChild(this.popoverHeader);
 
@@ -25,13 +23,21 @@ class Popover {
             titleElement.textContent = title;
         }
 
-        UIUtils.attachDialogCloseHandlerWithParent(this.popoverHeader,  () => this.dismiss())
+        // attach close handler
+        const el = DOMUtils.div()
+        this.popoverHeader.appendChild(el)
+        el.appendChild(createIcon('times'))
+        el.addEventListener('click', e => {
+            e.stopPropagation();
+            e.preventDefault();
+            closeHandler ? closeHandler() : this.dismiss()
+        })
 
+        // Optionally make draggable
         if (true === isDraggable) {
             makeDraggable(this.popover, this.popoverHeader);
         }
 
-        // content
         this.popoverContent = DOMUtils.div();
         this.popover.appendChild(this.popoverContent);
 

@@ -35,8 +35,10 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
 
         cursor: move;
 
+        border-top-width: 0;
         border-top-left-radius: $igv-trackgear-popover-border-radius;
         border-top-right-radius: $igv-trackgear-popover-border-radius;
+
         border-bottom-color: $igv-trackgear-grey-color;
         border-bottom-style: solid;
         border-bottom-width: thin;
@@ -74,6 +76,11 @@ $igv-ui-popover-content-height: calc(100% - #{$igv-ui-popover-header-height} - 2
         max-width: 800px;
 
         background-color: white;
+
+        border-bottom-width: 0;
+        border-bottom-left-radius: $igv-trackgear-popover-border-radius;
+        border-bottom-right-radius: $igv-trackgear-popover-border-radius;
+
 
         // row
         >div {
