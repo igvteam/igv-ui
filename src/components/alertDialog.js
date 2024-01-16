@@ -1,6 +1,6 @@
 import * as DOMUtils from "../utils/dom-utils.js"
 import makeDraggable from "../utils/draggable.js"
-import DOMPurify from "../../node_modules/dompurify/dist/purify.es.js"
+import DOMPurify from "../../node_modules/dompurify/dist/purify.es.mjs"
 
 const httpMessages =
     {
