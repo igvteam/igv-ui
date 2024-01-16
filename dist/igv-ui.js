@@ -2720,7 +2720,7 @@ class Popover {
     constructor(parent, isDraggable, title, closeHandler) {
 
         this.parent = parent;
-        
+
         this.popover = div({ class: "igv-ui-popover" });
         parent.appendChild(this.popover);
 
@@ -2743,9 +2743,8 @@ class Popover {
             closeHandler ? closeHandler() : this.dismiss();
         });
 
-        // Optionally make draggable
         if (true === isDraggable) {
-            makeDraggable(this.popover, this.popoverHeader);
+            makeDraggable(this.popover, this.popoverHeader, { minX:0, minY:0 });
         }
 
         this.popoverContent = div();
