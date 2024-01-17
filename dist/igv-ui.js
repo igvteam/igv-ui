@@ -1826,7 +1826,19 @@ function drag(event) {
     const dy = event.screenY - dragData.screenY;
 
     const left = dragData.left + dx;
-    const  top = dragData.constraint ? Math.max(dragData.constraint.minY, dragData.top  + dy) : dragData.top  + dy;
+
+    let top;
+    if (dragData.constraint) {
+
+        if (typeof dragData.constraint === 'function') {
+            top = dragData.constraint(dragData.top, dy);
+        } else {
+            top = Math.max(dragData.constraint.minY, dragData.top  + dy);
+        }
+
+    } else {
+        top = dragData.top  + dy;
+    }
 
     this.style.left = `${ left }px`;
     this.style.top  = `${  top }px`;
