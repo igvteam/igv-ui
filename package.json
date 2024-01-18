@@ -1,6 +1,6 @@
 {
   "name": "igv-ui",
-  "version": "1.5.5",
+  "version": "1.5.7",
   "description": "UI code for igv.js and related projects",
   "type": "module",
   "browser": "dist/igv-ui.js",
