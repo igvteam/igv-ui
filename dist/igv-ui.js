@@ -1796,6 +1796,8 @@ function makeDraggable(target, handle, constraint) {
         const dragEndFunction = dragEnd.bind(this);
         const computedStyle = getComputedStyle(this);
 
+
+        const boundingClientRect = this.getBoundingClientRect();
         dragData =
             {
                 constraint,
@@ -1803,6 +1805,8 @@ function makeDraggable(target, handle, constraint) {
                 dragEndFunction,
                 screenX: event.screenX,
                 screenY: event.screenY,
+                minDy: -boundingClientRect.top,   // Don't slide upwards more than this
+                minDx: -boundingClientRect.left,
                 top: parseInt(computedStyle.top.replace("px", "")),
                 left: parseInt(computedStyle.left.replace("px", ""))
             };
@@ -1818,37 +1822,24 @@ function drag(event) {
 
     if (!dragData) {
         console.error("No drag data!");
-        return;
+        return
     }
     event.stopPropagation();
     event.preventDefault();
-    const dx = event.screenX - dragData.screenX;
-    const dy = event.screenY - dragData.screenY;
-
+    const dx = Math.max(dragData.minDx, event.screenX - dragData.screenX);
+    const dy = Math.max(dragData.minDy, event.screenY - dragData.screenY);
     const left = dragData.left + dx;
+    const top = dragData.top + dy;
 
-    let top;
-    if (dragData.constraint) {
-
-        if (typeof dragData.constraint === 'function') {
-            top = dragData.constraint(dragData.top, dy);
-        } else {
-            top = Math.max(dragData.constraint.minY, dragData.top  + dy);
-        }
-
-    } else {
-        top = dragData.top  + dy;
-    }
-
-    this.style.left = `${ left }px`;
-    this.style.top  = `${  top }px`;
+    this.style.left = `${left}px`;
+    this.style.top = `${top}px`;
 }
 
 function dragEnd(event) {
 
     if (!dragData) {
         console.error("No drag data!");
-        return;
+        return
     }
     event.stopPropagation();
     event.preventDefault();
