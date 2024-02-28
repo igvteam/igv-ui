@@ -7,6 +7,7 @@ class Dialog {
     constructor({parent, label, content, okHandler, cancelHandler}) {
 
         this.parent = parent
+
         const cancel = () => {
             DOMUtils.hide(this.elem);
             if (typeof cancelHandler === 'function') {
@@ -31,8 +32,10 @@ class Dialog {
         }
 
         // input container
-        content.elem.style.margin = '8px';
+        content.elem.style.margin = '16px';
         this.elem.appendChild(content.elem);
+
+        this.content = content;
 
         // ok | cancel
         const buttons = DOMUtils.div({class: 'igv-ui-generic-dialog-ok-cancel'});
@@ -75,12 +78,12 @@ class Dialog {
         }
 
         if (options.html) {
-            const div = this.elem.querySelector('div')
+            const div = this.content.html
             div.innerHTML = options.html
         }
 
         if (options.text) {
-            const div = this.elem.querySelector('div')
+            const div = this.content.html
             div.innerText = options.text
         }
 

@@ -136,18 +136,23 @@
 
     document.getElementById("form-id").addEventListener("click", e => {
         // DOMUtils.show(dialog.elem)
-        dialog.present({}, e)
+
+        const config =
+            {
+                  html: `Presented at runtime.<br>This is a very long string.<br>${ Date.now() }.`
+            };
+        dialog.present(config, e)
     });
 
     document.getElementById("dr-id").addEventListener("click", (ev) => {
         drDialog.show({min: 0, max: Math.random()})
     });
-    
+
     function createDialog(parent) {
 
         const panel = new Panel();
 
-        panel.add('This is a label');
+        panel.add('...');
 
         /*
         const textbox = new Textbox({label: "Enter a value", value: "abc"});

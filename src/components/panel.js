@@ -24,10 +24,7 @@ const columnStyle = {
 class Panel {
 
     constructor() {
-
-        this.elem = DOMUtils.create('div', {
-            class: 'igv-ui-panel-column'
-        })
+        this.elem = DOMUtils.create('div', { class: 'igv-ui-panel-column' })
     }
 
     add(component) {
@@ -43,6 +40,7 @@ class Panel {
             const wrapper = DOMUtils.div();
             wrapper.innerHTML = component;
             this.elem.append(wrapper);
+            this.html = wrapper
         }
     }
 
