@@ -51,10 +51,14 @@ class Dialog {
         buttons.appendChild(this.cancel);
         this.cancel.textContent = 'Cancel';
 
-        this.ok.addEventListener('click',  (e) => {
+        this.callback = undefined
+
+        this.ok.addEventListener('click',  e => {
             DOMUtils.hide(this.elem);
             if (typeof okHandler === 'function') {
                 okHandler(this);
+            } else if (this.callback && typeof this.callback === 'function') {
+                this.callback(this)
             }
         });
 
