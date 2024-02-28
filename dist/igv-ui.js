@@ -1867,7 +1867,8 @@ class Dialog {
         };
 
         // dialog container
-        this.elem = div({class: 'igv-ui-generic-dialog-container'});
+        this.elem = div();
+        this.elem.classList.add('igv-ui-generic-dialog-container', 'igv-ui-center-fixed');
 
         // dialog header
         const header = div({class: 'igv-ui-generic-dialog-header'});
@@ -1917,7 +1918,6 @@ class Dialog {
 
         makeDraggable(this.elem, header);
 
-
         // Consume all clicks in component
         this.elem.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1950,8 +1950,8 @@ class Dialog {
             this.callback = options.callback;
         }
 
-        const page = pageCoordinates(e);
-        this.clampLocation(page.x, page.y);
+        // const page = DOMUtils.pageCoordinates(e);
+        // this.clampLocation(page.x, page.y);
 
         show(this.elem);
     }
@@ -3916,6 +3916,12 @@ function embedCSS() {
 
 .igv-ui-table tr:hover {
   background-color: lightblue;
+}
+
+.igv-ui-center-fixed {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /*# sourceMappingURL=igv-ui.css.map */

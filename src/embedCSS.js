@@ -644,6 +644,12 @@ function embedCSS() {
   background-color: lightblue;
 }
 
+.igv-ui-center-fixed {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /*# sourceMappingURL=igv-ui.css.map */
 `
     document.head.append(style);
