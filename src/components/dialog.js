@@ -4,8 +4,9 @@ import makeDraggable from "../utils/draggable.js"
 
 class Dialog {
 
-    constructor({label, content, okHandler, cancelHandler}) {
+    constructor({parent, label, content, okHandler, cancelHandler}) {
 
+        this.parent = parent
         const cancel = () => {
             DOMUtils.hide(this.elem);
             if (typeof cancelHandler === 'function') {
@@ -69,9 +70,27 @@ class Dialog {
 
     present(options, e) {
 
-        this.label.textContent = options.label;
-        this.input.value = options.value;
-        this.callback = options.callback;
+        if (options.label && this.label) {
+            this.label.textContent = options.label;
+        }
+
+        if (options.html) {
+            const div = this.elem.querySelector('div')
+            div.innerHTML = options.html
+        }
+
+        if (options.text) {
+            const div = this.elem.querySelector('div')
+            div.innerText = options.text
+        }
+
+        if (options.value && this.input) {
+            this.input.value = options.value;
+        }
+
+        if (options.callback) {
+            this.callback = options.callback;
+        }
 
         const page = DOMUtils.pageCoordinates(e);
         this.clampLocation(page.x, page.y);

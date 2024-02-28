@@ -57,9 +57,9 @@
     dropdown.configure(menuItems)
 
     // New style custom component
-    const dialog = createDialog();
-    DOMUtils.hide(dialog.elem);
+    const dialog = createDialog(parent);
     parent.appendChild(dialog.elem);
+    DOMUtils.hide(dialog.elem);
 
     // Data range
     const drDialog = new DataRangeDialog(parent)
@@ -134,18 +134,22 @@
 
     document.getElementById("color-id").addEventListener("click", (ev) => colorPicker.show());
 
-    document.getElementById("form-id").addEventListener("click", (ev) => DOMUtils.show(dialog.elem));
+    document.getElementById("form-id").addEventListener("click", e => {
+        // DOMUtils.show(dialog.elem)
+        dialog.present({}, e)
+    });
 
     document.getElementById("dr-id").addEventListener("click", (ev) => {
         drDialog.show({min: 0, max: Math.random()})
     });
-
-
-    function createDialog() {
+    
+    function createDialog(parent) {
 
         const panel = new Panel();
 
+        panel.add('This is a label');
 
+        /*
         const textbox = new Textbox({label: "Enter a value", value: "abc"});
         panel.add(textbox);
 
@@ -167,19 +171,27 @@
 
         const node = DOMUtils.create('hr');
         panel.add(node);
+        */
 
-        const dialog = new Dialog({
-            label: 'Multi-select',
-            content: panel,
-            okHandler: (d) => {
-                console.log(`Text: ${textbox.value}`)
-                console.log(`A: ${cbA.selected}`);
-                console.log(`B: ${cbB.selected}`)
+        // const okHandler = () => {
+        //     console.log(`Text: ${textbox.value}`)
+        //     console.log(`A: ${cbA.selected}`);
+        //     console.log(`B: ${cbB.selected}`)
+        // }
+
+        const okHandler = () => {
+            console.warn('Yo!')
+        }
+
+        const config =
+            {
+                parent,
+                // label: 'Multi-select',
+                content: panel,
+                okHandler
             }
 
-        });
-
-        return dialog;
+        return new Dialog(config)
 
     }
 
