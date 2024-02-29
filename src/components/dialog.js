@@ -4,7 +4,9 @@ import makeDraggable from "../utils/draggable.js"
 
 class Dialog {
 
-    constructor({label, content, okHandler, cancelHandler}) {
+    constructor({parent, label, content, okHandler, cancelHandler}) {
+
+        this.parent = parent
 
         const cancel = () => {
             DOMUtils.hide(this.elem);
@@ -14,7 +16,8 @@ class Dialog {
         }
 
         // dialog container
-        this.elem = DOMUtils.div({class: 'igv-ui-generic-dialog-container'});
+        this.elem = DOMUtils.div()
+        this.elem.classList.add('igv-ui-generic-dialog-container', 'igv-ui-center-fixed')
 
         // dialog header
         const header = DOMUtils.div({class: 'igv-ui-generic-dialog-header'});
@@ -30,8 +33,10 @@ class Dialog {
         }
 
         // input container
-        content.elem.style.margin = '8px';
+        content.elem.style.margin = '16px';
         this.elem.appendChild(content.elem);
+
+        this.content = content;
 
         // ok | cancel
         const buttons = DOMUtils.div({class: 'igv-ui-generic-dialog-ok-cancel'});
@@ -47,17 +52,20 @@ class Dialog {
         buttons.appendChild(this.cancel);
         this.cancel.textContent = 'Cancel';
 
-        this.ok.addEventListener('click',  (e) => {
+        this.callback = undefined
+
+        this.ok.addEventListener('click',  e => {
             DOMUtils.hide(this.elem);
             if (typeof okHandler === 'function') {
                 okHandler(this);
+            } else if (this.callback && typeof this.callback === 'function') {
+                this.callback(this)
             }
         });
 
         this.cancel.addEventListener('click', cancel);
 
         makeDraggable(this.elem, header);
-
 
         // Consume all clicks in component
         this.elem.addEventListener('click', (e) => {
@@ -69,12 +77,30 @@ class Dialog {
 
     present(options, e) {
 
-        this.label.textContent = options.label;
-        this.input.value = options.value;
-        this.callback = options.callback;
+        if (options.label && this.label) {
+            this.label.textContent = options.label;
+        }
 
-        const page = DOMUtils.pageCoordinates(e);
-        this.clampLocation(page.x, page.y);
+        if (options.html) {
+            const div = this.content.html
+            div.innerHTML = options.html
+        }
+
+        if (options.text) {
+            const div = this.content.html
+            div.innerText = options.text
+        }
+
+        if (options.value && this.input) {
+            this.input.value = options.value;
+        }
+
+        if (options.callback) {
+            this.callback = options.callback;
+        }
+
+        // const page = DOMUtils.pageCoordinates(e);
+        // this.clampLocation(page.x, page.y);
 
         DOMUtils.show(this.elem);
     }

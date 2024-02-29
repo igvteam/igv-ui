@@ -128,7 +128,7 @@ var domUtils = /*#__PURE__*/Object.freeze({
     translateMouseCoordinates: translateMouseCoordinates
 });
 
-/*! @license DOMPurify 3.0.8 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.0.8/LICENSE */
+/*! @license DOMPurify 3.0.9 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.0.9/LICENSE */
 
 const {
   entries,
@@ -175,6 +175,7 @@ const stringMatch = unapply(String.prototype.match);
 const stringReplace = unapply(String.prototype.replace);
 const stringIndexOf = unapply(String.prototype.indexOf);
 const stringTrim = unapply(String.prototype.trim);
+const objectHasOwnProperty = unapply(Object.prototype.hasOwnProperty);
 const regExpTest = unapply(RegExp.prototype.test);
 const typeErrorCreate = unconstruct(TypeError);
 
@@ -250,7 +251,8 @@ function addToSet(set, array) {
  */
 function cleanArray(array) {
   for (let index = 0; index < array.length; index++) {
-    if (getOwnPropertyDescriptor(array, index) === undefined) {
+    const isPropertyExist = objectHasOwnProperty(array, index);
+    if (!isPropertyExist) {
       array[index] = null;
     }
   }
@@ -266,7 +268,8 @@ function cleanArray(array) {
 function clone(object) {
   const newObject = create(null);
   for (const [property, value] of entries(object)) {
-    if (getOwnPropertyDescriptor(object, property) !== undefined) {
+    const isPropertyExist = objectHasOwnProperty(object, property);
+    if (isPropertyExist) {
       if (Array.isArray(value)) {
         newObject[property] = cleanArray(value);
       } else if (value && typeof value === 'object' && value.constructor === Object) {
@@ -299,8 +302,7 @@ function lookupGetter(object, prop) {
     }
     object = getPrototypeOf(object);
   }
-  function fallbackValue(element) {
-    console.warn('fallback value for', element);
+  function fallbackValue() {
     return null;
   }
   return fallbackValue;
@@ -408,7 +410,7 @@ function createDOMPurify() {
    * Version label, exposed for easier checks
    * if DOMPurify is up to date or not
    */
-  DOMPurify.version = '3.0.8';
+  DOMPurify.version = '3.0.9';
 
   /**
    * Array of elements that DOMPurify removed during sanitation.
@@ -670,27 +672,27 @@ function createDOMPurify() {
     transformCaseFunc = PARSER_MEDIA_TYPE === 'application/xhtml+xml' ? stringToString : stringToLowerCase;
 
     /* Set configuration parameters */
-    ALLOWED_TAGS = 'ALLOWED_TAGS' in cfg ? addToSet({}, cfg.ALLOWED_TAGS, transformCaseFunc) : DEFAULT_ALLOWED_TAGS;
-    ALLOWED_ATTR = 'ALLOWED_ATTR' in cfg ? addToSet({}, cfg.ALLOWED_ATTR, transformCaseFunc) : DEFAULT_ALLOWED_ATTR;
-    ALLOWED_NAMESPACES = 'ALLOWED_NAMESPACES' in cfg ? addToSet({}, cfg.ALLOWED_NAMESPACES, stringToString) : DEFAULT_ALLOWED_NAMESPACES;
-    URI_SAFE_ATTRIBUTES = 'ADD_URI_SAFE_ATTR' in cfg ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES),
+    ALLOWED_TAGS = objectHasOwnProperty(cfg, 'ALLOWED_TAGS') ? addToSet({}, cfg.ALLOWED_TAGS, transformCaseFunc) : DEFAULT_ALLOWED_TAGS;
+    ALLOWED_ATTR = objectHasOwnProperty(cfg, 'ALLOWED_ATTR') ? addToSet({}, cfg.ALLOWED_ATTR, transformCaseFunc) : DEFAULT_ALLOWED_ATTR;
+    ALLOWED_NAMESPACES = objectHasOwnProperty(cfg, 'ALLOWED_NAMESPACES') ? addToSet({}, cfg.ALLOWED_NAMESPACES, stringToString) : DEFAULT_ALLOWED_NAMESPACES;
+    URI_SAFE_ATTRIBUTES = objectHasOwnProperty(cfg, 'ADD_URI_SAFE_ATTR') ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES),
     // eslint-disable-line indent
     cfg.ADD_URI_SAFE_ATTR,
     // eslint-disable-line indent
     transformCaseFunc // eslint-disable-line indent
     ) // eslint-disable-line indent
     : DEFAULT_URI_SAFE_ATTRIBUTES;
-    DATA_URI_TAGS = 'ADD_DATA_URI_TAGS' in cfg ? addToSet(clone(DEFAULT_DATA_URI_TAGS),
+    DATA_URI_TAGS = objectHasOwnProperty(cfg, 'ADD_DATA_URI_TAGS') ? addToSet(clone(DEFAULT_DATA_URI_TAGS),
     // eslint-disable-line indent
     cfg.ADD_DATA_URI_TAGS,
     // eslint-disable-line indent
     transformCaseFunc // eslint-disable-line indent
     ) // eslint-disable-line indent
     : DEFAULT_DATA_URI_TAGS;
-    FORBID_CONTENTS = 'FORBID_CONTENTS' in cfg ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
-    FORBID_TAGS = 'FORBID_TAGS' in cfg ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
-    FORBID_ATTR = 'FORBID_ATTR' in cfg ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
-    USE_PROFILES = 'USE_PROFILES' in cfg ? cfg.USE_PROFILES : false;
+    FORBID_CONTENTS = objectHasOwnProperty(cfg, 'FORBID_CONTENTS') ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
+    FORBID_TAGS = objectHasOwnProperty(cfg, 'FORBID_TAGS') ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
+    FORBID_ATTR = objectHasOwnProperty(cfg, 'FORBID_ATTR') ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
+    USE_PROFILES = objectHasOwnProperty(cfg, 'USE_PROFILES') ? cfg.USE_PROFILES : false;
     ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false; // Default true
     ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false; // Default true
     ALLOW_UNKNOWN_PROTOCOLS = cfg.ALLOW_UNKNOWN_PROTOCOLS || false; // Default false
@@ -1216,7 +1218,7 @@ function createDOMPurify() {
    * @returns {boolean} Returns true if the tag name meets the basic criteria for a custom element, otherwise false.
    */
   const _isBasicCustomElement = function _isBasicCustomElement(tagName) {
-    return tagName.indexOf('-') > 0;
+    return tagName !== 'annotation-xml' && tagName.indexOf('-') > 0;
   };
 
   /**
@@ -1666,10 +1668,7 @@ class Textbox {
 class Panel {
 
     constructor() {
-
-        this.elem = create$1('div', {
-            class: 'igv-ui-panel-column'
-        });
+        this.elem = create$1('div', { class: 'igv-ui-panel-column' });
     }
 
     add(component) {
@@ -1685,6 +1684,7 @@ class Panel {
             const wrapper = div();
             wrapper.innerHTML = component;
             this.elem.append(wrapper);
+            this.html = wrapper;
         }
     }
 
@@ -1855,7 +1855,9 @@ function dragEnd(event) {
 
 class Dialog {
 
-    constructor({label, content, okHandler, cancelHandler}) {
+    constructor({parent, label, content, okHandler, cancelHandler}) {
+
+        this.parent = parent;
 
         const cancel = () => {
             hide(this.elem);
@@ -1865,7 +1867,8 @@ class Dialog {
         };
 
         // dialog container
-        this.elem = div({class: 'igv-ui-generic-dialog-container'});
+        this.elem = div();
+        this.elem.classList.add('igv-ui-generic-dialog-container', 'igv-ui-center-fixed');
 
         // dialog header
         const header = div({class: 'igv-ui-generic-dialog-header'});
@@ -1881,8 +1884,10 @@ class Dialog {
         }
 
         // input container
-        content.elem.style.margin = '8px';
+        content.elem.style.margin = '16px';
         this.elem.appendChild(content.elem);
+
+        this.content = content;
 
         // ok | cancel
         const buttons = div({class: 'igv-ui-generic-dialog-ok-cancel'});
@@ -1898,17 +1903,20 @@ class Dialog {
         buttons.appendChild(this.cancel);
         this.cancel.textContent = 'Cancel';
 
-        this.ok.addEventListener('click',  (e) => {
+        this.callback = undefined;
+
+        this.ok.addEventListener('click',  e => {
             hide(this.elem);
             if (typeof okHandler === 'function') {
                 okHandler(this);
+            } else if (this.callback && typeof this.callback === 'function') {
+                this.callback(this);
             }
         });
 
         this.cancel.addEventListener('click', cancel);
 
         makeDraggable(this.elem, header);
-
 
         // Consume all clicks in component
         this.elem.addEventListener('click', (e) => {
@@ -1920,12 +1928,30 @@ class Dialog {
 
     present(options, e) {
 
-        this.label.textContent = options.label;
-        this.input.value = options.value;
-        this.callback = options.callback;
+        if (options.label && this.label) {
+            this.label.textContent = options.label;
+        }
 
-        const page = pageCoordinates(e);
-        this.clampLocation(page.x, page.y);
+        if (options.html) {
+            const div = this.content.html;
+            div.innerHTML = options.html;
+        }
+
+        if (options.text) {
+            const div = this.content.html;
+            div.innerText = options.text;
+        }
+
+        if (options.value && this.input) {
+            this.input.value = options.value;
+        }
+
+        if (options.callback) {
+            this.callback = options.callback;
+        }
+
+        // const page = DOMUtils.pageCoordinates(e);
+        // this.clampLocation(page.x, page.y);
 
         show(this.elem);
     }
@@ -3890,6 +3916,12 @@ function embedCSS() {
 
 .igv-ui-table tr:hover {
   background-color: lightblue;
+}
+
+.igv-ui-center-fixed {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /*# sourceMappingURL=igv-ui.css.map */
